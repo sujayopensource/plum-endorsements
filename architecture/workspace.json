@@ -1,0 +1,4204 @@
+{
+  "configuration" : { },
+  "description" : "Insurance endorsement lifecycle platform built with Hexagonal Architecture, Cloud-Native Patterns, and GenAI augmentation via Ollama.",
+  "documentation" : { },
+  "id" : 1,
+  "lastModifiedAgent" : "structurizr-ui",
+  "lastModifiedDate" : "2026-03-15T05:54:46Z",
+  "model" : {
+    "deploymentNodes" : [ {
+      "children" : [ {
+        "containerInstances" : [ {
+          "containerId" : "9",
+          "deploymentGroups" : [ "Default" ],
+          "environment" : "Development (Docker Compose)",
+          "id" : "169",
+          "instanceId" : 1,
+          "properties" : {
+            "structurizr.dsl.identifier" : "development.a89a37bd-c58a-4156-aeac-f47e1817898e.fbee99a2-1fb6-493d-9815-e4d2ea186295.893d1f7e-af59-4599-98be-5d4df80cbd0f"
+          },
+          "relationships" : [ {
+            "description" : "Makes API calls",
+            "destinationId" : "171",
+            "id" : "172",
+            "linkedRelationshipId" : "84",
+            "sourceId" : "169",
+            "technology" : "HTTPS/JSON"
+          } ],
+          "tags" : "Container Instance"
+        } ],
+        "environment" : "Development (Docker Compose)",
+        "id" : "168",
+        "instances" : "1",
+        "name" : "Frontend Container",
+        "properties" : {
+          "structurizr.dsl.identifier" : "development.a89a37bd-c58a-4156-aeac-f47e1817898e.fbee99a2-1fb6-493d-9815-e4d2ea186295"
+        },
+        "tags" : "Element,Deployment Node,DockerContainer",
+        "technology" : "Node.js"
+      }, {
+        "containerInstances" : [ {
+          "containerId" : "10",
+          "deploymentGroups" : [ "Default" ],
+          "environment" : "Development (Docker Compose)",
+          "id" : "171",
+          "instanceId" : 1,
+          "properties" : {
+            "structurizr.dsl.identifier" : "development.a89a37bd-c58a-4156-aeac-f47e1817898e.4dd7887a-cc0c-45f1-9ca0-eba15a0e2352.ff30cc57-4905-4305-8ea9-a18444371b02"
+          },
+          "relationships" : [ {
+            "description" : "Reads/writes endorsements, accounts, configs",
+            "destinationId" : "174",
+            "id" : "175",
+            "linkedRelationshipId" : "85",
+            "sourceId" : "171",
+            "technology" : "JDBC/SQL"
+          }, {
+            "description" : "Caches insurer configurations",
+            "destinationId" : "177",
+            "id" : "178",
+            "linkedRelationshipId" : "86",
+            "sourceId" : "171",
+            "technology" : "Redis Protocol"
+          }, {
+            "description" : "Publishes domain events, consumes commands",
+            "destinationId" : "180",
+            "id" : "181",
+            "linkedRelationshipId" : "87",
+            "sourceId" : "171",
+            "technology" : "Kafka Protocol"
+          }, {
+            "description" : "Exposes /actuator/prometheus",
+            "destinationId" : "183",
+            "id" : "184",
+            "linkedRelationshipId" : "88",
+            "sourceId" : "171",
+            "technology" : "HTTP"
+          }, {
+            "description" : "Sends OTLP traces",
+            "destinationId" : "189",
+            "id" : "190",
+            "linkedRelationshipId" : "89",
+            "sourceId" : "171",
+            "technology" : "gRPC :4317"
+          }, {
+            "description" : "Sends structured JSON logs",
+            "destinationId" : "194",
+            "id" : "195",
+            "linkedRelationshipId" : "90",
+            "sourceId" : "171",
+            "technology" : "TCP :5000"
+          } ],
+          "tags" : "Container Instance"
+        } ],
+        "environment" : "Development (Docker Compose)",
+        "id" : "170",
+        "instances" : "1",
+        "name" : "Backend Container",
+        "properties" : {
+          "structurizr.dsl.identifier" : "development.a89a37bd-c58a-4156-aeac-f47e1817898e.4dd7887a-cc0c-45f1-9ca0-eba15a0e2352"
+        },
+        "tags" : "Element,Deployment Node,DockerContainer",
+        "technology" : "Eclipse Temurin 21 JRE"
+      }, {
+        "containerInstances" : [ {
+          "containerId" : "75",
+          "deploymentGroups" : [ "Default" ],
+          "environment" : "Development (Docker Compose)",
+          "id" : "174",
+          "instanceId" : 1,
+          "properties" : {
+            "structurizr.dsl.identifier" : "development.a89a37bd-c58a-4156-aeac-f47e1817898e.d4acfefe-83f0-4e43-898d-51357b02f197.7fb56dc2-e53d-47c0-bc3b-c7d4186df4da"
+          },
+          "tags" : "Container Instance"
+        } ],
+        "environment" : "Development (Docker Compose)",
+        "id" : "173",
+        "instances" : "1",
+        "name" : "PostgreSQL Container",
+        "properties" : {
+          "structurizr.dsl.identifier" : "development.a89a37bd-c58a-4156-aeac-f47e1817898e.d4acfefe-83f0-4e43-898d-51357b02f197"
+        },
+        "tags" : "Element,Deployment Node,DockerContainer",
+        "technology" : "postgres:16-alpine"
+      }, {
+        "containerInstances" : [ {
+          "containerId" : "76",
+          "deploymentGroups" : [ "Default" ],
+          "environment" : "Development (Docker Compose)",
+          "id" : "177",
+          "instanceId" : 1,
+          "properties" : {
+            "structurizr.dsl.identifier" : "development.a89a37bd-c58a-4156-aeac-f47e1817898e.e11f8d7c-27d4-43ce-89b2-2abc9e053414.ff339b34-25f8-4e6e-b75c-c2fdd14614ed"
+          },
+          "tags" : "Container Instance"
+        } ],
+        "environment" : "Development (Docker Compose)",
+        "id" : "176",
+        "instances" : "1",
+        "name" : "Redis Container",
+        "properties" : {
+          "structurizr.dsl.identifier" : "development.a89a37bd-c58a-4156-aeac-f47e1817898e.e11f8d7c-27d4-43ce-89b2-2abc9e053414"
+        },
+        "tags" : "Element,Deployment Node,DockerContainer",
+        "technology" : "redis:7-alpine"
+      }, {
+        "containerInstances" : [ {
+          "containerId" : "77",
+          "deploymentGroups" : [ "Default" ],
+          "environment" : "Development (Docker Compose)",
+          "id" : "180",
+          "instanceId" : 1,
+          "properties" : {
+            "structurizr.dsl.identifier" : "development.a89a37bd-c58a-4156-aeac-f47e1817898e.2a3caca0-672a-4468-b221-e996a02c83e2.5305a21a-a191-49b2-8ee6-b273e6c610e3"
+          },
+          "tags" : "Container Instance"
+        } ],
+        "environment" : "Development (Docker Compose)",
+        "id" : "179",
+        "instances" : "1",
+        "name" : "Kafka Container",
+        "properties" : {
+          "structurizr.dsl.identifier" : "development.a89a37bd-c58a-4156-aeac-f47e1817898e.2a3caca0-672a-4468-b221-e996a02c83e2"
+        },
+        "tags" : "Element,Deployment Node,DockerContainer",
+        "technology" : "apache/kafka:3.7.0 (KRaft)"
+      }, {
+        "containerInstances" : [ {
+          "containerId" : "78",
+          "deploymentGroups" : [ "Default" ],
+          "environment" : "Development (Docker Compose)",
+          "id" : "183",
+          "instanceId" : 1,
+          "properties" : {
+            "structurizr.dsl.identifier" : "development.a89a37bd-c58a-4156-aeac-f47e1817898e.5f05b9ac-7717-49fc-afce-3528cdbb7780.eeb18a01-d900-406c-b532-49c1c3b71a3c"
+          },
+          "relationships" : [ {
+            "description" : "Data source for dashboards",
+            "destinationId" : "186",
+            "id" : "187",
+            "linkedRelationshipId" : "91",
+            "sourceId" : "183",
+            "technology" : "PromQL"
+          } ],
+          "tags" : "Container Instance"
+        } ],
+        "environment" : "Development (Docker Compose)",
+        "id" : "182",
+        "instances" : "1",
+        "name" : "Prometheus Container",
+        "properties" : {
+          "structurizr.dsl.identifier" : "development.a89a37bd-c58a-4156-aeac-f47e1817898e.5f05b9ac-7717-49fc-afce-3528cdbb7780"
+        },
+        "tags" : "Element,Deployment Node,DockerContainer",
+        "technology" : "prom/prometheus:v2.50.1"
+      }, {
+        "containerInstances" : [ {
+          "containerId" : "79",
+          "deploymentGroups" : [ "Default" ],
+          "environment" : "Development (Docker Compose)",
+          "id" : "186",
+          "instanceId" : 1,
+          "properties" : {
+            "structurizr.dsl.identifier" : "development.a89a37bd-c58a-4156-aeac-f47e1817898e.c8b0fff9-d7b6-48e3-8382-9fb851248d54.08fb9672-7cd0-41ce-a8e2-4f2b17d6c830"
+          },
+          "tags" : "Container Instance"
+        } ],
+        "environment" : "Development (Docker Compose)",
+        "id" : "185",
+        "instances" : "1",
+        "name" : "Grafana Container",
+        "properties" : {
+          "structurizr.dsl.identifier" : "development.a89a37bd-c58a-4156-aeac-f47e1817898e.c8b0fff9-d7b6-48e3-8382-9fb851248d54"
+        },
+        "tags" : "Element,Deployment Node,DockerContainer",
+        "technology" : "grafana/grafana:10.3.3"
+      }, {
+        "containerInstances" : [ {
+          "containerId" : "80",
+          "deploymentGroups" : [ "Default" ],
+          "environment" : "Development (Docker Compose)",
+          "id" : "189",
+          "instanceId" : 1,
+          "properties" : {
+            "structurizr.dsl.identifier" : "development.a89a37bd-c58a-4156-aeac-f47e1817898e.2a631ee7-f959-49e3-8211-cf76e69de286.e6d834f3-1d45-4459-be16-90ad823ce93b"
+          },
+          "tags" : "Container Instance"
+        } ],
+        "environment" : "Development (Docker Compose)",
+        "id" : "188",
+        "instances" : "1",
+        "name" : "Jaeger Container",
+        "properties" : {
+          "structurizr.dsl.identifier" : "development.a89a37bd-c58a-4156-aeac-f47e1817898e.2a631ee7-f959-49e3-8211-cf76e69de286"
+        },
+        "tags" : "Element,Deployment Node,DockerContainer",
+        "technology" : "jaegertracing/all-in-one:1.55"
+      }, {
+        "containerInstances" : [ {
+          "containerId" : "81",
+          "deploymentGroups" : [ "Default" ],
+          "environment" : "Development (Docker Compose)",
+          "id" : "192",
+          "instanceId" : 1,
+          "properties" : {
+            "structurizr.dsl.identifier" : "development.a89a37bd-c58a-4156-aeac-f47e1817898e.3f471651-600e-4f10-858e-ea062d7a564c.8836055e-2032-4e2d-8356-5085d9cb02cb"
+          },
+          "relationships" : [ {
+            "description" : "Data source for log search",
+            "destinationId" : "198",
+            "id" : "199",
+            "linkedRelationshipId" : "93",
+            "sourceId" : "192",
+            "technology" : "HTTP :9200"
+          } ],
+          "tags" : "Container Instance"
+        } ],
+        "environment" : "Development (Docker Compose)",
+        "id" : "191",
+        "instances" : "1",
+        "name" : "Elasticsearch Container",
+        "properties" : {
+          "structurizr.dsl.identifier" : "development.a89a37bd-c58a-4156-aeac-f47e1817898e.3f471651-600e-4f10-858e-ea062d7a564c"
+        },
+        "tags" : "Element,Deployment Node,DockerContainer",
+        "technology" : "elasticsearch:8.12.2"
+      }, {
+        "containerInstances" : [ {
+          "containerId" : "82",
+          "deploymentGroups" : [ "Default" ],
+          "environment" : "Development (Docker Compose)",
+          "id" : "194",
+          "instanceId" : 1,
+          "properties" : {
+            "structurizr.dsl.identifier" : "development.a89a37bd-c58a-4156-aeac-f47e1817898e.6087c429-1fab-4264-9343-24d3b8862d43.be5c644f-b637-4157-a8df-bd24da0875a9"
+          },
+          "relationships" : [ {
+            "description" : "Forwards parsed logs",
+            "destinationId" : "192",
+            "id" : "196",
+            "linkedRelationshipId" : "92",
+            "sourceId" : "194",
+            "technology" : "HTTP :9200"
+          } ],
+          "tags" : "Container Instance"
+        } ],
+        "environment" : "Development (Docker Compose)",
+        "id" : "193",
+        "instances" : "1",
+        "name" : "Logstash Container",
+        "properties" : {
+          "structurizr.dsl.identifier" : "development.a89a37bd-c58a-4156-aeac-f47e1817898e.6087c429-1fab-4264-9343-24d3b8862d43"
+        },
+        "tags" : "Element,Deployment Node,DockerContainer",
+        "technology" : "logstash:8.12.2"
+      }, {
+        "containerInstances" : [ {
+          "containerId" : "83",
+          "deploymentGroups" : [ "Default" ],
+          "environment" : "Development (Docker Compose)",
+          "id" : "198",
+          "instanceId" : 1,
+          "properties" : {
+            "structurizr.dsl.identifier" : "development.a89a37bd-c58a-4156-aeac-f47e1817898e.d5bed3e4-3dde-41a0-9be5-6a959bd875a2.54b333d0-9dd0-41cb-86a0-d2df7dd1bcf2"
+          },
+          "tags" : "Container Instance"
+        } ],
+        "environment" : "Development (Docker Compose)",
+        "id" : "197",
+        "instances" : "1",
+        "name" : "Kibana Container",
+        "properties" : {
+          "structurizr.dsl.identifier" : "development.a89a37bd-c58a-4156-aeac-f47e1817898e.d5bed3e4-3dde-41a0-9be5-6a959bd875a2"
+        },
+        "tags" : "Element,Deployment Node,DockerContainer",
+        "technology" : "kibana:8.12.2"
+      } ],
+      "environment" : "Development (Docker Compose)",
+      "id" : "167",
+      "instances" : "1",
+      "name" : "Developer Machine",
+      "properties" : {
+        "structurizr.dsl.identifier" : "development.a89a37bd-c58a-4156-aeac-f47e1817898e"
+      },
+      "tags" : "Element,Deployment Node,DevMachine",
+      "technology" : "Docker Compose"
+    }, {
+      "children" : [ {
+        "children" : [ {
+          "containerInstances" : [ {
+            "containerId" : "10",
+            "deploymentGroups" : [ "Default" ],
+            "environment" : "Production (Kubernetes)",
+            "id" : "203",
+            "instanceId" : 1,
+            "properties" : {
+              "structurizr.dsl.identifier" : "production.7246c09d-9f48-4950-a8bb-1a6616a17187.506bb5ae-bcfd-4cfb-ae27-0ebdb1408413.42859fbf-8596-4569-89d1-d2c9a5479041.520ab6f7-ebba-453e-ae97-51bd5cc5d3f2"
+            },
+            "relationships" : [ {
+              "description" : "Reads/writes endorsements, accounts, configs",
+              "destinationId" : "205",
+              "id" : "206",
+              "linkedRelationshipId" : "85",
+              "sourceId" : "203",
+              "technology" : "JDBC/SQL"
+            }, {
+              "description" : "Caches insurer configurations",
+              "destinationId" : "208",
+              "id" : "209",
+              "linkedRelationshipId" : "86",
+              "sourceId" : "203",
+              "technology" : "Redis Protocol"
+            }, {
+              "description" : "Publishes domain events, consumes commands",
+              "destinationId" : "211",
+              "id" : "212",
+              "linkedRelationshipId" : "87",
+              "sourceId" : "203",
+              "technology" : "Kafka Protocol"
+            }, {
+              "description" : "Exposes /actuator/prometheus",
+              "destinationId" : "214",
+              "id" : "215",
+              "linkedRelationshipId" : "88",
+              "sourceId" : "203",
+              "technology" : "HTTP"
+            }, {
+              "description" : "Sends OTLP traces",
+              "destinationId" : "218",
+              "id" : "219",
+              "linkedRelationshipId" : "89",
+              "sourceId" : "203",
+              "technology" : "gRPC :4317"
+            }, {
+              "description" : "Sends structured JSON logs",
+              "destinationId" : "222",
+              "id" : "223",
+              "linkedRelationshipId" : "90",
+              "sourceId" : "203",
+              "technology" : "TCP :5000"
+            } ],
+            "tags" : "Container Instance"
+          } ],
+          "environment" : "Production (Kubernetes)",
+          "id" : "202",
+          "instances" : "3",
+          "name" : "Backend Deployment",
+          "properties" : {
+            "structurizr.dsl.identifier" : "production.7246c09d-9f48-4950-a8bb-1a6616a17187.506bb5ae-bcfd-4cfb-ae27-0ebdb1408413.42859fbf-8596-4569-89d1-d2c9a5479041"
+          },
+          "tags" : "Element,Deployment Node,K8sPod",
+          "technology" : "Deployment + HPA (2-8 pods)"
+        }, {
+          "containerInstances" : [ {
+            "containerId" : "75",
+            "deploymentGroups" : [ "Default" ],
+            "environment" : "Production (Kubernetes)",
+            "id" : "205",
+            "instanceId" : 1,
+            "properties" : {
+              "structurizr.dsl.identifier" : "production.7246c09d-9f48-4950-a8bb-1a6616a17187.506bb5ae-bcfd-4cfb-ae27-0ebdb1408413.1e4d81fe-5e36-44ae-b6db-03064217a790.87360779-7dd0-472b-a782-52055ece1aeb"
+            },
+            "tags" : "Container Instance"
+          } ],
+          "environment" : "Production (Kubernetes)",
+          "id" : "204",
+          "instances" : "1",
+          "name" : "PostgreSQL StatefulSet",
+          "properties" : {
+            "structurizr.dsl.identifier" : "production.7246c09d-9f48-4950-a8bb-1a6616a17187.506bb5ae-bcfd-4cfb-ae27-0ebdb1408413.1e4d81fe-5e36-44ae-b6db-03064217a790"
+          },
+          "tags" : "Element,Deployment Node,K8sPod",
+          "technology" : "PVC-backed"
+        }, {
+          "containerInstances" : [ {
+            "containerId" : "76",
+            "deploymentGroups" : [ "Default" ],
+            "environment" : "Production (Kubernetes)",
+            "id" : "208",
+            "instanceId" : 1,
+            "properties" : {
+              "structurizr.dsl.identifier" : "production.7246c09d-9f48-4950-a8bb-1a6616a17187.506bb5ae-bcfd-4cfb-ae27-0ebdb1408413.3a38426c-23c9-4a08-b625-78587b19982b.f7304e93-9a60-4f96-9e16-5a5150919733"
+            },
+            "tags" : "Container Instance"
+          } ],
+          "environment" : "Production (Kubernetes)",
+          "id" : "207",
+          "instances" : "1",
+          "name" : "Redis Deployment",
+          "properties" : {
+            "structurizr.dsl.identifier" : "production.7246c09d-9f48-4950-a8bb-1a6616a17187.506bb5ae-bcfd-4cfb-ae27-0ebdb1408413.3a38426c-23c9-4a08-b625-78587b19982b"
+          },
+          "tags" : "Element,Deployment Node,K8sPod",
+          "technology" : "ClusterIP Service"
+        }, {
+          "containerInstances" : [ {
+            "containerId" : "77",
+            "deploymentGroups" : [ "Default" ],
+            "environment" : "Production (Kubernetes)",
+            "id" : "211",
+            "instanceId" : 1,
+            "properties" : {
+              "structurizr.dsl.identifier" : "production.7246c09d-9f48-4950-a8bb-1a6616a17187.506bb5ae-bcfd-4cfb-ae27-0ebdb1408413.07695d54-ddbf-4f22-b2a8-91b95459aa83.de332ddc-828e-408e-9429-2816ef181dcd"
+            },
+            "tags" : "Container Instance"
+          } ],
+          "environment" : "Production (Kubernetes)",
+          "id" : "210",
+          "instances" : "1",
+          "name" : "Kafka StatefulSet",
+          "properties" : {
+            "structurizr.dsl.identifier" : "production.7246c09d-9f48-4950-a8bb-1a6616a17187.506bb5ae-bcfd-4cfb-ae27-0ebdb1408413.07695d54-ddbf-4f22-b2a8-91b95459aa83"
+          },
+          "tags" : "Element,Deployment Node,K8sPod",
+          "technology" : "KRaft mode"
+        }, {
+          "containerInstances" : [ {
+            "containerId" : "78",
+            "deploymentGroups" : [ "Default" ],
+            "environment" : "Production (Kubernetes)",
+            "id" : "214",
+            "instanceId" : 1,
+            "properties" : {
+              "structurizr.dsl.identifier" : "production.7246c09d-9f48-4950-a8bb-1a6616a17187.506bb5ae-bcfd-4cfb-ae27-0ebdb1408413.ee43d43c-1ec8-4ef1-a90a-6897bb3f5709.26841078-5374-44f0-b7c0-5d1d3da5ab9e"
+            },
+            "relationships" : [ {
+              "description" : "Data source for dashboards",
+              "destinationId" : "216",
+              "id" : "217",
+              "linkedRelationshipId" : "91",
+              "sourceId" : "214",
+              "technology" : "PromQL"
+            } ],
+            "tags" : "Container Instance"
+          }, {
+            "containerId" : "79",
+            "deploymentGroups" : [ "Default" ],
+            "environment" : "Production (Kubernetes)",
+            "id" : "216",
+            "instanceId" : 1,
+            "properties" : {
+              "structurizr.dsl.identifier" : "production.7246c09d-9f48-4950-a8bb-1a6616a17187.506bb5ae-bcfd-4cfb-ae27-0ebdb1408413.ee43d43c-1ec8-4ef1-a90a-6897bb3f5709.91857e98-ec97-45a9-b57f-a1322e5316d6"
+            },
+            "tags" : "Container Instance"
+          }, {
+            "containerId" : "80",
+            "deploymentGroups" : [ "Default" ],
+            "environment" : "Production (Kubernetes)",
+            "id" : "218",
+            "instanceId" : 1,
+            "properties" : {
+              "structurizr.dsl.identifier" : "production.7246c09d-9f48-4950-a8bb-1a6616a17187.506bb5ae-bcfd-4cfb-ae27-0ebdb1408413.ee43d43c-1ec8-4ef1-a90a-6897bb3f5709.ea2a2e2a-015d-4999-ba92-5247eaa28691"
+            },
+            "tags" : "Container Instance"
+          } ],
+          "environment" : "Production (Kubernetes)",
+          "id" : "213",
+          "instances" : "1",
+          "name" : "Observability Stack",
+          "properties" : {
+            "structurizr.dsl.identifier" : "production.7246c09d-9f48-4950-a8bb-1a6616a17187.506bb5ae-bcfd-4cfb-ae27-0ebdb1408413.ee43d43c-1ec8-4ef1-a90a-6897bb3f5709"
+          },
+          "tags" : "Element,Deployment Node,K8sPod",
+          "technology" : "Monitoring"
+        }, {
+          "containerInstances" : [ {
+            "containerId" : "81",
+            "deploymentGroups" : [ "Default" ],
+            "environment" : "Production (Kubernetes)",
+            "id" : "221",
+            "instanceId" : 1,
+            "properties" : {
+              "structurizr.dsl.identifier" : "production.7246c09d-9f48-4950-a8bb-1a6616a17187.506bb5ae-bcfd-4cfb-ae27-0ebdb1408413.b9749e76-6790-450c-b21b-2c67dd3c8d2c.b6d10eaa-cc57-48c9-a4a4-77972f5b92eb"
+            },
+            "relationships" : [ {
+              "description" : "Data source for log search",
+              "destinationId" : "225",
+              "id" : "226",
+              "linkedRelationshipId" : "93",
+              "sourceId" : "221",
+              "technology" : "HTTP :9200"
+            } ],
+            "tags" : "Container Instance"
+          }, {
+            "containerId" : "82",
+            "deploymentGroups" : [ "Default" ],
+            "environment" : "Production (Kubernetes)",
+            "id" : "222",
+            "instanceId" : 1,
+            "properties" : {
+              "structurizr.dsl.identifier" : "production.7246c09d-9f48-4950-a8bb-1a6616a17187.506bb5ae-bcfd-4cfb-ae27-0ebdb1408413.b9749e76-6790-450c-b21b-2c67dd3c8d2c.d0d5bf90-24be-4026-8287-0999c71f07d3"
+            },
+            "relationships" : [ {
+              "description" : "Forwards parsed logs",
+              "destinationId" : "221",
+              "id" : "224",
+              "linkedRelationshipId" : "92",
+              "sourceId" : "222",
+              "technology" : "HTTP :9200"
+            } ],
+            "tags" : "Container Instance"
+          }, {
+            "containerId" : "83",
+            "deploymentGroups" : [ "Default" ],
+            "environment" : "Production (Kubernetes)",
+            "id" : "225",
+            "instanceId" : 1,
+            "properties" : {
+              "structurizr.dsl.identifier" : "production.7246c09d-9f48-4950-a8bb-1a6616a17187.506bb5ae-bcfd-4cfb-ae27-0ebdb1408413.b9749e76-6790-450c-b21b-2c67dd3c8d2c.7c0ba0bc-d432-496e-82b4-f6654dbc4079"
+            },
+            "tags" : "Container Instance"
+          } ],
+          "environment" : "Production (Kubernetes)",
+          "id" : "220",
+          "instances" : "1",
+          "name" : "ELK Stack",
+          "properties" : {
+            "structurizr.dsl.identifier" : "production.7246c09d-9f48-4950-a8bb-1a6616a17187.506bb5ae-bcfd-4cfb-ae27-0ebdb1408413.b9749e76-6790-450c-b21b-2c67dd3c8d2c"
+          },
+          "tags" : "Element,Deployment Node,K8sPod",
+          "technology" : "Logging"
+        } ],
+        "environment" : "Production (Kubernetes)",
+        "id" : "201",
+        "infrastructureNodes" : [ {
+          "description" : "Routes external traffic to backend service",
+          "environment" : "Production (Kubernetes)",
+          "id" : "227",
+          "name" : "Ingress Controller",
+          "properties" : {
+            "structurizr.dsl.identifier" : "production.7246c09d-9f48-4950-a8bb-1a6616a17187.506bb5ae-bcfd-4cfb-ae27-0ebdb1408413.50db8926-512f-4a2e-b529-913ecf50d5c0"
+          },
+          "tags" : "Element,Infrastructure Node",
+          "technology" : "NGINX Ingress"
+        }, {
+          "description" : "minAvailable: 1 — ensures availability during rolling updates",
+          "environment" : "Production (Kubernetes)",
+          "id" : "228",
+          "name" : "PodDisruptionBudget",
+          "properties" : {
+            "structurizr.dsl.identifier" : "production.7246c09d-9f48-4950-a8bb-1a6616a17187.506bb5ae-bcfd-4cfb-ae27-0ebdb1408413.57475189-a453-4db5-8076-d7e52b470f46"
+          },
+          "tags" : "Element,Infrastructure Node",
+          "technology" : "Kubernetes PDB"
+        }, {
+          "description" : "2-8 replicas at 70% CPU threshold",
+          "environment" : "Production (Kubernetes)",
+          "id" : "229",
+          "name" : "HorizontalPodAutoscaler",
+          "properties" : {
+            "structurizr.dsl.identifier" : "production.7246c09d-9f48-4950-a8bb-1a6616a17187.506bb5ae-bcfd-4cfb-ae27-0ebdb1408413.6d558f75-08f6-42d7-b1c8-43aa5dc2d59a"
+          },
+          "tags" : "Element,Infrastructure Node",
+          "technology" : "Kubernetes HPA"
+        } ],
+        "instances" : "1",
+        "name" : "plum-endorsements Namespace",
+        "properties" : {
+          "structurizr.dsl.identifier" : "production.7246c09d-9f48-4950-a8bb-1a6616a17187.506bb5ae-bcfd-4cfb-ae27-0ebdb1408413"
+        },
+        "tags" : "Element,Deployment Node,K8sNamespace",
+        "technology" : "Kubernetes Namespace"
+      } ],
+      "environment" : "Production (Kubernetes)",
+      "id" : "200",
+      "instances" : "1",
+      "name" : "Kubernetes Cluster",
+      "properties" : {
+        "structurizr.dsl.identifier" : "production.7246c09d-9f48-4950-a8bb-1a6616a17187"
+      },
+      "tags" : "Element,Deployment Node,K8sCluster",
+      "technology" : "Kubernetes"
+    } ],
+    "people" : [ {
+      "description" : "Creates and manages employee endorsements (ADD/DELETE/UPDATE) for group health insurance policies.",
+      "id" : "1",
+      "name" : "HR Administrator",
+      "properties" : {
+        "structurizr.dsl.identifier" : "hrAdmin"
+      },
+      "relationships" : [ {
+        "description" : "Creates endorsements, tracks status, views EA balance",
+        "destinationId" : "9",
+        "id" : "94",
+        "sourceId" : "1",
+        "tags" : "Relationship",
+        "technology" : "HTTPS"
+      }, {
+        "description" : "Creates endorsements, tracks status, views EA balance",
+        "destinationId" : "8",
+        "id" : "95",
+        "linkedRelationshipId" : "94",
+        "sourceId" : "1",
+        "technology" : "HTTPS"
+      } ],
+      "tags" : "Element,Person,User"
+    }, {
+      "description" : "Monitors EA (Endorsement Account) balances, reviews forecasts, and manages fund top-ups.",
+      "id" : "2",
+      "name" : "Finance Team",
+      "properties" : {
+        "structurizr.dsl.identifier" : "financeTeam"
+      },
+      "relationships" : [ {
+        "description" : "Monitors EA balances, reviews forecasts",
+        "destinationId" : "9",
+        "id" : "96",
+        "sourceId" : "2",
+        "tags" : "Relationship",
+        "technology" : "HTTPS"
+      }, {
+        "description" : "Monitors EA balances, reviews forecasts",
+        "destinationId" : "8",
+        "id" : "97",
+        "linkedRelationshipId" : "96",
+        "sourceId" : "2",
+        "technology" : "HTTPS"
+      } ],
+      "tags" : "Element,Person,User"
+    }, {
+      "description" : "Monitors system health, reviews anomalies, resolves errors, and manages insurer relationships.",
+      "id" : "3",
+      "name" : "Operations Team",
+      "properties" : {
+        "structurizr.dsl.identifier" : "opsTeam"
+      },
+      "relationships" : [ {
+        "description" : "Reviews anomalies, manages insurers, monitors health",
+        "destinationId" : "9",
+        "id" : "98",
+        "sourceId" : "3",
+        "tags" : "Relationship",
+        "technology" : "HTTPS"
+      }, {
+        "description" : "Reviews anomalies, manages insurers, monitors health",
+        "destinationId" : "8",
+        "id" : "99",
+        "linkedRelationshipId" : "98",
+        "sourceId" : "3",
+        "technology" : "HTTPS"
+      }, {
+        "description" : "Views dashboards and metrics",
+        "destinationId" : "79",
+        "id" : "100",
+        "sourceId" : "3",
+        "tags" : "Relationship",
+        "technology" : "HTTPS"
+      }, {
+        "description" : "Traces requests by endorsementId",
+        "destinationId" : "80",
+        "id" : "101",
+        "sourceId" : "3",
+        "tags" : "Relationship",
+        "technology" : "HTTPS"
+      }, {
+        "description" : "Searches structured logs",
+        "destinationId" : "83",
+        "id" : "102",
+        "sourceId" : "3",
+        "tags" : "Relationship",
+        "technology" : "HTTPS"
+      } ],
+      "tags" : "Element,Person,User"
+    } ],
+    "softwareSystems" : [ {
+      "description" : "Insurance provider — REST/JSON, real-time only.",
+      "documentation" : { },
+      "id" : "4",
+      "name" : "ICICI Lombard API",
+      "properties" : {
+        "structurizr.dsl.identifier" : "iciciLombard"
+      },
+      "tags" : "Element,Software System,External System,Insurer"
+    }, {
+      "description" : "Insurance provider — CSV/SFTP, batch only.",
+      "documentation" : { },
+      "id" : "5",
+      "name" : "Niva Bupa SFTP",
+      "properties" : {
+        "structurizr.dsl.identifier" : "nivaBupa"
+      },
+      "tags" : "Element,Software System,External System,Insurer"
+    }, {
+      "description" : "Insurance provider — SOAP/XML, real-time + batch.",
+      "documentation" : { },
+      "id" : "6",
+      "name" : "Bajaj Allianz API",
+      "properties" : {
+        "structurizr.dsl.identifier" : "bajajAllianz"
+      },
+      "tags" : "Element,Software System,External System,Insurer"
+    }, {
+      "description" : "Local large language model for GenAI anomaly enrichment and error resolution.",
+      "documentation" : { },
+      "id" : "7",
+      "name" : "Ollama LLM",
+      "properties" : {
+        "structurizr.dsl.identifier" : "ollamaService"
+      },
+      "tags" : "Element,Software System,External System,AI"
+    }, {
+      "containers" : [ {
+        "description" : "10-screen SPA: dashboard, endorsement CRUD, EA lookup, intelligence hub, insurer config, reconciliation, audit log.",
+        "documentation" : { },
+        "id" : "9",
+        "name" : "React Dashboard",
+        "properties" : {
+          "structurizr.dsl.identifier" : "plumEndorsement.spa"
+        },
+        "relationships" : [ {
+          "description" : "Makes API calls",
+          "destinationId" : "10",
+          "id" : "84",
+          "sourceId" : "9",
+          "tags" : "Relationship",
+          "technology" : "HTTPS/JSON"
+        } ],
+        "tags" : "Element,Container,WebBrowser",
+        "technology" : "React 19, TypeScript, Vite"
+      }, {
+        "components" : [ {
+          "description" : "9 endpoints: create, get, list, submit, confirm, reject, coverage, batches, outstanding.",
+          "documentation" : { },
+          "group" : "API Layer",
+          "id" : "11",
+          "name" : "EndorsementController",
+          "properties" : {
+            "structurizr.dsl.identifier" : "plumEndorsement.backend.endorsementController"
+          },
+          "relationships" : [ {
+            "description" : "Delegates create",
+            "destinationId" : "18",
+            "id" : "111",
+            "sourceId" : "11",
+            "tags" : "Relationship",
+            "technology" : "Method Call"
+          }, {
+            "description" : "Delegates submit/confirm/reject",
+            "destinationId" : "19",
+            "id" : "112",
+            "sourceId" : "11",
+            "tags" : "Relationship",
+            "technology" : "Method Call"
+          }, {
+            "description" : "Delegates get/list",
+            "destinationId" : "20",
+            "id" : "113",
+            "sourceId" : "11",
+            "tags" : "Relationship",
+            "technology" : "Method Call"
+          } ],
+          "tags" : "Element,Component,Controller",
+          "technology" : "Spring MVC REST"
+        }, {
+          "description" : "EA account balance lookup by employer+insurer.",
+          "documentation" : { },
+          "group" : "API Layer",
+          "id" : "12",
+          "name" : "EAAccountController",
+          "properties" : {
+            "structurizr.dsl.identifier" : "plumEndorsement.backend.eaAccountController"
+          },
+          "relationships" : [ {
+            "description" : "Looks up EA balance",
+            "destinationId" : "45",
+            "id" : "114",
+            "sourceId" : "12",
+            "tags" : "Relationship",
+            "technology" : "Port Interface"
+          } ],
+          "tags" : "Element,Component,Controller",
+          "technology" : "Spring MVC REST"
+        }, {
+          "description" : "17 endpoints: anomalies, forecasts, error resolutions, process mining, health scores, benchmarks.",
+          "documentation" : { },
+          "group" : "API Layer",
+          "id" : "13",
+          "name" : "IntelligenceController",
+          "properties" : {
+            "structurizr.dsl.identifier" : "plumEndorsement.backend.intelligenceController"
+          },
+          "relationships" : [ {
+            "description" : "Delegates anomaly queries",
+            "destinationId" : "21",
+            "id" : "115",
+            "sourceId" : "13",
+            "tags" : "Relationship",
+            "technology" : "Method Call"
+          }, {
+            "description" : "Delegates forecast generation",
+            "destinationId" : "22",
+            "id" : "116",
+            "sourceId" : "13",
+            "tags" : "Relationship",
+            "technology" : "Method Call"
+          }, {
+            "description" : "Delegates error resolution",
+            "destinationId" : "23",
+            "id" : "117",
+            "sourceId" : "13",
+            "tags" : "Relationship",
+            "technology" : "Method Call"
+          }, {
+            "description" : "Delegates STP metrics",
+            "destinationId" : "24",
+            "id" : "118",
+            "sourceId" : "13",
+            "tags" : "Relationship",
+            "technology" : "Method Call"
+          }, {
+            "description" : "Delegates health scores",
+            "destinationId" : "25",
+            "id" : "119",
+            "sourceId" : "13",
+            "tags" : "Relationship",
+            "technology" : "Method Call"
+          }, {
+            "description" : "Delegates benchmarks",
+            "destinationId" : "26",
+            "id" : "120",
+            "sourceId" : "13",
+            "tags" : "Relationship",
+            "technology" : "Method Call"
+          } ],
+          "tags" : "Element,Component,Controller",
+          "technology" : "Spring MVC REST"
+        }, {
+          "description" : "5 endpoints: list, get, capabilities, create, update insurer configurations.",
+          "documentation" : { },
+          "group" : "API Layer",
+          "id" : "14",
+          "name" : "InsurerConfigController",
+          "properties" : {
+            "structurizr.dsl.identifier" : "plumEndorsement.backend.insurerConfigController"
+          },
+          "relationships" : [ {
+            "description" : "Manages insurer configs",
+            "destinationId" : "43",
+            "id" : "121",
+            "sourceId" : "14",
+            "tags" : "Relationship",
+            "technology" : "Method Call"
+          } ],
+          "tags" : "Element,Component,Controller",
+          "technology" : "Spring MVC REST"
+        }, {
+          "description" : "3 endpoints: list runs, get items, trigger reconciliation.",
+          "documentation" : { },
+          "group" : "API Layer",
+          "id" : "15",
+          "name" : "ReconciliationController",
+          "properties" : {
+            "structurizr.dsl.identifier" : "plumEndorsement.backend.reconciliationController"
+          },
+          "relationships" : [ {
+            "description" : "Delegates reconciliation",
+            "destinationId" : "28",
+            "id" : "122",
+            "sourceId" : "15",
+            "tags" : "Relationship",
+            "technology" : "Method Call"
+          } ],
+          "tags" : "Element,Component,Controller",
+          "technology" : "Spring MVC REST"
+        }, {
+          "description" : "Query immutable audit trail entries with filters.",
+          "documentation" : { },
+          "group" : "API Layer",
+          "id" : "16",
+          "name" : "AuditLogController",
+          "properties" : {
+            "structurizr.dsl.identifier" : "plumEndorsement.backend.auditLogController"
+          },
+          "relationships" : [ {
+            "description" : "Queries audit logs",
+            "destinationId" : "27",
+            "id" : "123",
+            "sourceId" : "16",
+            "tags" : "Relationship",
+            "technology" : "Method Call"
+          } ],
+          "tags" : "Element,Component,Controller",
+          "technology" : "Spring MVC REST"
+        }, {
+          "description" : "RFC 7807 ProblemDetail error responses. Maps 9 exception types to HTTP status codes.",
+          "documentation" : { },
+          "group" : "API Layer",
+          "id" : "17",
+          "name" : "GlobalExceptionHandler",
+          "properties" : {
+            "structurizr.dsl.identifier" : "plumEndorsement.backend.globalExceptionHandler"
+          },
+          "tags" : "Element,Component,CrossCutting",
+          "technology" : "Spring MVC"
+        }, {
+          "description" : "Command handler: validate, idempotency check, debit EA, grant provisional coverage, publish Created event. @Transactional.",
+          "documentation" : { },
+          "group" : "Application Layer",
+          "id" : "18",
+          "name" : "CreateEndorsementHandler",
+          "properties" : {
+            "structurizr.dsl.identifier" : "plumEndorsement.backend.createEndorsementHandler"
+          },
+          "relationships" : [ {
+            "description" : "Creates & validates",
+            "destinationId" : "37",
+            "id" : "124",
+            "sourceId" : "18",
+            "tags" : "Relationship",
+            "technology" : "Domain Logic"
+          }, {
+            "description" : "Transitions state",
+            "destinationId" : "41",
+            "id" : "125",
+            "sourceId" : "18",
+            "tags" : "Relationship",
+            "technology" : "Domain Service"
+          }, {
+            "description" : "Reserves balance",
+            "destinationId" : "38",
+            "id" : "126",
+            "sourceId" : "18",
+            "tags" : "Relationship",
+            "technology" : "Domain Logic"
+          }, {
+            "description" : "Saves endorsement",
+            "destinationId" : "44",
+            "id" : "127",
+            "sourceId" : "18",
+            "tags" : "Relationship",
+            "technology" : "Port Interface"
+          }, {
+            "description" : "Saves EA account",
+            "destinationId" : "45",
+            "id" : "128",
+            "sourceId" : "18",
+            "tags" : "Relationship",
+            "technology" : "Port Interface"
+          }, {
+            "description" : "Publishes Created event",
+            "destinationId" : "48",
+            "id" : "129",
+            "sourceId" : "18",
+            "tags" : "Relationship",
+            "technology" : "Port Interface"
+          } ],
+          "tags" : "Element,Component,Handler",
+          "technology" : "Spring Service (CQRS Command)"
+        }, {
+          "description" : "Command handler: route to insurer (RT/batch), confirm, reject, retry, state transitions, publish lifecycle events.",
+          "documentation" : { },
+          "group" : "Application Layer",
+          "id" : "19",
+          "name" : "ProcessEndorsementHandler",
+          "properties" : {
+            "structurizr.dsl.identifier" : "plumEndorsement.backend.processEndorsementHandler"
+          },
+          "relationships" : [ {
+            "description" : "Resolves insurer adapter",
+            "destinationId" : "58",
+            "id" : "130",
+            "sourceId" : "19",
+            "tags" : "Relationship",
+            "technology" : "Factory Pattern"
+          }, {
+            "description" : "Transitions state",
+            "destinationId" : "41",
+            "id" : "131",
+            "sourceId" : "19",
+            "tags" : "Relationship",
+            "technology" : "Domain Service"
+          }, {
+            "description" : "Updates endorsement",
+            "destinationId" : "44",
+            "id" : "132",
+            "sourceId" : "19",
+            "tags" : "Relationship",
+            "technology" : "Port Interface"
+          }, {
+            "description" : "Publishes lifecycle events",
+            "destinationId" : "48",
+            "id" : "133",
+            "sourceId" : "19",
+            "tags" : "Relationship",
+            "technology" : "Port Interface"
+          } ],
+          "tags" : "Element,Component,Handler",
+          "technology" : "Spring Service (CQRS Command)"
+        }, {
+          "description" : "Query handler: find by ID, list by employer, paginate, filter. @Transactional(readOnly=true).",
+          "documentation" : { },
+          "group" : "Application Layer",
+          "id" : "20",
+          "name" : "EndorsementQueryHandler",
+          "properties" : {
+            "structurizr.dsl.identifier" : "plumEndorsement.backend.endorsementQueryHandler"
+          },
+          "relationships" : [ {
+            "description" : "Reads endorsements",
+            "destinationId" : "44",
+            "id" : "134",
+            "sourceId" : "20",
+            "tags" : "Relationship",
+            "technology" : "Port Interface"
+          } ],
+          "tags" : "Element,Component,Handler",
+          "technology" : "Spring Service (CQRS Query)"
+        }, {
+          "description" : "Orchestrates anomaly detection across employers. Delegates to AnomalyDetectionPort.",
+          "documentation" : { },
+          "group" : "Application Layer",
+          "id" : "21",
+          "name" : "AnomalyDetectionService",
+          "properties" : {
+            "structurizr.dsl.identifier" : "plumEndorsement.backend.anomalyDetectionService"
+          },
+          "relationships" : [ {
+            "description" : "Delegates detection",
+            "destinationId" : "49",
+            "id" : "135",
+            "sourceId" : "21",
+            "tags" : "Relationship",
+            "technology" : "Port Interface"
+          } ],
+          "tags" : "Element,Component,AppService",
+          "technology" : "Spring Service"
+        }, {
+          "description" : "Projects EA balance 30 days ahead with dual seasonality.",
+          "documentation" : { },
+          "group" : "Application Layer",
+          "id" : "22",
+          "name" : "BalanceForecastService",
+          "properties" : {
+            "structurizr.dsl.identifier" : "plumEndorsement.backend.balanceForecastService"
+          },
+          "relationships" : [ {
+            "description" : "Delegates forecasting",
+            "destinationId" : "50",
+            "id" : "136",
+            "sourceId" : "22",
+            "tags" : "Relationship",
+            "technology" : "Port Interface"
+          } ],
+          "tags" : "Element,Component,AppService",
+          "technology" : "Spring Service"
+        }, {
+          "description" : "Suggests/auto-applies fixes for rejected endorsements. 95% confidence threshold.",
+          "documentation" : { },
+          "group" : "Application Layer",
+          "id" : "23",
+          "name" : "ErrorResolutionService",
+          "properties" : {
+            "structurizr.dsl.identifier" : "plumEndorsement.backend.errorResolutionService"
+          },
+          "relationships" : [ {
+            "description" : "Delegates resolution",
+            "destinationId" : "51",
+            "id" : "137",
+            "sourceId" : "23",
+            "tags" : "Relationship",
+            "technology" : "Port Interface"
+          } ],
+          "tags" : "Element,Component,AppService",
+          "technology" : "Spring Service"
+        }, {
+          "description" : "Computes STP rates, bottleneck analysis, transition metrics.",
+          "documentation" : { },
+          "group" : "Application Layer",
+          "id" : "24",
+          "name" : "ProcessMiningService",
+          "properties" : {
+            "structurizr.dsl.identifier" : "plumEndorsement.backend.processMiningService"
+          },
+          "relationships" : [ {
+            "description" : "Delegates analysis",
+            "destinationId" : "52",
+            "id" : "138",
+            "sourceId" : "24",
+            "tags" : "Relationship",
+            "technology" : "Port Interface"
+          } ],
+          "tags" : "Element,Component,AppService",
+          "technology" : "Spring Service"
+        }, {
+          "description" : "Composite health score from endorsement patterns, EA utilization, error rates.",
+          "documentation" : { },
+          "group" : "Application Layer",
+          "id" : "25",
+          "name" : "EmployerHealthScoreService",
+          "properties" : {
+            "structurizr.dsl.identifier" : "plumEndorsement.backend.employerHealthScoreService"
+          },
+          "tags" : "Element,Component,AppService",
+          "technology" : "Spring Service"
+        }, {
+          "description" : "Compares insurer performance: latency, success rates, SLA compliance.",
+          "documentation" : { },
+          "group" : "Application Layer",
+          "id" : "26",
+          "name" : "InsurerBenchmarkService",
+          "properties" : {
+            "structurizr.dsl.identifier" : "plumEndorsement.backend.insurerBenchmarkService"
+          },
+          "tags" : "Element,Component,AppService",
+          "technology" : "Spring Service"
+        }, {
+          "description" : "Records and queries immutable audit trail entries.",
+          "documentation" : { },
+          "group" : "Application Layer",
+          "id" : "27",
+          "name" : "AuditLogService",
+          "properties" : {
+            "structurizr.dsl.identifier" : "plumEndorsement.backend.auditLogService"
+          },
+          "tags" : "Element,Component,AppService",
+          "technology" : "Spring Service"
+        }, {
+          "description" : "Matches system records against insurer records, flags discrepancies.",
+          "documentation" : { },
+          "group" : "Application Layer",
+          "id" : "28",
+          "name" : "ReconciliationEngine",
+          "properties" : {
+            "structurizr.dsl.identifier" : "plumEndorsement.backend.reconciliationEngine"
+          },
+          "tags" : "Element,Component,AppService",
+          "technology" : "Spring Service"
+        }, {
+          "description" : "Assembles queued endorsements into batches per insurer. Runs every 15 min. @SchedulerLock.",
+          "documentation" : { },
+          "group" : "Application Layer",
+          "id" : "29",
+          "name" : "BatchAssemblyScheduler",
+          "properties" : {
+            "structurizr.dsl.identifier" : "plumEndorsement.backend.batchAssemblyScheduler"
+          },
+          "relationships" : [ {
+            "description" : "Optimizes batch order",
+            "destinationId" : "53",
+            "id" : "139",
+            "sourceId" : "29",
+            "tags" : "Relationship",
+            "technology" : "Port Interface"
+          }, {
+            "description" : "Resolves batch adapter",
+            "destinationId" : "58",
+            "id" : "140",
+            "sourceId" : "29",
+            "tags" : "Relationship",
+            "technology" : "Factory Pattern"
+          } ],
+          "tags" : "Element,Component,Scheduler",
+          "technology" : "Spring Scheduler"
+        }, {
+          "description" : "Scans for anomalous endorsement patterns. Runs every 5 min.",
+          "documentation" : { },
+          "group" : "Application Layer",
+          "id" : "30",
+          "name" : "AnomalyDetectionScheduler",
+          "properties" : {
+            "structurizr.dsl.identifier" : "plumEndorsement.backend.anomalyDetectionScheduler"
+          },
+          "relationships" : [ {
+            "description" : "Triggers scan",
+            "destinationId" : "21",
+            "id" : "141",
+            "sourceId" : "30",
+            "tags" : "Relationship",
+            "technology" : "Method Call"
+          } ],
+          "tags" : "Element,Component,Scheduler",
+          "technology" : "Spring Scheduler"
+        }, {
+          "description" : "Generates balance forecasts for all employers. Daily at 06:00.",
+          "documentation" : { },
+          "group" : "Application Layer",
+          "id" : "31",
+          "name" : "BalanceForecastScheduler",
+          "properties" : {
+            "structurizr.dsl.identifier" : "plumEndorsement.backend.balanceForecastScheduler"
+          },
+          "relationships" : [ {
+            "description" : "Triggers forecast",
+            "destinationId" : "22",
+            "id" : "142",
+            "sourceId" : "31",
+            "tags" : "Relationship",
+            "technology" : "Method Call"
+          } ],
+          "tags" : "Element,Component,Scheduler",
+          "technology" : "Spring Scheduler"
+        }, {
+          "description" : "Nightly reconciliation against insurer records.",
+          "documentation" : { },
+          "group" : "Application Layer",
+          "id" : "32",
+          "name" : "ReconciliationScheduler",
+          "properties" : {
+            "structurizr.dsl.identifier" : "plumEndorsement.backend.reconciliationScheduler"
+          },
+          "relationships" : [ {
+            "description" : "Triggers reconciliation",
+            "destinationId" : "28",
+            "id" : "143",
+            "sourceId" : "32",
+            "tags" : "Relationship",
+            "technology" : "Method Call"
+          } ],
+          "tags" : "Element,Component,Scheduler",
+          "technology" : "Spring Scheduler"
+        }, {
+          "description" : "Computes STP rates and process metrics. Daily at 03:00.",
+          "documentation" : { },
+          "group" : "Application Layer",
+          "id" : "33",
+          "name" : "ProcessMiningScheduler",
+          "properties" : {
+            "structurizr.dsl.identifier" : "plumEndorsement.backend.processMiningScheduler"
+          },
+          "relationships" : [ {
+            "description" : "Triggers analysis",
+            "destinationId" : "24",
+            "id" : "144",
+            "sourceId" : "33",
+            "tags" : "Relationship",
+            "technology" : "Method Call"
+          } ],
+          "tags" : "Element,Component,Scheduler",
+          "technology" : "Spring Scheduler"
+        }, {
+          "description" : "Expires provisional coverages past 30-day window.",
+          "documentation" : { },
+          "group" : "Application Layer",
+          "id" : "34",
+          "name" : "ProvisionalCoverageCleanup",
+          "properties" : {
+            "structurizr.dsl.identifier" : "plumEndorsement.backend.provisionalCoverageCleanup"
+          },
+          "tags" : "Element,Component,Scheduler",
+          "technology" : "Spring Scheduler"
+        }, {
+          "description" : "Retries endorsements stuck in intermediate states.",
+          "documentation" : { },
+          "group" : "Application Layer",
+          "id" : "35",
+          "name" : "StuckEndorsementRetryScheduler",
+          "properties" : {
+            "structurizr.dsl.identifier" : "plumEndorsement.backend.stuckRetryScheduler"
+          },
+          "tags" : "Element,Component,Scheduler",
+          "technology" : "Spring Scheduler"
+        }, {
+          "description" : "Archives old data per retention policy. Weekly.",
+          "documentation" : { },
+          "group" : "Application Layer",
+          "id" : "36",
+          "name" : "DataRetentionScheduler",
+          "properties" : {
+            "structurizr.dsl.identifier" : "plumEndorsement.backend.dataRetentionScheduler"
+          },
+          "tags" : "Element,Component,Scheduler",
+          "technology" : "Spring Scheduler"
+        }, {
+          "description" : "Aggregate root: 11-state lifecycle, optimistic locking, idempotency key, retry count. Rich domain model with transitionTo() validation.",
+          "documentation" : { },
+          "group" : "Domain Core",
+          "id" : "37",
+          "name" : "Endorsement",
+          "properties" : {
+            "structurizr.dsl.identifier" : "plumEndorsement.backend.endorsementModel"
+          },
+          "tags" : "Element,Component,DomainModel",
+          "technology" : "Java Domain Model"
+        }, {
+          "description" : "Aggregate root: composite key (employerId, insurerId), balance/reserved/available, debit/credit/reserve operations.",
+          "documentation" : { },
+          "group" : "Domain Core",
+          "id" : "38",
+          "name" : "EAAccount",
+          "properties" : {
+            "structurizr.dsl.identifier" : "plumEndorsement.backend.eaAccountModel"
+          },
+          "tags" : "Element,Component,DomainModel",
+          "technology" : "Java Domain Model"
+        }, {
+          "description" : "Sealed interface with 24 event record types: lifecycle (11), financial (2), reconciliation (3), intelligence (6), coverage (2).",
+          "documentation" : { },
+          "group" : "Domain Core",
+          "id" : "39",
+          "name" : "EndorsementEvent",
+          "properties" : {
+            "structurizr.dsl.identifier" : "plumEndorsement.backend.endorsementEvent"
+          },
+          "tags" : "Element,Component,DomainModel",
+          "technology" : "Java Sealed Interface"
+        }, {
+          "description" : "11-state enum with EnumSet-based O(1) transition validation. canTransitionTo(), isTerminal().",
+          "documentation" : { },
+          "group" : "Domain Core",
+          "id" : "40",
+          "name" : "EndorsementStatus",
+          "properties" : {
+            "structurizr.dsl.identifier" : "plumEndorsement.backend.endorsementStatus"
+          },
+          "tags" : "Element,Component,DomainModel",
+          "technology" : "Java Enum"
+        }, {
+          "description" : "Enforces valid state transitions. Single entry point for all state changes.",
+          "documentation" : { },
+          "group" : "Domain Core",
+          "id" : "41",
+          "name" : "EndorsementStateMachine",
+          "properties" : {
+            "structurizr.dsl.identifier" : "plumEndorsement.backend.stateMachine"
+          },
+          "tags" : "Element,Component,DomainService",
+          "technology" : "Domain Service"
+        }, {
+          "description" : "Batch priority sequencing: DELETEs first (P0), cost-neutral UPDATEs (P1), ADDs by urgency (P2). 0/1 Knapsack DP.",
+          "documentation" : { },
+          "group" : "Domain Core",
+          "id" : "42",
+          "name" : "EABalanceCalculator",
+          "properties" : {
+            "structurizr.dsl.identifier" : "plumEndorsement.backend.eaBalanceCalculator"
+          },
+          "tags" : "Element,Component,DomainService",
+          "technology" : "Domain Service"
+        }, {
+          "description" : "@Cacheable insurer config lookup with @CacheEvict on updates. Caffeine 60s TTL.",
+          "documentation" : { },
+          "group" : "Domain Core",
+          "id" : "43",
+          "name" : "InsurerRegistry",
+          "properties" : {
+            "structurizr.dsl.identifier" : "plumEndorsement.backend.insurerRegistry"
+          },
+          "relationships" : [ {
+            "description" : "Caches insurer configs",
+            "destinationId" : "76",
+            "id" : "165",
+            "sourceId" : "43",
+            "tags" : "Relationship",
+            "technology" : "Redis"
+          } ],
+          "tags" : "Element,Component,DomainService",
+          "technology" : "Domain Service"
+        }, {
+          "description" : "Port: CRUD + findByIdempotencyKey, findByStatus, findByEmployerId.",
+          "documentation" : { },
+          "group" : "Domain Core",
+          "id" : "44",
+          "name" : "EndorsementRepository",
+          "properties" : {
+            "structurizr.dsl.identifier" : "plumEndorsement.backend.endorsementRepo"
+          },
+          "tags" : "Element,Component,Port",
+          "technology" : "Domain Port Interface"
+        }, {
+          "description" : "Port: findByEmployerIdAndInsurerId, save with optimistic lock.",
+          "documentation" : { },
+          "group" : "Domain Core",
+          "id" : "45",
+          "name" : "EAAccountRepository",
+          "properties" : {
+            "structurizr.dsl.identifier" : "plumEndorsement.backend.eaAccountRepo"
+          },
+          "tags" : "Element,Component,Port",
+          "technology" : "Domain Port Interface"
+        }, {
+          "description" : "Port: batch assembly and status tracking.",
+          "documentation" : { },
+          "group" : "Domain Core",
+          "id" : "46",
+          "name" : "BatchRepository",
+          "properties" : {
+            "structurizr.dsl.identifier" : "plumEndorsement.backend.batchRepo"
+          },
+          "tags" : "Element,Component,Port",
+          "technology" : "Domain Port Interface"
+        }, {
+          "description" : "Port: submitRealTime, submitBatch, checkBatchStatus, getCapabilities. Strategy pattern interface.",
+          "documentation" : { },
+          "group" : "Domain Core",
+          "id" : "47",
+          "name" : "InsurerPort",
+          "properties" : {
+            "structurizr.dsl.identifier" : "plumEndorsement.backend.insurerPort"
+          },
+          "tags" : "Element,Component,Port",
+          "technology" : "Domain Port Interface"
+        }, {
+          "description" : "Port: publish(EndorsementEvent). Observer pattern.",
+          "documentation" : { },
+          "group" : "Domain Core",
+          "id" : "48",
+          "name" : "EventPublisher",
+          "properties" : {
+            "structurizr.dsl.identifier" : "plumEndorsement.backend.eventPublisher"
+          },
+          "tags" : "Element,Component,Port",
+          "technology" : "Domain Port Interface"
+        }, {
+          "description" : "Port: detectAnomalies(employerId). Pluggable algorithm.",
+          "documentation" : { },
+          "group" : "Domain Core",
+          "id" : "49",
+          "name" : "AnomalyDetectionPort",
+          "properties" : {
+            "structurizr.dsl.identifier" : "plumEndorsement.backend.anomalyDetectionPort"
+          },
+          "tags" : "Element,Component,Port",
+          "technology" : "Domain Port Interface"
+        }, {
+          "description" : "Port: generateForecast(employerId, insurerId). Pluggable engine.",
+          "documentation" : { },
+          "group" : "Domain Core",
+          "id" : "50",
+          "name" : "BalanceForecastPort",
+          "properties" : {
+            "structurizr.dsl.identifier" : "plumEndorsement.backend.forecastPort"
+          },
+          "tags" : "Element,Component,Port",
+          "technology" : "Domain Port Interface"
+        }, {
+          "description" : "Port: resolveError(endorsementId, errorMessage). Pluggable resolver.",
+          "documentation" : { },
+          "group" : "Domain Core",
+          "id" : "51",
+          "name" : "ErrorResolutionPort",
+          "properties" : {
+            "structurizr.dsl.identifier" : "plumEndorsement.backend.errorResolutionPort"
+          },
+          "tags" : "Element,Component,Port",
+          "technology" : "Domain Port Interface"
+        }, {
+          "description" : "Port: computeStpRate(insurerId). Pluggable analyzer.",
+          "documentation" : { },
+          "group" : "Domain Core",
+          "id" : "52",
+          "name" : "ProcessMiningPort",
+          "properties" : {
+            "structurizr.dsl.identifier" : "plumEndorsement.backend.processMiningPort"
+          },
+          "tags" : "Element,Component,Port",
+          "technology" : "Domain Port Interface"
+        }, {
+          "description" : "Port: optimizeBatch(endorsements, availableBalance). Pluggable optimizer.",
+          "documentation" : { },
+          "group" : "Domain Core",
+          "id" : "53",
+          "name" : "BatchOptimizerPort",
+          "properties" : {
+            "structurizr.dsl.identifier" : "plumEndorsement.backend.batchOptimizerPort"
+          },
+          "tags" : "Element,Component,Port",
+          "technology" : "Domain Port Interface"
+        }, {
+          "description" : "Port: sendNotification(type, payload). Pluggable channel.",
+          "documentation" : { },
+          "group" : "Domain Core",
+          "id" : "54",
+          "name" : "NotificationPort",
+          "properties" : {
+            "structurizr.dsl.identifier" : "plumEndorsement.backend.notificationPort"
+          },
+          "tags" : "Element,Component,Port",
+          "technology" : "Domain Port Interface"
+        }, {
+          "description" : "Implements EndorsementRepository. Uses EndorsementMapper ACL for domain<->entity translation.",
+          "documentation" : { },
+          "group" : "Infrastructure Layer",
+          "id" : "55",
+          "name" : "JpaEndorsementRepositoryAdapter",
+          "properties" : {
+            "structurizr.dsl.identifier" : "plumEndorsement.backend.jpaEndorsementAdapter"
+          },
+          "relationships" : [ {
+            "description" : "Persists via Spring Data JPA",
+            "destinationId" : "75",
+            "id" : "157",
+            "sourceId" : "55",
+            "tags" : "Relationship",
+            "technology" : "JDBC"
+          }, {
+            "description" : "Translates domain <-> entity",
+            "destinationId" : "57",
+            "id" : "166",
+            "sourceId" : "55",
+            "tags" : "Relationship",
+            "technology" : "Method Call"
+          } ],
+          "tags" : "Element,Component,Adapter,Persistence",
+          "technology" : "Spring Data JPA"
+        }, {
+          "description" : "Implements EAAccountRepository. Composite key mapping.",
+          "documentation" : { },
+          "group" : "Infrastructure Layer",
+          "id" : "56",
+          "name" : "JpaEAAccountRepositoryAdapter",
+          "properties" : {
+            "structurizr.dsl.identifier" : "plumEndorsement.backend.jpaEaAccountAdapter"
+          },
+          "relationships" : [ {
+            "description" : "Persists via Spring Data JPA",
+            "destinationId" : "75",
+            "id" : "158",
+            "sourceId" : "56",
+            "tags" : "Relationship",
+            "technology" : "JDBC"
+          } ],
+          "tags" : "Element,Component,Adapter,Persistence",
+          "technology" : "Spring Data JPA"
+        }, {
+          "description" : "Anti-Corruption Layer: translates domain enums to JPA strings, JsonNode to column types. Only class that imports both domain and JPA types.",
+          "documentation" : { },
+          "group" : "Infrastructure Layer",
+          "id" : "57",
+          "name" : "EndorsementMapper",
+          "properties" : {
+            "structurizr.dsl.identifier" : "plumEndorsement.backend.endorsementMapper"
+          },
+          "tags" : "Element,Component,ACL",
+          "technology" : "Java Mapper"
+        }, {
+          "description" : "Factory pattern: auto-discovers InsurerPort beans via Spring DI, resolves correct adapter at runtime from DB config.",
+          "documentation" : { },
+          "group" : "Infrastructure Layer",
+          "id" : "58",
+          "name" : "InsurerRouter",
+          "properties" : {
+            "structurizr.dsl.identifier" : "plumEndorsement.backend.insurerRouter"
+          },
+          "relationships" : [ {
+            "description" : "Looks up config",
+            "destinationId" : "43",
+            "id" : "145",
+            "sourceId" : "58",
+            "tags" : "Relationship",
+            "technology" : "Cached"
+          }, {
+            "description" : "Resolves MOCK",
+            "destinationId" : "59",
+            "id" : "146",
+            "sourceId" : "58",
+            "tags" : "Relationship",
+            "technology" : "Strategy"
+          }, {
+            "description" : "Resolves ICICI_LOMBARD",
+            "destinationId" : "60",
+            "id" : "147",
+            "sourceId" : "58",
+            "tags" : "Relationship",
+            "technology" : "Strategy"
+          }, {
+            "description" : "Resolves NIVA_BUPA",
+            "destinationId" : "61",
+            "id" : "148",
+            "sourceId" : "58",
+            "tags" : "Relationship",
+            "technology" : "Strategy"
+          }, {
+            "description" : "Resolves BAJAJ_ALLIANZ",
+            "destinationId" : "62",
+            "id" : "149",
+            "sourceId" : "58",
+            "tags" : "Relationship",
+            "technology" : "Strategy"
+          } ],
+          "tags" : "Element,Component,Adapter,Factory",
+          "technology" : "Spring Component"
+        }, {
+          "description" : "JSON/REST, 100ms delay, synthetic refs. @CircuitBreaker + @Retry.",
+          "documentation" : { },
+          "group" : "Infrastructure Layer",
+          "id" : "59",
+          "name" : "MockInsurerAdapter",
+          "properties" : {
+            "structurizr.dsl.identifier" : "plumEndorsement.backend.mockAdapter"
+          },
+          "tags" : "Element,Component,Adapter,Insurer",
+          "technology" : "Spring Component"
+        }, {
+          "description" : "REST/JSON, RT only, 150ms. @CircuitBreaker(name='iciciLombard') with 50%/20-call/30s config.",
+          "documentation" : { },
+          "group" : "Infrastructure Layer",
+          "id" : "60",
+          "name" : "IciciLombardAdapter",
+          "properties" : {
+            "structurizr.dsl.identifier" : "plumEndorsement.backend.iciciAdapter"
+          },
+          "relationships" : [ {
+            "description" : "Submits endorsements",
+            "destinationId" : "4",
+            "id" : "162",
+            "sourceId" : "60",
+            "tags" : "Relationship",
+            "technology" : "REST/JSON"
+          } ],
+          "tags" : "Element,Component,Adapter,Insurer",
+          "technology" : "Spring Component"
+        }, {
+          "description" : "CSV/SFTP, batch only. submitRealTime() throws UnsupportedOperationException.",
+          "documentation" : { },
+          "group" : "Infrastructure Layer",
+          "id" : "61",
+          "name" : "NivaBupaAdapter",
+          "properties" : {
+            "structurizr.dsl.identifier" : "plumEndorsement.backend.nivaAdapter"
+          },
+          "relationships" : [ {
+            "description" : "Uploads CSV batches",
+            "destinationId" : "5",
+            "id" : "163",
+            "sourceId" : "61",
+            "tags" : "Relationship",
+            "technology" : "SFTP"
+          } ],
+          "tags" : "Element,Component,Adapter,Insurer",
+          "technology" : "Spring Component"
+        }, {
+          "description" : "SOAP/XML, RT+batch, 250ms. @CircuitBreaker(name='bajajAllianz') with 40%/15-call/45s config.",
+          "documentation" : { },
+          "group" : "Infrastructure Layer",
+          "id" : "62",
+          "name" : "BajajAllianzAdapter",
+          "properties" : {
+            "structurizr.dsl.identifier" : "plumEndorsement.backend.bajajAdapter"
+          },
+          "relationships" : [ {
+            "description" : "Submits endorsements",
+            "destinationId" : "6",
+            "id" : "164",
+            "sourceId" : "62",
+            "tags" : "Relationship",
+            "technology" : "SOAP/XML"
+          } ],
+          "tags" : "Element,Component,Adapter,Insurer",
+          "technology" : "Spring Component"
+        }, {
+          "description" : "5 rules: Volume Spike, ADD/DELETE Cycling, Suspicious Timing, Unusual Premium, Dormancy Break. Score 0-1.",
+          "documentation" : { },
+          "group" : "Infrastructure Layer",
+          "id" : "63",
+          "name" : "RuleBasedAnomalyDetector",
+          "properties" : {
+            "structurizr.dsl.identifier" : "plumEndorsement.backend.ruleAnomalyDetector"
+          },
+          "relationships" : [ {
+            "description" : "Implements",
+            "destinationId" : "49",
+            "id" : "150",
+            "sourceId" : "63",
+            "tags" : "Relationship",
+            "technology" : "Rule Engine"
+          } ],
+          "tags" : "Element,Component,Adapter,Intelligence",
+          "technology" : "Spring Component"
+        }, {
+          "description" : "@ConditionalOnProperty(ollama). Wraps rule-based, enriches scores > 0.7 with LLM explanations. @CircuitBreaker with rule-based fallback.",
+          "documentation" : { },
+          "group" : "Infrastructure Layer",
+          "id" : "64",
+          "name" : "OllamaAugmentedAnomalyDetector",
+          "properties" : {
+            "structurizr.dsl.identifier" : "plumEndorsement.backend.ollamaAnomalyDetector"
+          },
+          "relationships" : [ {
+            "description" : "Implements (Ollama profile)",
+            "destinationId" : "49",
+            "id" : "151",
+            "sourceId" : "64",
+            "tags" : "Relationship",
+            "technology" : "GenAI"
+          }, {
+            "description" : "Sends anomalies for LLM enrichment",
+            "destinationId" : "7",
+            "id" : "160",
+            "sourceId" : "64",
+            "tags" : "Relationship",
+            "technology" : "Spring AI ChatClient"
+          } ],
+          "tags" : "Element,Component,Adapter,Intelligence,AI",
+          "technology" : "Spring AI + Ollama"
+        }, {
+          "description" : "30-day projection with dual seasonality: day-of-week (Mon=1.2x) + monthly (Apr=1.4x).",
+          "documentation" : { },
+          "group" : "Infrastructure Layer",
+          "id" : "65",
+          "name" : "StatisticalForecastEngine",
+          "properties" : {
+            "structurizr.dsl.identifier" : "plumEndorsement.backend.statisticalForecast"
+          },
+          "relationships" : [ {
+            "description" : "Implements",
+            "destinationId" : "50",
+            "id" : "152",
+            "sourceId" : "65",
+            "tags" : "Relationship",
+            "technology" : "Statistical"
+          } ],
+          "tags" : "Element,Component,Adapter,Intelligence",
+          "technology" : "Apache Commons Math"
+        }, {
+          "description" : "5 error patterns with confidence scoring. Auto-apply above 95%.",
+          "documentation" : { },
+          "group" : "Infrastructure Layer",
+          "id" : "66",
+          "name" : "SimulatedErrorResolver",
+          "properties" : {
+            "structurizr.dsl.identifier" : "plumEndorsement.backend.simulatedErrorResolver"
+          },
+          "relationships" : [ {
+            "description" : "Implements",
+            "destinationId" : "51",
+            "id" : "153",
+            "sourceId" : "66",
+            "tags" : "Relationship",
+            "technology" : "Pattern Matching"
+          } ],
+          "tags" : "Element,Component,Adapter,Intelligence",
+          "technology" : "Spring Component"
+        }, {
+          "description" : "@ConditionalOnProperty(ollama). Handles ambiguous cases (<95% confidence) with LLM analysis. @CircuitBreaker with rule-based fallback.",
+          "documentation" : { },
+          "group" : "Infrastructure Layer",
+          "id" : "67",
+          "name" : "OllamaErrorResolver",
+          "properties" : {
+            "structurizr.dsl.identifier" : "plumEndorsement.backend.ollamaErrorResolver"
+          },
+          "relationships" : [ {
+            "description" : "Implements (Ollama profile)",
+            "destinationId" : "51",
+            "id" : "154",
+            "sourceId" : "67",
+            "tags" : "Relationship",
+            "technology" : "GenAI"
+          }, {
+            "description" : "Sends errors for LLM analysis",
+            "destinationId" : "7",
+            "id" : "161",
+            "sourceId" : "67",
+            "tags" : "Relationship",
+            "technology" : "Spring AI ChatClient"
+          } ],
+          "tags" : "Element,Component,Adapter,Intelligence,AI",
+          "technology" : "Spring AI + Ollama"
+        }, {
+          "description" : "STP rate computation, bottleneck identification from event stream.",
+          "documentation" : { },
+          "group" : "Infrastructure Layer",
+          "id" : "68",
+          "name" : "EventStreamAnalyzer",
+          "properties" : {
+            "structurizr.dsl.identifier" : "plumEndorsement.backend.eventStreamAnalyzer"
+          },
+          "relationships" : [ {
+            "description" : "Implements",
+            "destinationId" : "52",
+            "id" : "155",
+            "sourceId" : "68",
+            "tags" : "Relationship",
+            "technology" : "Event Analysis"
+          } ],
+          "tags" : "Element,Component,Adapter,Intelligence",
+          "technology" : "Spring Component"
+        }, {
+          "description" : "Priority sequencing + balance-aware batch assembly. 0/1 Knapsack DP.",
+          "documentation" : { },
+          "group" : "Infrastructure Layer",
+          "id" : "69",
+          "name" : "ConstraintBatchOptimizer",
+          "properties" : {
+            "structurizr.dsl.identifier" : "plumEndorsement.backend.constraintBatchOptimizer"
+          },
+          "relationships" : [ {
+            "description" : "Implements",
+            "destinationId" : "53",
+            "id" : "156",
+            "sourceId" : "69",
+            "tags" : "Relationship",
+            "technology" : "DP Algorithm"
+          } ],
+          "tags" : "Element,Component,Adapter,Intelligence",
+          "technology" : "Spring Component"
+        }, {
+          "description" : "Implements EventPublisher. Serializes events to JSON, sends to endorsement-events topic with employerId partition key. acks=all.",
+          "documentation" : { },
+          "group" : "Infrastructure Layer",
+          "id" : "70",
+          "name" : "KafkaEventPublisher",
+          "properties" : {
+            "structurizr.dsl.identifier" : "plumEndorsement.backend.kafkaPublisher"
+          },
+          "relationships" : [ {
+            "description" : "Publishes to endorsement-events",
+            "destinationId" : "77",
+            "id" : "159",
+            "sourceId" : "70",
+            "tags" : "Relationship",
+            "technology" : "Kafka Producer"
+          } ],
+          "tags" : "Element,Component,Adapter,Messaging",
+          "technology" : "Spring Kafka"
+        }, {
+          "description" : "Stateless sessions (SessionCreationPolicy.STATELESS), CORS, CSRF disabled.",
+          "documentation" : { },
+          "group" : "Infrastructure Layer",
+          "id" : "71",
+          "name" : "SecurityConfig",
+          "properties" : {
+            "structurizr.dsl.identifier" : "plumEndorsement.backend.securityConfig"
+          },
+          "tags" : "Element,Component,CrossCutting",
+          "technology" : "Spring Security"
+        }, {
+          "description" : "Injects requestId, traceId, spanId, endorsementId, employerId into MDC. Cleans in finally block.",
+          "documentation" : { },
+          "group" : "Infrastructure Layer",
+          "id" : "72",
+          "name" : "MdcRequestFilter",
+          "properties" : {
+            "structurizr.dsl.identifier" : "plumEndorsement.backend.mdcFilter"
+          },
+          "tags" : "Element,Component,CrossCutting",
+          "technology" : "Spring Filter"
+        }, {
+          "description" : "20+ custom Micrometer metrics: counters (created, confirmed, rejected, error), timers (insurer latency), gauges (11 status counts).",
+          "documentation" : { },
+          "group" : "Infrastructure Layer",
+          "id" : "73",
+          "name" : "MetricsConfig",
+          "properties" : {
+            "structurizr.dsl.identifier" : "plumEndorsement.backend.metricsConfig"
+          },
+          "tags" : "Element,Component,CrossCutting",
+          "technology" : "Micrometer"
+        }, {
+          "description" : "Distributed scheduler locking via JDBC. Prevents duplicate runs across instances.",
+          "documentation" : { },
+          "group" : "Infrastructure Layer",
+          "id" : "74",
+          "name" : "ShedLockConfig",
+          "properties" : {
+            "structurizr.dsl.identifier" : "plumEndorsement.backend.shedlockConfig"
+          },
+          "tags" : "Element,Component,CrossCutting",
+          "technology" : "ShedLock"
+        } ],
+        "description" : "Core backend: 6 controllers (27 endpoints), 3 CQRS handlers, 8 services, 9 schedulers. Hexagonal architecture with zero infrastructure imports in domain core.",
+        "documentation" : { },
+        "id" : "10",
+        "name" : "Endorsement Service",
+        "properties" : {
+          "structurizr.dsl.identifier" : "plumEndorsement.backend"
+        },
+        "relationships" : [ {
+          "description" : "Reads/writes endorsements, accounts, configs",
+          "destinationId" : "75",
+          "id" : "85",
+          "sourceId" : "10",
+          "tags" : "Relationship",
+          "technology" : "JDBC/SQL"
+        }, {
+          "description" : "Caches insurer configurations",
+          "destinationId" : "76",
+          "id" : "86",
+          "sourceId" : "10",
+          "tags" : "Relationship",
+          "technology" : "Redis Protocol"
+        }, {
+          "description" : "Publishes domain events, consumes commands",
+          "destinationId" : "77",
+          "id" : "87",
+          "sourceId" : "10",
+          "tags" : "Relationship",
+          "technology" : "Kafka Protocol"
+        }, {
+          "description" : "Exposes /actuator/prometheus",
+          "destinationId" : "78",
+          "id" : "88",
+          "sourceId" : "10",
+          "tags" : "Relationship",
+          "technology" : "HTTP"
+        }, {
+          "description" : "Sends OTLP traces",
+          "destinationId" : "80",
+          "id" : "89",
+          "sourceId" : "10",
+          "tags" : "Relationship",
+          "technology" : "gRPC :4317"
+        }, {
+          "description" : "Sends structured JSON logs",
+          "destinationId" : "82",
+          "id" : "90",
+          "sourceId" : "10",
+          "tags" : "Relationship",
+          "technology" : "TCP :5000"
+        }, {
+          "description" : "Submits real-time endorsements",
+          "destinationId" : "4",
+          "id" : "103",
+          "sourceId" : "10",
+          "tags" : "Relationship,Insurer,Sync",
+          "technology" : "REST/JSON"
+        }, {
+          "description" : "Uploads batch CSV files",
+          "destinationId" : "5",
+          "id" : "105",
+          "sourceId" : "10",
+          "tags" : "Relationship,Insurer,Async",
+          "technology" : "CSV/SFTP"
+        }, {
+          "description" : "Submits endorsements",
+          "destinationId" : "6",
+          "id" : "107",
+          "sourceId" : "10",
+          "tags" : "Relationship,Insurer,Sync",
+          "technology" : "SOAP/XML"
+        }, {
+          "description" : "Sends anomalies/errors for LLM analysis",
+          "destinationId" : "7",
+          "id" : "109",
+          "sourceId" : "10",
+          "tags" : "Relationship,AI",
+          "technology" : "HTTP/JSON :11434"
+        } ],
+        "tags" : "Element,Container,SpringBoot",
+        "technology" : "Spring Boot 3.4, Java 21"
+      }, {
+        "description" : "13 tables, 20 Flyway migrations. ACID for financial operations. Optimistic locking. JSONB for flexible employee data.",
+        "documentation" : { },
+        "id" : "75",
+        "name" : "PostgreSQL",
+        "properties" : {
+          "structurizr.dsl.identifier" : "plumEndorsement.database"
+        },
+        "tags" : "Element,Container,Database",
+        "technology" : "PostgreSQL 16"
+      }, {
+        "description" : "Distributed cache (60s TTL). @Cacheable for InsurerRegistry. Session-free (stateless).",
+        "documentation" : { },
+        "id" : "76",
+        "name" : "Redis",
+        "properties" : {
+          "structurizr.dsl.identifier" : "plumEndorsement.redis"
+        },
+        "tags" : "Element,Container,Cache",
+        "technology" : "Redis 7"
+      }, {
+        "description" : "4 topics, 88 partitions. employerId partition key for per-employer ordering. KRaft mode (no ZooKeeper).",
+        "documentation" : { },
+        "id" : "77",
+        "name" : "Kafka",
+        "properties" : {
+          "structurizr.dsl.identifier" : "plumEndorsement.kafka"
+        },
+        "tags" : "Element,Container,MessageQueue",
+        "technology" : "Apache Kafka 3.7 (KRaft)"
+      }, {
+        "description" : "Metrics scraping every 15s from /actuator/prometheus. 7-day retention.",
+        "documentation" : { },
+        "id" : "78",
+        "name" : "Prometheus",
+        "properties" : {
+          "structurizr.dsl.identifier" : "plumEndorsement.prometheus"
+        },
+        "relationships" : [ {
+          "description" : "Data source for dashboards",
+          "destinationId" : "79",
+          "id" : "91",
+          "sourceId" : "78",
+          "tags" : "Relationship",
+          "technology" : "PromQL"
+        } ],
+        "tags" : "Element,Container,Monitoring",
+        "technology" : "Prometheus 2.50"
+      }, {
+        "description" : "7 auto-provisioned dashboards: app overview, business metrics, infrastructure, multi-insurer, reconciliation, intelligence, scheduler.",
+        "documentation" : { },
+        "id" : "79",
+        "name" : "Grafana",
+        "properties" : {
+          "structurizr.dsl.identifier" : "plumEndorsement.grafana"
+        },
+        "tags" : "Element,Container,Monitoring",
+        "technology" : "Grafana 10.3"
+      }, {
+        "description" : "Distributed tracing via OTLP. 100% sampling. Search by endorsementId for full request journey.",
+        "documentation" : { },
+        "id" : "80",
+        "name" : "Jaeger",
+        "properties" : {
+          "structurizr.dsl.identifier" : "plumEndorsement.jaeger"
+        },
+        "tags" : "Element,Container,Monitoring",
+        "technology" : "Jaeger 1.55"
+      }, {
+        "description" : "Structured JSON log storage. Full-text search across all log fields.",
+        "documentation" : { },
+        "id" : "81",
+        "name" : "Elasticsearch",
+        "properties" : {
+          "structurizr.dsl.identifier" : "plumEndorsement.elasticsearch"
+        },
+        "relationships" : [ {
+          "description" : "Data source for log search",
+          "destinationId" : "83",
+          "id" : "93",
+          "sourceId" : "81",
+          "tags" : "Relationship",
+          "technology" : "HTTP :9200"
+        } ],
+        "tags" : "Element,Container,Monitoring",
+        "technology" : "Elasticsearch 8.12"
+      }, {
+        "description" : "Log pipeline: TCP input from app, parsing, forwarding to Elasticsearch.",
+        "documentation" : { },
+        "id" : "82",
+        "name" : "Logstash",
+        "properties" : {
+          "structurizr.dsl.identifier" : "plumEndorsement.logstash"
+        },
+        "relationships" : [ {
+          "description" : "Forwards parsed logs",
+          "destinationId" : "81",
+          "id" : "92",
+          "sourceId" : "82",
+          "tags" : "Relationship",
+          "technology" : "HTTP :9200"
+        } ],
+        "tags" : "Element,Container,Monitoring",
+        "technology" : "Logstash 8.12"
+      }, {
+        "description" : "Log visualization: search, filter, dashboard over Elasticsearch indices.",
+        "documentation" : { },
+        "id" : "83",
+        "name" : "Kibana",
+        "properties" : {
+          "structurizr.dsl.identifier" : "plumEndorsement.kibana"
+        },
+        "tags" : "Element,Container,Monitoring",
+        "technology" : "Kibana 8.12"
+      } ],
+      "description" : "Manages the complete endorsement lifecycle: creation, validation, provisional coverage, multi-insurer submission, reconciliation, and intelligence analytics. 27 REST endpoints, 11-state lifecycle, 5 AI pillars.",
+      "documentation" : { },
+      "id" : "8",
+      "name" : "Plum Endorsement System",
+      "properties" : {
+        "structurizr.dsl.identifier" : "plumEndorsement"
+      },
+      "relationships" : [ {
+        "description" : "Submits real-time endorsements",
+        "destinationId" : "4",
+        "id" : "104",
+        "linkedRelationshipId" : "103",
+        "sourceId" : "8",
+        "technology" : "REST/JSON"
+      }, {
+        "description" : "Uploads batch CSV files",
+        "destinationId" : "5",
+        "id" : "106",
+        "linkedRelationshipId" : "105",
+        "sourceId" : "8",
+        "technology" : "CSV/SFTP"
+      }, {
+        "description" : "Submits endorsements",
+        "destinationId" : "6",
+        "id" : "108",
+        "linkedRelationshipId" : "107",
+        "sourceId" : "8",
+        "technology" : "SOAP/XML"
+      }, {
+        "description" : "Sends anomalies/errors for LLM analysis",
+        "destinationId" : "7",
+        "id" : "110",
+        "linkedRelationshipId" : "109",
+        "sourceId" : "8",
+        "technology" : "HTTP/JSON :11434"
+      } ],
+      "tags" : "Element,Software System"
+    } ]
+  },
+  "name" : "Plum Endorsement Management System",
+  "properties" : {
+    "structurizr.inspection.info" : "0",
+    "structurizr.inspection.ignore" : "0",
+    "structurizr.inspection.error" : "40",
+    "structurizr.inspection.warning" : "0",
+    "structurizr.dsl" : "LyoKICogUGx1bSBFbmRvcnNlbWVudCBNYW5hZ2VtZW50IFN5c3RlbSDigJQgU3RydWN0dXJpenIgQXJjaGl0ZWN0dXJlIE1vZGVsCiAqCiAqIENvbXByZWhlbnNpdmUgQzQgbW9kZWwgY292ZXJpbmc6CiAqICAgTGV2ZWwgMTogU3lzdGVtIENvbnRleHQg4oCUIGFjdG9ycywgZXh0ZXJuYWwgc3lzdGVtcwogKiAgIExldmVsIDI6IENvbnRhaW5lciDigJQgZGVwbG95YWJsZSB1bml0cyBhbmQgcHJvdG9jb2xzCiAqICAgTGV2ZWwgMzogQ29tcG9uZW50IOKAlCBoZXhhZ29uYWwgYXJjaGl0ZWN0dXJlIGludGVybmFscyAoQVBJLCBBcHBsaWNhdGlvbiwgRG9tYWluLCBJbmZyYXN0cnVjdHVyZSkKICogICBEeW5hbWljIHZpZXdzIOKAlCBlbmRvcnNlbWVudCBjcmVhdGlvbiwgaW5zdXJlciBzdWJtaXNzaW9uLCBiYXRjaCBhc3NlbWJseSwgYW5vbWFseSBkZXRlY3Rpb24KICogICBEZXBsb3ltZW50IHZpZXdzIOKAlCBEb2NrZXIgQ29tcG9zZSAoZGV2KSBhbmQgS3ViZXJuZXRlcyAocHJvZHVjdGlvbikKICoKICogUnVuOiAgLi9zdGFydC5zaCAgIChsYXVuY2hlcyBTdHJ1Y3R1cml6ciBMaXRlIG9uIGh0dHA6Ly9sb2NhbGhvc3Q6ODIwMCkKICovCgp3b3Jrc3BhY2UgIlBsdW0gRW5kb3JzZW1lbnQgTWFuYWdlbWVudCBTeXN0ZW0iICJJbnN1cmFuY2UgZW5kb3JzZW1lbnQgbGlmZWN5Y2xlIHBsYXRmb3JtIGJ1aWx0IHdpdGggSGV4YWdvbmFsIEFyY2hpdGVjdHVyZSwgQ2xvdWQtTmF0aXZlIFBhdHRlcm5zLCBhbmQgR2VuQUkgYXVnbWVudGF0aW9uIHZpYSBPbGxhbWEuIiB7CgogICAgIWlkZW50aWZpZXJzIGhpZXJhcmNoaWNhbAogICAgIWltcGxpZWRSZWxhdGlvbnNoaXBzIHRydWUKCiAgICAvLyDilIDilIAgQ29uc3RhbnRzIOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgAoKICAgICFjb25zdCBTUFJJTkdfQk9PVCAiU3ByaW5nIEJvb3QgMy40LCBKYXZhIDIxIgogICAgIWNvbnN0IFJFQUNUICJSZWFjdCAxOSwgVHlwZVNjcmlwdCwgVml0ZSIKICAgICFjb25zdCBQT1NUR1JFU1FMICJQb3N0Z3JlU1FMIDE2IgogICAgIWNvbnN0IEtBRktBICJBcGFjaGUgS2Fma2EgMy43IChLUmFmdCkiCiAgICAhY29uc3QgUkVESVMgIlJlZGlzIDciCiAgICAhY29uc3QgT0xMQU1BICJPbGxhbWEgKGxsYW1hMy4yKSIKICAgICFjb25zdCBSRVNJTElFTkNFNEogIlJlc2lsaWVuY2U0aiIKICAgICFjb25zdCBGTFlXQVkgIkZseXdheSIKCiAgICAvLyDilIDilIAgTW9kZWwg4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSACgogICAgbW9kZWwgewoKICAgICAgICAvLyDilIDilIAgUGVvcGxlIOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgAoKICAgICAgICBockFkbWluID0gcGVyc29uICJIUiBBZG1pbmlzdHJhdG9yIiAiQ3JlYXRlcyBhbmQgbWFuYWdlcyBlbXBsb3llZSBlbmRvcnNlbWVudHMgKEFERC9ERUxFVEUvVVBEQVRFKSBmb3IgZ3JvdXAgaGVhbHRoIGluc3VyYW5jZSBwb2xpY2llcy4iICJVc2VyIgogICAgICAgIGZpbmFuY2VUZWFtID0gcGVyc29uICJGaW5hbmNlIFRlYW0iICJNb25pdG9ycyBFQSAoRW5kb3JzZW1lbnQgQWNjb3VudCkgYmFsYW5jZXMsIHJldmlld3MgZm9yZWNhc3RzLCBhbmQgbWFuYWdlcyBmdW5kIHRvcC11cHMuIiAiVXNlciIKICAgICAgICBvcHNUZWFtID0gcGVyc29uICJPcGVyYXRpb25zIFRlYW0iICJNb25pdG9ycyBzeXN0ZW0gaGVhbHRoLCByZXZpZXdzIGFub21hbGllcywgcmVzb2x2ZXMgZXJyb3JzLCBhbmQgbWFuYWdlcyBpbnN1cmVyIHJlbGF0aW9uc2hpcHMuIiAiVXNlciIKCiAgICAgICAgLy8g4pSA4pSAIEV4dGVybmFsIFN5c3RlbXMg4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSACgogICAgICAgIGljaWNpTG9tYmFyZCA9IHNvZnR3YXJlU3lzdGVtICJJQ0lDSSBMb21iYXJkIEFQSSIgIkluc3VyYW5jZSBwcm92aWRlciDigJQgUkVTVC9KU09OLCByZWFsLXRpbWUgb25seS4iICJFeHRlcm5hbCBTeXN0ZW0sSW5zdXJlciIKICAgICAgICBuaXZhQnVwYSA9IHNvZnR3YXJlU3lzdGVtICJOaXZhIEJ1cGEgU0ZUUCIgIkluc3VyYW5jZSBwcm92aWRlciDigJQgQ1NWL1NGVFAsIGJhdGNoIG9ubHkuIiAiRXh0ZXJuYWwgU3lzdGVtLEluc3VyZXIiCiAgICAgICAgYmFqYWpBbGxpYW56ID0gc29mdHdhcmVTeXN0ZW0gIkJhamFqIEFsbGlhbnogQVBJIiAiSW5zdXJhbmNlIHByb3ZpZGVyIOKAlCBTT0FQL1hNTCwgcmVhbC10aW1lICsgYmF0Y2guIiAiRXh0ZXJuYWwgU3lzdGVtLEluc3VyZXIiCiAgICAgICAgb2xsYW1hU2VydmljZSA9IHNvZnR3YXJlU3lzdGVtICJPbGxhbWEgTExNIiAiTG9jYWwgbGFyZ2UgbGFuZ3VhZ2UgbW9kZWwgZm9yIEdlbkFJIGFub21hbHkgZW5yaWNobWVudCBhbmQgZXJyb3IgcmVzb2x1dGlvbi4iICJFeHRlcm5hbCBTeXN0ZW0sQUkiCgogICAgICAgIC8vIOKUgOKUgCBQcmltYXJ5IFNvZnR3YXJlIFN5c3RlbSDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIAKCiAgICAgICAgcGx1bUVuZG9yc2VtZW50ID0gc29mdHdhcmVTeXN0ZW0gIlBsdW0gRW5kb3JzZW1lbnQgU3lzdGVtIiAiTWFuYWdlcyB0aGUgY29tcGxldGUgZW5kb3JzZW1lbnQgbGlmZWN5Y2xlOiBjcmVhdGlvbiwgdmFsaWRhdGlvbiwgcHJvdmlzaW9uYWwgY292ZXJhZ2UsIG11bHRpLWluc3VyZXIgc3VibWlzc2lvbiwgcmVjb25jaWxpYXRpb24sIGFuZCBpbnRlbGxpZ2VuY2UgYW5hbHl0aWNzLiAyNyBSRVNUIGVuZHBvaW50cywgMTEtc3RhdGUgbGlmZWN5Y2xlLCA1IEFJIHBpbGxhcnMuIiB7CgogICAgICAgICAgICAvLyDilIDilIAgRnJvbnRlbmQg4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSACgogICAgICAgICAgICBzcGEgPSBjb250YWluZXIgIlJlYWN0IERhc2hib2FyZCIgIjEwLXNjcmVlbiBTUEE6IGRhc2hib2FyZCwgZW5kb3JzZW1lbnQgQ1JVRCwgRUEgbG9va3VwLCBpbnRlbGxpZ2VuY2UgaHViLCBpbnN1cmVyIGNvbmZpZywgcmVjb25jaWxpYXRpb24sIGF1ZGl0IGxvZy4iICIke1JFQUNUfSIgIldlYkJyb3dzZXIiCgogICAgICAgICAgICAvLyDilIDilIAgQmFja2VuZCBTZXJ2aWNlIOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgAoKICAgICAgICAgICAgYmFja2VuZCA9IGNvbnRhaW5lciAiRW5kb3JzZW1lbnQgU2VydmljZSIgIkNvcmUgYmFja2VuZDogNiBjb250cm9sbGVycyAoMjcgZW5kcG9pbnRzKSwgMyBDUVJTIGhhbmRsZXJzLCA4IHNlcnZpY2VzLCA5IHNjaGVkdWxlcnMuIEhleGFnb25hbCBhcmNoaXRlY3R1cmUgd2l0aCB6ZXJvIGluZnJhc3RydWN0dXJlIGltcG9ydHMgaW4gZG9tYWluIGNvcmUuIiAiJHtTUFJJTkdfQk9PVH0iICJTcHJpbmdCb290IiB7CgogICAgICAgICAgICAgICAgLy8g4pSA4pSAIEFQSSBMYXllciAoRHJpdmluZyBTaWRlKSDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIAKCiAgICAgICAgICAgICAgICBncm91cCAiQVBJIExheWVyIiB7CiAgICAgICAgICAgICAgICAgICAgZW5kb3JzZW1lbnRDb250cm9sbGVyID0gY29tcG9uZW50ICJFbmRvcnNlbWVudENvbnRyb2xsZXIiICI5IGVuZHBvaW50czogY3JlYXRlLCBnZXQsIGxpc3QsIHN1Ym1pdCwgY29uZmlybSwgcmVqZWN0LCBjb3ZlcmFnZSwgYmF0Y2hlcywgb3V0c3RhbmRpbmcuIiAiU3ByaW5nIE1WQyBSRVNUIiAiQ29udHJvbGxlciIKICAgICAgICAgICAgICAgICAgICBlYUFjY291bnRDb250cm9sbGVyID0gY29tcG9uZW50ICJFQUFjY291bnRDb250cm9sbGVyIiAiRUEgYWNjb3VudCBiYWxhbmNlIGxvb2t1cCBieSBlbXBsb3llcitpbnN1cmVyLiIgIlNwcmluZyBNVkMgUkVTVCIgIkNvbnRyb2xsZXIiCiAgICAgICAgICAgICAgICAgICAgaW50ZWxsaWdlbmNlQ29udHJvbGxlciA9IGNvbXBvbmVudCAiSW50ZWxsaWdlbmNlQ29udHJvbGxlciIgIjE3IGVuZHBvaW50czogYW5vbWFsaWVzLCBmb3JlY2FzdHMsIGVycm9yIHJlc29sdXRpb25zLCBwcm9jZXNzIG1pbmluZywgaGVhbHRoIHNjb3JlcywgYmVuY2htYXJrcy4iICJTcHJpbmcgTVZDIFJFU1QiICJDb250cm9sbGVyIgogICAgICAgICAgICAgICAgICAgIGluc3VyZXJDb25maWdDb250cm9sbGVyID0gY29tcG9uZW50ICJJbnN1cmVyQ29uZmlnQ29udHJvbGxlciIgIjUgZW5kcG9pbnRzOiBsaXN0LCBnZXQsIGNhcGFiaWxpdGllcywgY3JlYXRlLCB1cGRhdGUgaW5zdXJlciBjb25maWd1cmF0aW9ucy4iICJTcHJpbmcgTVZDIFJFU1QiICJDb250cm9sbGVyIgogICAgICAgICAgICAgICAgICAgIHJlY29uY2lsaWF0aW9uQ29udHJvbGxlciA9IGNvbXBvbmVudCAiUmVjb25jaWxpYXRpb25Db250cm9sbGVyIiAiMyBlbmRwb2ludHM6IGxpc3QgcnVucywgZ2V0IGl0ZW1zLCB0cmlnZ2VyIHJlY29uY2lsaWF0aW9uLiIgIlNwcmluZyBNVkMgUkVTVCIgIkNvbnRyb2xsZXIiCiAgICAgICAgICAgICAgICAgICAgYXVkaXRMb2dDb250cm9sbGVyID0gY29tcG9uZW50ICJBdWRpdExvZ0NvbnRyb2xsZXIiICJRdWVyeSBpbW11dGFibGUgYXVkaXQgdHJhaWwgZW50cmllcyB3aXRoIGZpbHRlcnMuIiAiU3ByaW5nIE1WQyBSRVNUIiAiQ29udHJvbGxlciIKICAgICAgICAgICAgICAgICAgICBnbG9iYWxFeGNlcHRpb25IYW5kbGVyID0gY29tcG9uZW50ICJHbG9iYWxFeGNlcHRpb25IYW5kbGVyIiAiUkZDIDc4MDcgUHJvYmxlbURldGFpbCBlcnJvciByZXNwb25zZXMuIE1hcHMgOSBleGNlcHRpb24gdHlwZXMgdG8gSFRUUCBzdGF0dXMgY29kZXMuIiAiU3ByaW5nIE1WQyIgIkNyb3NzQ3V0dGluZyIKICAgICAgICAgICAgICAgIH0KCiAgICAgICAgICAgICAgICAvLyDilIDilIAgQXBwbGljYXRpb24gTGF5ZXIg4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSACgogICAgICAgICAgICAgICAgZ3JvdXAgIkFwcGxpY2F0aW9uIExheWVyIiB7CiAgICAgICAgICAgICAgICAgICAgY3JlYXRlRW5kb3JzZW1lbnRIYW5kbGVyID0gY29tcG9uZW50ICJDcmVhdGVFbmRvcnNlbWVudEhhbmRsZXIiICJDb21tYW5kIGhhbmRsZXI6IHZhbGlkYXRlLCBpZGVtcG90ZW5jeSBjaGVjaywgZGViaXQgRUEsIGdyYW50IHByb3Zpc2lvbmFsIGNvdmVyYWdlLCBwdWJsaXNoIENyZWF0ZWQgZXZlbnQuIEBUcmFuc2FjdGlvbmFsLiIgIlNwcmluZyBTZXJ2aWNlIChDUVJTIENvbW1hbmQpIiAiSGFuZGxlciIKICAgICAgICAgICAgICAgICAgICBwcm9jZXNzRW5kb3JzZW1lbnRIYW5kbGVyID0gY29tcG9uZW50ICJQcm9jZXNzRW5kb3JzZW1lbnRIYW5kbGVyIiAiQ29tbWFuZCBoYW5kbGVyOiByb3V0ZSB0byBpbnN1cmVyIChSVC9iYXRjaCksIGNvbmZpcm0sIHJlamVjdCwgcmV0cnksIHN0YXRlIHRyYW5zaXRpb25zLCBwdWJsaXNoIGxpZmVjeWNsZSBldmVudHMuIiAiU3ByaW5nIFNlcnZpY2UgKENRUlMgQ29tbWFuZCkiICJIYW5kbGVyIgogICAgICAgICAgICAgICAgICAgIGVuZG9yc2VtZW50UXVlcnlIYW5kbGVyID0gY29tcG9uZW50ICJFbmRvcnNlbWVudFF1ZXJ5SGFuZGxlciIgIlF1ZXJ5IGhhbmRsZXI6IGZpbmQgYnkgSUQsIGxpc3QgYnkgZW1wbG95ZXIsIHBhZ2luYXRlLCBmaWx0ZXIuIEBUcmFuc2FjdGlvbmFsKHJlYWRPbmx5PXRydWUpLiIgIlNwcmluZyBTZXJ2aWNlIChDUVJTIFF1ZXJ5KSIgIkhhbmRsZXIiCgogICAgICAgICAgICAgICAgICAgIGFub21hbHlEZXRlY3Rpb25TZXJ2aWNlID0gY29tcG9uZW50ICJBbm9tYWx5RGV0ZWN0aW9uU2VydmljZSIgIk9yY2hlc3RyYXRlcyBhbm9tYWx5IGRldGVjdGlvbiBhY3Jvc3MgZW1wbG95ZXJzLiBEZWxlZ2F0ZXMgdG8gQW5vbWFseURldGVjdGlvblBvcnQuIiAiU3ByaW5nIFNlcnZpY2UiICJBcHBTZXJ2aWNlIgogICAgICAgICAgICAgICAgICAgIGJhbGFuY2VGb3JlY2FzdFNlcnZpY2UgPSBjb21wb25lbnQgIkJhbGFuY2VGb3JlY2FzdFNlcnZpY2UiICJQcm9qZWN0cyBFQSBiYWxhbmNlIDMwIGRheXMgYWhlYWQgd2l0aCBkdWFsIHNlYXNvbmFsaXR5LiIgIlNwcmluZyBTZXJ2aWNlIiAiQXBwU2VydmljZSIKICAgICAgICAgICAgICAgICAgICBlcnJvclJlc29sdXRpb25TZXJ2aWNlID0gY29tcG9uZW50ICJFcnJvclJlc29sdXRpb25TZXJ2aWNlIiAiU3VnZ2VzdHMvYXV0by1hcHBsaWVzIGZpeGVzIGZvciByZWplY3RlZCBlbmRvcnNlbWVudHMuIDk1JSBjb25maWRlbmNlIHRocmVzaG9sZC4iICJTcHJpbmcgU2VydmljZSIgIkFwcFNlcnZpY2UiCiAgICAgICAgICAgICAgICAgICAgcHJvY2Vzc01pbmluZ1NlcnZpY2UgPSBjb21wb25lbnQgIlByb2Nlc3NNaW5pbmdTZXJ2aWNlIiAiQ29tcHV0ZXMgU1RQIHJhdGVzLCBib3R0bGVuZWNrIGFuYWx5c2lzLCB0cmFuc2l0aW9uIG1ldHJpY3MuIiAiU3ByaW5nIFNlcnZpY2UiICJBcHBTZXJ2aWNlIgogICAgICAgICAgICAgICAgICAgIGVtcGxveWVySGVhbHRoU2NvcmVTZXJ2aWNlID0gY29tcG9uZW50ICJFbXBsb3llckhlYWx0aFNjb3JlU2VydmljZSIgIkNvbXBvc2l0ZSBoZWFsdGggc2NvcmUgZnJvbSBlbmRvcnNlbWVudCBwYXR0ZXJucywgRUEgdXRpbGl6YXRpb24sIGVycm9yIHJhdGVzLiIgIlNwcmluZyBTZXJ2aWNlIiAiQXBwU2VydmljZSIKICAgICAgICAgICAgICAgICAgICBpbnN1cmVyQmVuY2htYXJrU2VydmljZSA9IGNvbXBvbmVudCAiSW5zdXJlckJlbmNobWFya1NlcnZpY2UiICJDb21wYXJlcyBpbnN1cmVyIHBlcmZvcm1hbmNlOiBsYXRlbmN5LCBzdWNjZXNzIHJhdGVzLCBTTEEgY29tcGxpYW5jZS4iICJTcHJpbmcgU2VydmljZSIgIkFwcFNlcnZpY2UiCiAgICAgICAgICAgICAgICAgICAgYXVkaXRMb2dTZXJ2aWNlID0gY29tcG9uZW50ICJBdWRpdExvZ1NlcnZpY2UiICJSZWNvcmRzIGFuZCBxdWVyaWVzIGltbXV0YWJsZSBhdWRpdCB0cmFpbCBlbnRyaWVzLiIgIlNwcmluZyBTZXJ2aWNlIiAiQXBwU2VydmljZSIKICAgICAgICAgICAgICAgICAgICByZWNvbmNpbGlhdGlvbkVuZ2luZSA9IGNvbXBvbmVudCAiUmVjb25jaWxpYXRpb25FbmdpbmUiICJNYXRjaGVzIHN5c3RlbSByZWNvcmRzIGFnYWluc3QgaW5zdXJlciByZWNvcmRzLCBmbGFncyBkaXNjcmVwYW5jaWVzLiIgIlNwcmluZyBTZXJ2aWNlIiAiQXBwU2VydmljZSIKCiAgICAgICAgICAgICAgICAgICAgYmF0Y2hBc3NlbWJseVNjaGVkdWxlciA9IGNvbXBvbmVudCAiQmF0Y2hBc3NlbWJseVNjaGVkdWxlciIgIkFzc2VtYmxlcyBxdWV1ZWQgZW5kb3JzZW1lbnRzIGludG8gYmF0Y2hlcyBwZXIgaW5zdXJlci4gUnVucyBldmVyeSAxNSBtaW4uIEBTY2hlZHVsZXJMb2NrLiIgIlNwcmluZyBTY2hlZHVsZXIiICJTY2hlZHVsZXIiCiAgICAgICAgICAgICAgICAgICAgYW5vbWFseURldGVjdGlvblNjaGVkdWxlciA9IGNvbXBvbmVudCAiQW5vbWFseURldGVjdGlvblNjaGVkdWxlciIgIlNjYW5zIGZvciBhbm9tYWxvdXMgZW5kb3JzZW1lbnQgcGF0dGVybnMuIFJ1bnMgZXZlcnkgNSBtaW4uIiAiU3ByaW5nIFNjaGVkdWxlciIgIlNjaGVkdWxlciIKICAgICAgICAgICAgICAgICAgICBiYWxhbmNlRm9yZWNhc3RTY2hlZHVsZXIgPSBjb21wb25lbnQgIkJhbGFuY2VGb3JlY2FzdFNjaGVkdWxlciIgIkdlbmVyYXRlcyBiYWxhbmNlIGZvcmVjYXN0cyBmb3IgYWxsIGVtcGxveWVycy4gRGFpbHkgYXQgMDY6MDAuIiAiU3ByaW5nIFNjaGVkdWxlciIgIlNjaGVkdWxlciIKICAgICAgICAgICAgICAgICAgICByZWNvbmNpbGlhdGlvblNjaGVkdWxlciA9IGNvbXBvbmVudCAiUmVjb25jaWxpYXRpb25TY2hlZHVsZXIiICJOaWdodGx5IHJlY29uY2lsaWF0aW9uIGFnYWluc3QgaW5zdXJlciByZWNvcmRzLiIgIlNwcmluZyBTY2hlZHVsZXIiICJTY2hlZHVsZXIiCiAgICAgICAgICAgICAgICAgICAgcHJvY2Vzc01pbmluZ1NjaGVkdWxlciA9IGNvbXBvbmVudCAiUHJvY2Vzc01pbmluZ1NjaGVkdWxlciIgIkNvbXB1dGVzIFNUUCByYXRlcyBhbmQgcHJvY2VzcyBtZXRyaWNzLiBEYWlseSBhdCAwMzowMC4iICJTcHJpbmcgU2NoZWR1bGVyIiAiU2NoZWR1bGVyIgogICAgICAgICAgICAgICAgICAgIHByb3Zpc2lvbmFsQ292ZXJhZ2VDbGVhbnVwID0gY29tcG9uZW50ICJQcm92aXNpb25hbENvdmVyYWdlQ2xlYW51cCIgIkV4cGlyZXMgcHJvdmlzaW9uYWwgY292ZXJhZ2VzIHBhc3QgMzAtZGF5IHdpbmRvdy4iICJTcHJpbmcgU2NoZWR1bGVyIiAiU2NoZWR1bGVyIgogICAgICAgICAgICAgICAgICAgIHN0dWNrUmV0cnlTY2hlZHVsZXIgPSBjb21wb25lbnQgIlN0dWNrRW5kb3JzZW1lbnRSZXRyeVNjaGVkdWxlciIgIlJldHJpZXMgZW5kb3JzZW1lbnRzIHN0dWNrIGluIGludGVybWVkaWF0ZSBzdGF0ZXMuIiAiU3ByaW5nIFNjaGVkdWxlciIgIlNjaGVkdWxlciIKICAgICAgICAgICAgICAgICAgICBkYXRhUmV0ZW50aW9uU2NoZWR1bGVyID0gY29tcG9uZW50ICJEYXRhUmV0ZW50aW9uU2NoZWR1bGVyIiAiQXJjaGl2ZXMgb2xkIGRhdGEgcGVyIHJldGVudGlvbiBwb2xpY3kuIFdlZWtseS4iICJTcHJpbmcgU2NoZWR1bGVyIiAiU2NoZWR1bGVyIgogICAgICAgICAgICAgICAgfQoKICAgICAgICAgICAgICAgIC8vIOKUgOKUgCBEb21haW4gQ29yZSDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIAKCiAgICAgICAgICAgICAgICBncm91cCAiRG9tYWluIENvcmUiIHsKICAgICAgICAgICAgICAgICAgICBlbmRvcnNlbWVudE1vZGVsID0gY29tcG9uZW50ICJFbmRvcnNlbWVudCIgIkFnZ3JlZ2F0ZSByb290OiAxMS1zdGF0ZSBsaWZlY3ljbGUsIG9wdGltaXN0aWMgbG9ja2luZywgaWRlbXBvdGVuY3kga2V5LCByZXRyeSBjb3VudC4gUmljaCBkb21haW4gbW9kZWwgd2l0aCB0cmFuc2l0aW9uVG8oKSB2YWxpZGF0aW9uLiIgIkphdmEgRG9tYWluIE1vZGVsIiAiRG9tYWluTW9kZWwiCiAgICAgICAgICAgICAgICAgICAgZWFBY2NvdW50TW9kZWwgPSBjb21wb25lbnQgIkVBQWNjb3VudCIgIkFnZ3JlZ2F0ZSByb290OiBjb21wb3NpdGUga2V5IChlbXBsb3llcklkLCBpbnN1cmVySWQpLCBiYWxhbmNlL3Jlc2VydmVkL2F2YWlsYWJsZSwgZGViaXQvY3JlZGl0L3Jlc2VydmUgb3BlcmF0aW9ucy4iICJKYXZhIERvbWFpbiBNb2RlbCIgIkRvbWFpbk1vZGVsIgogICAgICAgICAgICAgICAgICAgIGVuZG9yc2VtZW50RXZlbnQgPSBjb21wb25lbnQgIkVuZG9yc2VtZW50RXZlbnQiICJTZWFsZWQgaW50ZXJmYWNlIHdpdGggMjQgZXZlbnQgcmVjb3JkIHR5cGVzOiBsaWZlY3ljbGUgKDExKSwgZmluYW5jaWFsICgyKSwgcmVjb25jaWxpYXRpb24gKDMpLCBpbnRlbGxpZ2VuY2UgKDYpLCBjb3ZlcmFnZSAoMikuIiAiSmF2YSBTZWFsZWQgSW50ZXJmYWNlIiAiRG9tYWluTW9kZWwiCiAgICAgICAgICAgICAgICAgICAgZW5kb3JzZW1lbnRTdGF0dXMgPSBjb21wb25lbnQgIkVuZG9yc2VtZW50U3RhdHVzIiAiMTEtc3RhdGUgZW51bSB3aXRoIEVudW1TZXQtYmFzZWQgTygxKSB0cmFuc2l0aW9uIHZhbGlkYXRpb24uIGNhblRyYW5zaXRpb25UbygpLCBpc1Rlcm1pbmFsKCkuIiAiSmF2YSBFbnVtIiAiRG9tYWluTW9kZWwiCiAgICAgICAgICAgICAgICAgICAgc3RhdGVNYWNoaW5lID0gY29tcG9uZW50ICJFbmRvcnNlbWVudFN0YXRlTWFjaGluZSIgIkVuZm9yY2VzIHZhbGlkIHN0YXRlIHRyYW5zaXRpb25zLiBTaW5nbGUgZW50cnkgcG9pbnQgZm9yIGFsbCBzdGF0ZSBjaGFuZ2VzLiIgIkRvbWFpbiBTZXJ2aWNlIiAiRG9tYWluU2VydmljZSIKICAgICAgICAgICAgICAgICAgICBlYUJhbGFuY2VDYWxjdWxhdG9yID0gY29tcG9uZW50ICJFQUJhbGFuY2VDYWxjdWxhdG9yIiAiQmF0Y2ggcHJpb3JpdHkgc2VxdWVuY2luZzogREVMRVRFcyBmaXJzdCAoUDApLCBjb3N0LW5ldXRyYWwgVVBEQVRFcyAoUDEpLCBBRERzIGJ5IHVyZ2VuY3kgKFAyKS4gMC8xIEtuYXBzYWNrIERQLiIgIkRvbWFpbiBTZXJ2aWNlIiAiRG9tYWluU2VydmljZSIKICAgICAgICAgICAgICAgICAgICBpbnN1cmVyUmVnaXN0cnkgPSBjb21wb25lbnQgIkluc3VyZXJSZWdpc3RyeSIgIkBDYWNoZWFibGUgaW5zdXJlciBjb25maWcgbG9va3VwIHdpdGggQENhY2hlRXZpY3Qgb24gdXBkYXRlcy4gQ2FmZmVpbmUgNjBzIFRUTC4iICJEb21haW4gU2VydmljZSIgIkRvbWFpblNlcnZpY2UiCgogICAgICAgICAgICAgICAgICAgIC8vIFBvcnQgaW50ZXJmYWNlcwogICAgICAgICAgICAgICAgICAgIGVuZG9yc2VtZW50UmVwbyA9IGNvbXBvbmVudCAiRW5kb3JzZW1lbnRSZXBvc2l0b3J5IiAiUG9ydDogQ1JVRCArIGZpbmRCeUlkZW1wb3RlbmN5S2V5LCBmaW5kQnlTdGF0dXMsIGZpbmRCeUVtcGxveWVySWQuIiAiRG9tYWluIFBvcnQgSW50ZXJmYWNlIiAiUG9ydCIKICAgICAgICAgICAgICAgICAgICBlYUFjY291bnRSZXBvID0gY29tcG9uZW50ICJFQUFjY291bnRSZXBvc2l0b3J5IiAiUG9ydDogZmluZEJ5RW1wbG95ZXJJZEFuZEluc3VyZXJJZCwgc2F2ZSB3aXRoIG9wdGltaXN0aWMgbG9jay4iICJEb21haW4gUG9ydCBJbnRlcmZhY2UiICJQb3J0IgogICAgICAgICAgICAgICAgICAgIGJhdGNoUmVwbyA9IGNvbXBvbmVudCAiQmF0Y2hSZXBvc2l0b3J5IiAiUG9ydDogYmF0Y2ggYXNzZW1ibHkgYW5kIHN0YXR1cyB0cmFja2luZy4iICJEb21haW4gUG9ydCBJbnRlcmZhY2UiICJQb3J0IgogICAgICAgICAgICAgICAgICAgIGluc3VyZXJQb3J0ID0gY29tcG9uZW50ICJJbnN1cmVyUG9ydCIgIlBvcnQ6IHN1Ym1pdFJlYWxUaW1lLCBzdWJtaXRCYXRjaCwgY2hlY2tCYXRjaFN0YXR1cywgZ2V0Q2FwYWJpbGl0aWVzLiBTdHJhdGVneSBwYXR0ZXJuIGludGVyZmFjZS4iICJEb21haW4gUG9ydCBJbnRlcmZhY2UiICJQb3J0IgogICAgICAgICAgICAgICAgICAgIGV2ZW50UHVibGlzaGVyID0gY29tcG9uZW50ICJFdmVudFB1Ymxpc2hlciIgIlBvcnQ6IHB1Ymxpc2goRW5kb3JzZW1lbnRFdmVudCkuIE9ic2VydmVyIHBhdHRlcm4uIiAiRG9tYWluIFBvcnQgSW50ZXJmYWNlIiAiUG9ydCIKICAgICAgICAgICAgICAgICAgICBhbm9tYWx5RGV0ZWN0aW9uUG9ydCA9IGNvbXBvbmVudCAiQW5vbWFseURldGVjdGlvblBvcnQiICJQb3J0OiBkZXRlY3RBbm9tYWxpZXMoZW1wbG95ZXJJZCkuIFBsdWdnYWJsZSBhbGdvcml0aG0uIiAiRG9tYWluIFBvcnQgSW50ZXJmYWNlIiAiUG9ydCIKICAgICAgICAgICAgICAgICAgICBmb3JlY2FzdFBvcnQgPSBjb21wb25lbnQgIkJhbGFuY2VGb3JlY2FzdFBvcnQiICJQb3J0OiBnZW5lcmF0ZUZvcmVjYXN0KGVtcGxveWVySWQsIGluc3VyZXJJZCkuIFBsdWdnYWJsZSBlbmdpbmUuIiAiRG9tYWluIFBvcnQgSW50ZXJmYWNlIiAiUG9ydCIKICAgICAgICAgICAgICAgICAgICBlcnJvclJlc29sdXRpb25Qb3J0ID0gY29tcG9uZW50ICJFcnJvclJlc29sdXRpb25Qb3J0IiAiUG9ydDogcmVzb2x2ZUVycm9yKGVuZG9yc2VtZW50SWQsIGVycm9yTWVzc2FnZSkuIFBsdWdnYWJsZSByZXNvbHZlci4iICJEb21haW4gUG9ydCBJbnRlcmZhY2UiICJQb3J0IgogICAgICAgICAgICAgICAgICAgIHByb2Nlc3NNaW5pbmdQb3J0ID0gY29tcG9uZW50ICJQcm9jZXNzTWluaW5nUG9ydCIgIlBvcnQ6IGNvbXB1dGVTdHBSYXRlKGluc3VyZXJJZCkuIFBsdWdnYWJsZSBhbmFseXplci4iICJEb21haW4gUG9ydCBJbnRlcmZhY2UiICJQb3J0IgogICAgICAgICAgICAgICAgICAgIGJhdGNoT3B0aW1pemVyUG9ydCA9IGNvbXBvbmVudCAiQmF0Y2hPcHRpbWl6ZXJQb3J0IiAiUG9ydDogb3B0aW1pemVCYXRjaChlbmRvcnNlbWVudHMsIGF2YWlsYWJsZUJhbGFuY2UpLiBQbHVnZ2FibGUgb3B0aW1pemVyLiIgIkRvbWFpbiBQb3J0IEludGVyZmFjZSIgIlBvcnQiCiAgICAgICAgICAgICAgICAgICAgbm90aWZpY2F0aW9uUG9ydCA9IGNvbXBvbmVudCAiTm90aWZpY2F0aW9uUG9ydCIgIlBvcnQ6IHNlbmROb3RpZmljYXRpb24odHlwZSwgcGF5bG9hZCkuIFBsdWdnYWJsZSBjaGFubmVsLiIgIkRvbWFpbiBQb3J0IEludGVyZmFjZSIgIlBvcnQiCiAgICAgICAgICAgICAgICB9CgogICAgICAgICAgICAgICAgLy8g4pSA4pSAIEluZnJhc3RydWN0dXJlIExheWVyIChEcml2ZW4gU2lkZSkg4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSACgogICAgICAgICAgICAgICAgZ3JvdXAgIkluZnJhc3RydWN0dXJlIExheWVyIiB7CiAgICAgICAgICAgICAgICAgICAgLy8gUGVyc2lzdGVuY2UgQWRhcHRlcnMKICAgICAgICAgICAgICAgICAgICBqcGFFbmRvcnNlbWVudEFkYXB0ZXIgPSBjb21wb25lbnQgIkpwYUVuZG9yc2VtZW50UmVwb3NpdG9yeUFkYXB0ZXIiICJJbXBsZW1lbnRzIEVuZG9yc2VtZW50UmVwb3NpdG9yeS4gVXNlcyBFbmRvcnNlbWVudE1hcHBlciBBQ0wgZm9yIGRvbWFpbjwtPmVudGl0eSB0cmFuc2xhdGlvbi4iICJTcHJpbmcgRGF0YSBKUEEiICJBZGFwdGVyLFBlcnNpc3RlbmNlIgogICAgICAgICAgICAgICAgICAgIGpwYUVhQWNjb3VudEFkYXB0ZXIgPSBjb21wb25lbnQgIkpwYUVBQWNjb3VudFJlcG9zaXRvcnlBZGFwdGVyIiAiSW1wbGVtZW50cyBFQUFjY291bnRSZXBvc2l0b3J5LiBDb21wb3NpdGUga2V5IG1hcHBpbmcuIiAiU3ByaW5nIERhdGEgSlBBIiAiQWRhcHRlcixQZXJzaXN0ZW5jZSIKICAgICAgICAgICAgICAgICAgICBlbmRvcnNlbWVudE1hcHBlciA9IGNvbXBvbmVudCAiRW5kb3JzZW1lbnRNYXBwZXIiICJBbnRpLUNvcnJ1cHRpb24gTGF5ZXI6IHRyYW5zbGF0ZXMgZG9tYWluIGVudW1zIHRvIEpQQSBzdHJpbmdzLCBKc29uTm9kZSB0byBjb2x1bW4gdHlwZXMuIE9ubHkgY2xhc3MgdGhhdCBpbXBvcnRzIGJvdGggZG9tYWluIGFuZCBKUEEgdHlwZXMuIiAiSmF2YSBNYXBwZXIiICJBQ0wiCgogICAgICAgICAgICAgICAgICAgIC8vIEluc3VyZXIgQWRhcHRlcnMKICAgICAgICAgICAgICAgICAgICBpbnN1cmVyUm91dGVyID0gY29tcG9uZW50ICJJbnN1cmVyUm91dGVyIiAiRmFjdG9yeSBwYXR0ZXJuOiBhdXRvLWRpc2NvdmVycyBJbnN1cmVyUG9ydCBiZWFucyB2aWEgU3ByaW5nIERJLCByZXNvbHZlcyBjb3JyZWN0IGFkYXB0ZXIgYXQgcnVudGltZSBmcm9tIERCIGNvbmZpZy4iICJTcHJpbmcgQ29tcG9uZW50IiAiQWRhcHRlcixGYWN0b3J5IgogICAgICAgICAgICAgICAgICAgIG1vY2tBZGFwdGVyID0gY29tcG9uZW50ICJNb2NrSW5zdXJlckFkYXB0ZXIiICJKU09OL1JFU1QsIDEwMG1zIGRlbGF5LCBzeW50aGV0aWMgcmVmcy4gQENpcmN1aXRCcmVha2VyICsgQFJldHJ5LiIgIlNwcmluZyBDb21wb25lbnQiICJBZGFwdGVyLEluc3VyZXIiCiAgICAgICAgICAgICAgICAgICAgaWNpY2lBZGFwdGVyID0gY29tcG9uZW50ICJJY2ljaUxvbWJhcmRBZGFwdGVyIiAiUkVTVC9KU09OLCBSVCBvbmx5LCAxNTBtcy4gQENpcmN1aXRCcmVha2VyKG5hbWU9J2ljaWNpTG9tYmFyZCcpIHdpdGggNTAlLzIwLWNhbGwvMzBzIGNvbmZpZy4iICJTcHJpbmcgQ29tcG9uZW50IiAiQWRhcHRlcixJbnN1cmVyIgogICAgICAgICAgICAgICAgICAgIG5pdmFBZGFwdGVyID0gY29tcG9uZW50ICJOaXZhQnVwYUFkYXB0ZXIiICJDU1YvU0ZUUCwgYmF0Y2ggb25seS4gc3VibWl0UmVhbFRpbWUoKSB0aHJvd3MgVW5zdXBwb3J0ZWRPcGVyYXRpb25FeGNlcHRpb24uIiAiU3ByaW5nIENvbXBvbmVudCIgIkFkYXB0ZXIsSW5zdXJlciIKICAgICAgICAgICAgICAgICAgICBiYWphakFkYXB0ZXIgPSBjb21wb25lbnQgIkJhamFqQWxsaWFuekFkYXB0ZXIiICJTT0FQL1hNTCwgUlQrYmF0Y2gsIDI1MG1zLiBAQ2lyY3VpdEJyZWFrZXIobmFtZT0nYmFqYWpBbGxpYW56Jykgd2l0aCA0MCUvMTUtY2FsbC80NXMgY29uZmlnLiIgIlNwcmluZyBDb21wb25lbnQiICJBZGFwdGVyLEluc3VyZXIiCgogICAgICAgICAgICAgICAgICAgIC8vIEludGVsbGlnZW5jZSBBZGFwdGVycwogICAgICAgICAgICAgICAgICAgIHJ1bGVBbm9tYWx5RGV0ZWN0b3IgPSBjb21wb25lbnQgIlJ1bGVCYXNlZEFub21hbHlEZXRlY3RvciIgIjUgcnVsZXM6IFZvbHVtZSBTcGlrZSwgQUREL0RFTEVURSBDeWNsaW5nLCBTdXNwaWNpb3VzIFRpbWluZywgVW51c3VhbCBQcmVtaXVtLCBEb3JtYW5jeSBCcmVhay4gU2NvcmUgMC0xLiIgIlNwcmluZyBDb21wb25lbnQiICJBZGFwdGVyLEludGVsbGlnZW5jZSIKICAgICAgICAgICAgICAgICAgICBvbGxhbWFBbm9tYWx5RGV0ZWN0b3IgPSBjb21wb25lbnQgIk9sbGFtYUF1Z21lbnRlZEFub21hbHlEZXRlY3RvciIgIkBDb25kaXRpb25hbE9uUHJvcGVydHkob2xsYW1hKS4gV3JhcHMgcnVsZS1iYXNlZCwgZW5yaWNoZXMgc2NvcmVzID4gMC43IHdpdGggTExNIGV4cGxhbmF0aW9ucy4gQENpcmN1aXRCcmVha2VyIHdpdGggcnVsZS1iYXNlZCBmYWxsYmFjay4iICJTcHJpbmcgQUkgKyBPbGxhbWEiICJBZGFwdGVyLEludGVsbGlnZW5jZSxBSSIKICAgICAgICAgICAgICAgICAgICBzdGF0aXN0aWNhbEZvcmVjYXN0ID0gY29tcG9uZW50ICJTdGF0aXN0aWNhbEZvcmVjYXN0RW5naW5lIiAiMzAtZGF5IHByb2plY3Rpb24gd2l0aCBkdWFsIHNlYXNvbmFsaXR5OiBkYXktb2Ytd2VlayAoTW9uPTEuMngpICsgbW9udGhseSAoQXByPTEuNHgpLiIgIkFwYWNoZSBDb21tb25zIE1hdGgiICJBZGFwdGVyLEludGVsbGlnZW5jZSIKICAgICAgICAgICAgICAgICAgICBzaW11bGF0ZWRFcnJvclJlc29sdmVyID0gY29tcG9uZW50ICJTaW11bGF0ZWRFcnJvclJlc29sdmVyIiAiNSBlcnJvciBwYXR0ZXJucyB3aXRoIGNvbmZpZGVuY2Ugc2NvcmluZy4gQXV0by1hcHBseSBhYm92ZSA5NSUuIiAiU3ByaW5nIENvbXBvbmVudCIgIkFkYXB0ZXIsSW50ZWxsaWdlbmNlIgogICAgICAgICAgICAgICAgICAgIG9sbGFtYUVycm9yUmVzb2x2ZXIgPSBjb21wb25lbnQgIk9sbGFtYUVycm9yUmVzb2x2ZXIiICJAQ29uZGl0aW9uYWxPblByb3BlcnR5KG9sbGFtYSkuIEhhbmRsZXMgYW1iaWd1b3VzIGNhc2VzICg8OTUlIGNvbmZpZGVuY2UpIHdpdGggTExNIGFuYWx5c2lzLiBAQ2lyY3VpdEJyZWFrZXIgd2l0aCBydWxlLWJhc2VkIGZhbGxiYWNrLiIgIlNwcmluZyBBSSArIE9sbGFtYSIgIkFkYXB0ZXIsSW50ZWxsaWdlbmNlLEFJIgogICAgICAgICAgICAgICAgICAgIGV2ZW50U3RyZWFtQW5hbHl6ZXIgPSBjb21wb25lbnQgIkV2ZW50U3RyZWFtQW5hbHl6ZXIiICJTVFAgcmF0ZSBjb21wdXRhdGlvbiwgYm90dGxlbmVjayBpZGVudGlmaWNhdGlvbiBmcm9tIGV2ZW50IHN0cmVhbS4iICJTcHJpbmcgQ29tcG9uZW50IiAiQWRhcHRlcixJbnRlbGxpZ2VuY2UiCiAgICAgICAgICAgICAgICAgICAgY29uc3RyYWludEJhdGNoT3B0aW1pemVyID0gY29tcG9uZW50ICJDb25zdHJhaW50QmF0Y2hPcHRpbWl6ZXIiICJQcmlvcml0eSBzZXF1ZW5jaW5nICsgYmFsYW5jZS1hd2FyZSBiYXRjaCBhc3NlbWJseS4gMC8xIEtuYXBzYWNrIERQLiIgIlNwcmluZyBDb21wb25lbnQiICJBZGFwdGVyLEludGVsbGlnZW5jZSIKCiAgICAgICAgICAgICAgICAgICAgLy8gTWVzc2FnaW5nCiAgICAgICAgICAgICAgICAgICAga2Fma2FQdWJsaXNoZXIgPSBjb21wb25lbnQgIkthZmthRXZlbnRQdWJsaXNoZXIiICJJbXBsZW1lbnRzIEV2ZW50UHVibGlzaGVyLiBTZXJpYWxpemVzIGV2ZW50cyB0byBKU09OLCBzZW5kcyB0byBlbmRvcnNlbWVudC1ldmVudHMgdG9waWMgd2l0aCBlbXBsb3llcklkIHBhcnRpdGlvbiBrZXkuIGFja3M9YWxsLiIgIlNwcmluZyBLYWZrYSIgIkFkYXB0ZXIsTWVzc2FnaW5nIgoKICAgICAgICAgICAgICAgICAgICAvLyBDcm9zcy1DdXR0aW5nCiAgICAgICAgICAgICAgICAgICAgc2VjdXJpdHlDb25maWcgPSBjb21wb25lbnQgIlNlY3VyaXR5Q29uZmlnIiAiU3RhdGVsZXNzIHNlc3Npb25zIChTZXNzaW9uQ3JlYXRpb25Qb2xpY3kuU1RBVEVMRVNTKSwgQ09SUywgQ1NSRiBkaXNhYmxlZC4iICJTcHJpbmcgU2VjdXJpdHkiICJDcm9zc0N1dHRpbmciCiAgICAgICAgICAgICAgICAgICAgbWRjRmlsdGVyID0gY29tcG9uZW50ICJNZGNSZXF1ZXN0RmlsdGVyIiAiSW5qZWN0cyByZXF1ZXN0SWQsIHRyYWNlSWQsIHNwYW5JZCwgZW5kb3JzZW1lbnRJZCwgZW1wbG95ZXJJZCBpbnRvIE1EQy4gQ2xlYW5zIGluIGZpbmFsbHkgYmxvY2suIiAiU3ByaW5nIEZpbHRlciIgIkNyb3NzQ3V0dGluZyIKICAgICAgICAgICAgICAgICAgICBtZXRyaWNzQ29uZmlnID0gY29tcG9uZW50ICJNZXRyaWNzQ29uZmlnIiAiMjArIGN1c3RvbSBNaWNyb21ldGVyIG1ldHJpY3M6IGNvdW50ZXJzIChjcmVhdGVkLCBjb25maXJtZWQsIHJlamVjdGVkLCBlcnJvciksIHRpbWVycyAoaW5zdXJlciBsYXRlbmN5KSwgZ2F1Z2VzICgxMSBzdGF0dXMgY291bnRzKS4iICJNaWNyb21ldGVyIiAiQ3Jvc3NDdXR0aW5nIgogICAgICAgICAgICAgICAgICAgIHNoZWRsb2NrQ29uZmlnID0gY29tcG9uZW50ICJTaGVkTG9ja0NvbmZpZyIgIkRpc3RyaWJ1dGVkIHNjaGVkdWxlciBsb2NraW5nIHZpYSBKREJDLiBQcmV2ZW50cyBkdXBsaWNhdGUgcnVucyBhY3Jvc3MgaW5zdGFuY2VzLiIgIlNoZWRMb2NrIiAiQ3Jvc3NDdXR0aW5nIgogICAgICAgICAgICAgICAgfQogICAgICAgICAgICB9CgogICAgICAgICAgICAvLyDilIDilIAgRGF0YSBTdG9yZXMg4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSACgogICAgICAgICAgICBkYXRhYmFzZSA9IGNvbnRhaW5lciAiUG9zdGdyZVNRTCIgIjEzIHRhYmxlcywgMjAgRmx5d2F5IG1pZ3JhdGlvbnMuIEFDSUQgZm9yIGZpbmFuY2lhbCBvcGVyYXRpb25zLiBPcHRpbWlzdGljIGxvY2tpbmcuIEpTT05CIGZvciBmbGV4aWJsZSBlbXBsb3llZSBkYXRhLiIgIiR7UE9TVEdSRVNRTH0iICJEYXRhYmFzZSIKICAgICAgICAgICAgcmVkaXMgPSBjb250YWluZXIgIlJlZGlzIiAiRGlzdHJpYnV0ZWQgY2FjaGUgKDYwcyBUVEwpLiBAQ2FjaGVhYmxlIGZvciBJbnN1cmVyUmVnaXN0cnkuIFNlc3Npb24tZnJlZSAoc3RhdGVsZXNzKS4iICIke1JFRElTfSIgIkNhY2hlIgogICAgICAgICAgICBrYWZrYSA9IGNvbnRhaW5lciAiS2Fma2EiICI0IHRvcGljcywgODggcGFydGl0aW9ucy4gZW1wbG95ZXJJZCBwYXJ0aXRpb24ga2V5IGZvciBwZXItZW1wbG95ZXIgb3JkZXJpbmcuIEtSYWZ0IG1vZGUgKG5vIFpvb0tlZXBlcikuIiAiJHtLQUZLQX0iICJNZXNzYWdlUXVldWUiCgogICAgICAgICAgICAvLyDilIDilIAgT2JzZXJ2YWJpbGl0eSDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIAKCiAgICAgICAgICAgIHByb21ldGhldXMgPSBjb250YWluZXIgIlByb21ldGhldXMiICJNZXRyaWNzIHNjcmFwaW5nIGV2ZXJ5IDE1cyBmcm9tIC9hY3R1YXRvci9wcm9tZXRoZXVzLiA3LWRheSByZXRlbnRpb24uIiAiUHJvbWV0aGV1cyAyLjUwIiAiTW9uaXRvcmluZyIKICAgICAgICAgICAgZ3JhZmFuYSA9IGNvbnRhaW5lciAiR3JhZmFuYSIgIjcgYXV0by1wcm92aXNpb25lZCBkYXNoYm9hcmRzOiBhcHAgb3ZlcnZpZXcsIGJ1c2luZXNzIG1ldHJpY3MsIGluZnJhc3RydWN0dXJlLCBtdWx0aS1pbnN1cmVyLCByZWNvbmNpbGlhdGlvbiwgaW50ZWxsaWdlbmNlLCBzY2hlZHVsZXIuIiAiR3JhZmFuYSAxMC4zIiAiTW9uaXRvcmluZyIKICAgICAgICAgICAgamFlZ2VyID0gY29udGFpbmVyICJKYWVnZXIiICJEaXN0cmlidXRlZCB0cmFjaW5nIHZpYSBPVExQLiAxMDAlIHNhbXBsaW5nLiBTZWFyY2ggYnkgZW5kb3JzZW1lbnRJZCBmb3IgZnVsbCByZXF1ZXN0IGpvdXJuZXkuIiAiSmFlZ2VyIDEuNTUiICJNb25pdG9yaW5nIgogICAgICAgICAgICBlbGFzdGljc2VhcmNoID0gY29udGFpbmVyICJFbGFzdGljc2VhcmNoIiAiU3RydWN0dXJlZCBKU09OIGxvZyBzdG9yYWdlLiBGdWxsLXRleHQgc2VhcmNoIGFjcm9zcyBhbGwgbG9nIGZpZWxkcy4iICJFbGFzdGljc2VhcmNoIDguMTIiICJNb25pdG9yaW5nIgogICAgICAgICAgICBsb2dzdGFzaCA9IGNvbnRhaW5lciAiTG9nc3Rhc2giICJMb2cgcGlwZWxpbmU6IFRDUCBpbnB1dCBmcm9tIGFwcCwgcGFyc2luZywgZm9yd2FyZGluZyB0byBFbGFzdGljc2VhcmNoLiIgIkxvZ3N0YXNoIDguMTIiICJNb25pdG9yaW5nIgogICAgICAgICAgICBraWJhbmEgPSBjb250YWluZXIgIktpYmFuYSIgIkxvZyB2aXN1YWxpemF0aW9uOiBzZWFyY2gsIGZpbHRlciwgZGFzaGJvYXJkIG92ZXIgRWxhc3RpY3NlYXJjaCBpbmRpY2VzLiIgIktpYmFuYSA4LjEyIiAiTW9uaXRvcmluZyIKCiAgICAgICAgICAgIC8vIOKUgOKUgCBDb250YWluZXItbGV2ZWwgcmVsYXRpb25zaGlwcyDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIAKCiAgICAgICAgICAgIHNwYSAtPiBiYWNrZW5kICJNYWtlcyBBUEkgY2FsbHMiICJIVFRQUy9KU09OIgogICAgICAgICAgICBiYWNrZW5kIC0+IGRhdGFiYXNlICJSZWFkcy93cml0ZXMgZW5kb3JzZW1lbnRzLCBhY2NvdW50cywgY29uZmlncyIgIkpEQkMvU1FMIgogICAgICAgICAgICBiYWNrZW5kIC0+IHJlZGlzICJDYWNoZXMgaW5zdXJlciBjb25maWd1cmF0aW9ucyIgIlJlZGlzIFByb3RvY29sIgogICAgICAgICAgICBiYWNrZW5kIC0+IGthZmthICJQdWJsaXNoZXMgZG9tYWluIGV2ZW50cywgY29uc3VtZXMgY29tbWFuZHMiICJLYWZrYSBQcm90b2NvbCIKICAgICAgICAgICAgYmFja2VuZCAtPiBwcm9tZXRoZXVzICJFeHBvc2VzIC9hY3R1YXRvci9wcm9tZXRoZXVzIiAiSFRUUCIKICAgICAgICAgICAgYmFja2VuZCAtPiBqYWVnZXIgIlNlbmRzIE9UTFAgdHJhY2VzIiAiZ1JQQyA6NDMxNyIKICAgICAgICAgICAgYmFja2VuZCAtPiBsb2dzdGFzaCAiU2VuZHMgc3RydWN0dXJlZCBKU09OIGxvZ3MiICJUQ1AgOjUwMDAiCiAgICAgICAgICAgIHByb21ldGhldXMgLT4gZ3JhZmFuYSAiRGF0YSBzb3VyY2UgZm9yIGRhc2hib2FyZHMiICJQcm9tUUwiCiAgICAgICAgICAgIGxvZ3N0YXNoIC0+IGVsYXN0aWNzZWFyY2ggIkZvcndhcmRzIHBhcnNlZCBsb2dzIiAiSFRUUCA6OTIwMCIKICAgICAgICAgICAgZWxhc3RpY3NlYXJjaCAtPiBraWJhbmEgIkRhdGEgc291cmNlIGZvciBsb2cgc2VhcmNoIiAiSFRUUCA6OTIwMCIKICAgICAgICB9CgogICAgICAgIC8vIOKUgOKUgCBFeHRlcm5hbCBSZWxhdGlvbnNoaXBzIOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgAoKICAgICAgICBockFkbWluIC0+IHBsdW1FbmRvcnNlbWVudC5zcGEgIkNyZWF0ZXMgZW5kb3JzZW1lbnRzLCB0cmFja3Mgc3RhdHVzLCB2aWV3cyBFQSBiYWxhbmNlIiAiSFRUUFMiCiAgICAgICAgZmluYW5jZVRlYW0gLT4gcGx1bUVuZG9yc2VtZW50LnNwYSAiTW9uaXRvcnMgRUEgYmFsYW5jZXMsIHJldmlld3MgZm9yZWNhc3RzIiAiSFRUUFMiCiAgICAgICAgb3BzVGVhbSAtPiBwbHVtRW5kb3JzZW1lbnQuc3BhICJSZXZpZXdzIGFub21hbGllcywgbWFuYWdlcyBpbnN1cmVycywgbW9uaXRvcnMgaGVhbHRoIiAiSFRUUFMiCiAgICAgICAgb3BzVGVhbSAtPiBwbHVtRW5kb3JzZW1lbnQuZ3JhZmFuYSAiVmlld3MgZGFzaGJvYXJkcyBhbmQgbWV0cmljcyIgIkhUVFBTIgogICAgICAgIG9wc1RlYW0gLT4gcGx1bUVuZG9yc2VtZW50LmphZWdlciAiVHJhY2VzIHJlcXVlc3RzIGJ5IGVuZG9yc2VtZW50SWQiICJIVFRQUyIKICAgICAgICBvcHNUZWFtIC0+IHBsdW1FbmRvcnNlbWVudC5raWJhbmEgIlNlYXJjaGVzIHN0cnVjdHVyZWQgbG9ncyIgIkhUVFBTIgoKICAgICAgICBwbHVtRW5kb3JzZW1lbnQuYmFja2VuZCAtPiBpY2ljaUxvbWJhcmQgIlN1Ym1pdHMgcmVhbC10aW1lIGVuZG9yc2VtZW50cyIgIlJFU1QvSlNPTiIgIkluc3VyZXIsU3luYyIKICAgICAgICBwbHVtRW5kb3JzZW1lbnQuYmFja2VuZCAtPiBuaXZhQnVwYSAiVXBsb2FkcyBiYXRjaCBDU1YgZmlsZXMiICJDU1YvU0ZUUCIgIkluc3VyZXIsQXN5bmMiCiAgICAgICAgcGx1bUVuZG9yc2VtZW50LmJhY2tlbmQgLT4gYmFqYWpBbGxpYW56ICJTdWJtaXRzIGVuZG9yc2VtZW50cyIgIlNPQVAvWE1MIiAiSW5zdXJlcixTeW5jIgogICAgICAgIHBsdW1FbmRvcnNlbWVudC5iYWNrZW5kIC0+IG9sbGFtYVNlcnZpY2UgIlNlbmRzIGFub21hbGllcy9lcnJvcnMgZm9yIExMTSBhbmFseXNpcyIgIkhUVFAvSlNPTiA6MTE0MzQiICJBSSIKCiAgICAgICAgLy8g4pSA4pSAIENvbXBvbmVudC1sZXZlbCByZWxhdGlvbnNoaXBzIChiYWNrZW5kIGludGVybmFscykg4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSACgogICAgICAgIC8vIENvbnRyb2xsZXJzIOKGkiBIYW5kbGVycy9TZXJ2aWNlcwogICAgICAgIHBsdW1FbmRvcnNlbWVudC5iYWNrZW5kLmVuZG9yc2VtZW50Q29udHJvbGxlciAtPiBwbHVtRW5kb3JzZW1lbnQuYmFja2VuZC5jcmVhdGVFbmRvcnNlbWVudEhhbmRsZXIgIkRlbGVnYXRlcyBjcmVhdGUiICJNZXRob2QgQ2FsbCIKICAgICAgICBwbHVtRW5kb3JzZW1lbnQuYmFja2VuZC5lbmRvcnNlbWVudENvbnRyb2xsZXIgLT4gcGx1bUVuZG9yc2VtZW50LmJhY2tlbmQucHJvY2Vzc0VuZG9yc2VtZW50SGFuZGxlciAiRGVsZWdhdGVzIHN1Ym1pdC9jb25maXJtL3JlamVjdCIgIk1ldGhvZCBDYWxsIgogICAgICAgIHBsdW1FbmRvcnNlbWVudC5iYWNrZW5kLmVuZG9yc2VtZW50Q29udHJvbGxlciAtPiBwbHVtRW5kb3JzZW1lbnQuYmFja2VuZC5lbmRvcnNlbWVudFF1ZXJ5SGFuZGxlciAiRGVsZWdhdGVzIGdldC9saXN0IiAiTWV0aG9kIENhbGwiCiAgICAgICAgcGx1bUVuZG9yc2VtZW50LmJhY2tlbmQuZWFBY2NvdW50Q29udHJvbGxlciAtPiBwbHVtRW5kb3JzZW1lbnQuYmFja2VuZC5lYUFjY291bnRSZXBvICJMb29rcyB1cCBFQSBiYWxhbmNlIiAiUG9ydCBJbnRlcmZhY2UiCiAgICAgICAgcGx1bUVuZG9yc2VtZW50LmJhY2tlbmQuaW50ZWxsaWdlbmNlQ29udHJvbGxlciAtPiBwbHVtRW5kb3JzZW1lbnQuYmFja2VuZC5hbm9tYWx5RGV0ZWN0aW9uU2VydmljZSAiRGVsZWdhdGVzIGFub21hbHkgcXVlcmllcyIgIk1ldGhvZCBDYWxsIgogICAgICAgIHBsdW1FbmRvcnNlbWVudC5iYWNrZW5kLmludGVsbGlnZW5jZUNvbnRyb2xsZXIgLT4gcGx1bUVuZG9yc2VtZW50LmJhY2tlbmQuYmFsYW5jZUZvcmVjYXN0U2VydmljZSAiRGVsZWdhdGVzIGZvcmVjYXN0IGdlbmVyYXRpb24iICJNZXRob2QgQ2FsbCIKICAgICAgICBwbHVtRW5kb3JzZW1lbnQuYmFja2VuZC5pbnRlbGxpZ2VuY2VDb250cm9sbGVyIC0+IHBsdW1FbmRvcnNlbWVudC5iYWNrZW5kLmVycm9yUmVzb2x1dGlvblNlcnZpY2UgIkRlbGVnYXRlcyBlcnJvciByZXNvbHV0aW9uIiAiTWV0aG9kIENhbGwiCiAgICAgICAgcGx1bUVuZG9yc2VtZW50LmJhY2tlbmQuaW50ZWxsaWdlbmNlQ29udHJvbGxlciAtPiBwbHVtRW5kb3JzZW1lbnQuYmFja2VuZC5wcm9jZXNzTWluaW5nU2VydmljZSAiRGVsZWdhdGVzIFNUUCBtZXRyaWNzIiAiTWV0aG9kIENhbGwiCiAgICAgICAgcGx1bUVuZG9yc2VtZW50LmJhY2tlbmQuaW50ZWxsaWdlbmNlQ29udHJvbGxlciAtPiBwbHVtRW5kb3JzZW1lbnQuYmFja2VuZC5lbXBsb3llckhlYWx0aFNjb3JlU2VydmljZSAiRGVsZWdhdGVzIGhlYWx0aCBzY29yZXMiICJNZXRob2QgQ2FsbCIKICAgICAgICBwbHVtRW5kb3JzZW1lbnQuYmFja2VuZC5pbnRlbGxpZ2VuY2VDb250cm9sbGVyIC0+IHBsdW1FbmRvcnNlbWVudC5iYWNrZW5kLmluc3VyZXJCZW5jaG1hcmtTZXJ2aWNlICJEZWxlZ2F0ZXMgYmVuY2htYXJrcyIgIk1ldGhvZCBDYWxsIgogICAgICAgIHBsdW1FbmRvcnNlbWVudC5iYWNrZW5kLmluc3VyZXJDb25maWdDb250cm9sbGVyIC0+IHBsdW1FbmRvcnNlbWVudC5iYWNrZW5kLmluc3VyZXJSZWdpc3RyeSAiTWFuYWdlcyBpbnN1cmVyIGNvbmZpZ3MiICJNZXRob2QgQ2FsbCIKICAgICAgICBwbHVtRW5kb3JzZW1lbnQuYmFja2VuZC5yZWNvbmNpbGlhdGlvbkNvbnRyb2xsZXIgLT4gcGx1bUVuZG9yc2VtZW50LmJhY2tlbmQucmVjb25jaWxpYXRpb25FbmdpbmUgIkRlbGVnYXRlcyByZWNvbmNpbGlhdGlvbiIgIk1ldGhvZCBDYWxsIgogICAgICAgIHBsdW1FbmRvcnNlbWVudC5iYWNrZW5kLmF1ZGl0TG9nQ29udHJvbGxlciAtPiBwbHVtRW5kb3JzZW1lbnQuYmFja2VuZC5hdWRpdExvZ1NlcnZpY2UgIlF1ZXJpZXMgYXVkaXQgbG9ncyIgIk1ldGhvZCBDYWxsIgoKICAgICAgICAvLyBIYW5kbGVycyDihpIgRG9tYWluCiAgICAgICAgcGx1bUVuZG9yc2VtZW50LmJhY2tlbmQuY3JlYXRlRW5kb3JzZW1lbnRIYW5kbGVyIC0+IHBsdW1FbmRvcnNlbWVudC5iYWNrZW5kLmVuZG9yc2VtZW50TW9kZWwgIkNyZWF0ZXMgJiB2YWxpZGF0ZXMiICJEb21haW4gTG9naWMiCiAgICAgICAgcGx1bUVuZG9yc2VtZW50LmJhY2tlbmQuY3JlYXRlRW5kb3JzZW1lbnRIYW5kbGVyIC0+IHBsdW1FbmRvcnNlbWVudC5iYWNrZW5kLnN0YXRlTWFjaGluZSAiVHJhbnNpdGlvbnMgc3RhdGUiICJEb21haW4gU2VydmljZSIKICAgICAgICBwbHVtRW5kb3JzZW1lbnQuYmFja2VuZC5jcmVhdGVFbmRvcnNlbWVudEhhbmRsZXIgLT4gcGx1bUVuZG9yc2VtZW50LmJhY2tlbmQuZWFBY2NvdW50TW9kZWwgIlJlc2VydmVzIGJhbGFuY2UiICJEb21haW4gTG9naWMiCiAgICAgICAgcGx1bUVuZG9yc2VtZW50LmJhY2tlbmQuY3JlYXRlRW5kb3JzZW1lbnRIYW5kbGVyIC0+IHBsdW1FbmRvcnNlbWVudC5iYWNrZW5kLmVuZG9yc2VtZW50UmVwbyAiU2F2ZXMgZW5kb3JzZW1lbnQiICJQb3J0IEludGVyZmFjZSIKICAgICAgICBwbHVtRW5kb3JzZW1lbnQuYmFja2VuZC5jcmVhdGVFbmRvcnNlbWVudEhhbmRsZXIgLT4gcGx1bUVuZG9yc2VtZW50LmJhY2tlbmQuZWFBY2NvdW50UmVwbyAiU2F2ZXMgRUEgYWNjb3VudCIgIlBvcnQgSW50ZXJmYWNlIgogICAgICAgIHBsdW1FbmRvcnNlbWVudC5iYWNrZW5kLmNyZWF0ZUVuZG9yc2VtZW50SGFuZGxlciAtPiBwbHVtRW5kb3JzZW1lbnQuYmFja2VuZC5ldmVudFB1Ymxpc2hlciAiUHVibGlzaGVzIENyZWF0ZWQgZXZlbnQiICJQb3J0IEludGVyZmFjZSIKCiAgICAgICAgcGx1bUVuZG9yc2VtZW50LmJhY2tlbmQucHJvY2Vzc0VuZG9yc2VtZW50SGFuZGxlciAtPiBwbHVtRW5kb3JzZW1lbnQuYmFja2VuZC5pbnN1cmVyUm91dGVyICJSZXNvbHZlcyBpbnN1cmVyIGFkYXB0ZXIiICJGYWN0b3J5IFBhdHRlcm4iCiAgICAgICAgcGx1bUVuZG9yc2VtZW50LmJhY2tlbmQucHJvY2Vzc0VuZG9yc2VtZW50SGFuZGxlciAtPiBwbHVtRW5kb3JzZW1lbnQuYmFja2VuZC5zdGF0ZU1hY2hpbmUgIlRyYW5zaXRpb25zIHN0YXRlIiAiRG9tYWluIFNlcnZpY2UiCiAgICAgICAgcGx1bUVuZG9yc2VtZW50LmJhY2tlbmQucHJvY2Vzc0VuZG9yc2VtZW50SGFuZGxlciAtPiBwbHVtRW5kb3JzZW1lbnQuYmFja2VuZC5lbmRvcnNlbWVudFJlcG8gIlVwZGF0ZXMgZW5kb3JzZW1lbnQiICJQb3J0IEludGVyZmFjZSIKICAgICAgICBwbHVtRW5kb3JzZW1lbnQuYmFja2VuZC5wcm9jZXNzRW5kb3JzZW1lbnRIYW5kbGVyIC0+IHBsdW1FbmRvcnNlbWVudC5iYWNrZW5kLmV2ZW50UHVibGlzaGVyICJQdWJsaXNoZXMgbGlmZWN5Y2xlIGV2ZW50cyIgIlBvcnQgSW50ZXJmYWNlIgoKICAgICAgICBwbHVtRW5kb3JzZW1lbnQuYmFja2VuZC5lbmRvcnNlbWVudFF1ZXJ5SGFuZGxlciAtPiBwbHVtRW5kb3JzZW1lbnQuYmFja2VuZC5lbmRvcnNlbWVudFJlcG8gIlJlYWRzIGVuZG9yc2VtZW50cyIgIlBvcnQgSW50ZXJmYWNlIgoKICAgICAgICAvLyBTZXJ2aWNlcyDihpIgUG9ydHMKICAgICAgICBwbHVtRW5kb3JzZW1lbnQuYmFja2VuZC5hbm9tYWx5RGV0ZWN0aW9uU2VydmljZSAtPiBwbHVtRW5kb3JzZW1lbnQuYmFja2VuZC5hbm9tYWx5RGV0ZWN0aW9uUG9ydCAiRGVsZWdhdGVzIGRldGVjdGlvbiIgIlBvcnQgSW50ZXJmYWNlIgogICAgICAgIHBsdW1FbmRvcnNlbWVudC5iYWNrZW5kLmJhbGFuY2VGb3JlY2FzdFNlcnZpY2UgLT4gcGx1bUVuZG9yc2VtZW50LmJhY2tlbmQuZm9yZWNhc3RQb3J0ICJEZWxlZ2F0ZXMgZm9yZWNhc3RpbmciICJQb3J0IEludGVyZmFjZSIKICAgICAgICBwbHVtRW5kb3JzZW1lbnQuYmFja2VuZC5lcnJvclJlc29sdXRpb25TZXJ2aWNlIC0+IHBsdW1FbmRvcnNlbWVudC5iYWNrZW5kLmVycm9yUmVzb2x1dGlvblBvcnQgIkRlbGVnYXRlcyByZXNvbHV0aW9uIiAiUG9ydCBJbnRlcmZhY2UiCiAgICAgICAgcGx1bUVuZG9yc2VtZW50LmJhY2tlbmQucHJvY2Vzc01pbmluZ1NlcnZpY2UgLT4gcGx1bUVuZG9yc2VtZW50LmJhY2tlbmQucHJvY2Vzc01pbmluZ1BvcnQgIkRlbGVnYXRlcyBhbmFseXNpcyIgIlBvcnQgSW50ZXJmYWNlIgoKICAgICAgICAvLyBTY2hlZHVsZXJzIOKGkiBTZXJ2aWNlcy9Qb3J0cwogICAgICAgIHBsdW1FbmRvcnNlbWVudC5iYWNrZW5kLmJhdGNoQXNzZW1ibHlTY2hlZHVsZXIgLT4gcGx1bUVuZG9yc2VtZW50LmJhY2tlbmQuYmF0Y2hPcHRpbWl6ZXJQb3J0ICJPcHRpbWl6ZXMgYmF0Y2ggb3JkZXIiICJQb3J0IEludGVyZmFjZSIKICAgICAgICBwbHVtRW5kb3JzZW1lbnQuYmFja2VuZC5iYXRjaEFzc2VtYmx5U2NoZWR1bGVyIC0+IHBsdW1FbmRvcnNlbWVudC5iYWNrZW5kLmluc3VyZXJSb3V0ZXIgIlJlc29sdmVzIGJhdGNoIGFkYXB0ZXIiICJGYWN0b3J5IFBhdHRlcm4iCiAgICAgICAgcGx1bUVuZG9yc2VtZW50LmJhY2tlbmQuYW5vbWFseURldGVjdGlvblNjaGVkdWxlciAtPiBwbHVtRW5kb3JzZW1lbnQuYmFja2VuZC5hbm9tYWx5RGV0ZWN0aW9uU2VydmljZSAiVHJpZ2dlcnMgc2NhbiIgIk1ldGhvZCBDYWxsIgogICAgICAgIHBsdW1FbmRvcnNlbWVudC5iYWNrZW5kLmJhbGFuY2VGb3JlY2FzdFNjaGVkdWxlciAtPiBwbHVtRW5kb3JzZW1lbnQuYmFja2VuZC5iYWxhbmNlRm9yZWNhc3RTZXJ2aWNlICJUcmlnZ2VycyBmb3JlY2FzdCIgIk1ldGhvZCBDYWxsIgogICAgICAgIHBsdW1FbmRvcnNlbWVudC5iYWNrZW5kLnJlY29uY2lsaWF0aW9uU2NoZWR1bGVyIC0+IHBsdW1FbmRvcnNlbWVudC5iYWNrZW5kLnJlY29uY2lsaWF0aW9uRW5naW5lICJUcmlnZ2VycyByZWNvbmNpbGlhdGlvbiIgIk1ldGhvZCBDYWxsIgogICAgICAgIHBsdW1FbmRvcnNlbWVudC5iYWNrZW5kLnByb2Nlc3NNaW5pbmdTY2hlZHVsZXIgLT4gcGx1bUVuZG9yc2VtZW50LmJhY2tlbmQucHJvY2Vzc01pbmluZ1NlcnZpY2UgIlRyaWdnZXJzIGFuYWx5c2lzIiAiTWV0aG9kIENhbGwiCgogICAgICAgIC8vIFJvdXRlciDihpIgQWRhcHRlcnMKICAgICAgICBwbHVtRW5kb3JzZW1lbnQuYmFja2VuZC5pbnN1cmVyUm91dGVyIC0+IHBsdW1FbmRvcnNlbWVudC5iYWNrZW5kLmluc3VyZXJSZWdpc3RyeSAiTG9va3MgdXAgY29uZmlnIiAiQ2FjaGVkIgogICAgICAgIHBsdW1FbmRvcnNlbWVudC5iYWNrZW5kLmluc3VyZXJSb3V0ZXIgLT4gcGx1bUVuZG9yc2VtZW50LmJhY2tlbmQubW9ja0FkYXB0ZXIgIlJlc29sdmVzIE1PQ0siICJTdHJhdGVneSIKICAgICAgICBwbHVtRW5kb3JzZW1lbnQuYmFja2VuZC5pbnN1cmVyUm91dGVyIC0+IHBsdW1FbmRvcnNlbWVudC5iYWNrZW5kLmljaWNpQWRhcHRlciAiUmVzb2x2ZXMgSUNJQ0lfTE9NQkFSRCIgIlN0cmF0ZWd5IgogICAgICAgIHBsdW1FbmRvcnNlbWVudC5iYWNrZW5kLmluc3VyZXJSb3V0ZXIgLT4gcGx1bUVuZG9yc2VtZW50LmJhY2tlbmQubml2YUFkYXB0ZXIgIlJlc29sdmVzIE5JVkFfQlVQQSIgIlN0cmF0ZWd5IgogICAgICAgIHBsdW1FbmRvcnNlbWVudC5iYWNrZW5kLmluc3VyZXJSb3V0ZXIgLT4gcGx1bUVuZG9yc2VtZW50LmJhY2tlbmQuYmFqYWpBZGFwdGVyICJSZXNvbHZlcyBCQUpBSl9BTExJQU5aIiAiU3RyYXRlZ3kiCgogICAgICAgIC8vIEludGVsbGlnZW5jZSBQb3J0IOKGkiBBZGFwdGVycwogICAgICAgIHBsdW1FbmRvcnNlbWVudC5iYWNrZW5kLnJ1bGVBbm9tYWx5RGV0ZWN0b3IgLT4gcGx1bUVuZG9yc2VtZW50LmJhY2tlbmQuYW5vbWFseURldGVjdGlvblBvcnQgIkltcGxlbWVudHMiICJSdWxlIEVuZ2luZSIKICAgICAgICBwbHVtRW5kb3JzZW1lbnQuYmFja2VuZC5vbGxhbWFBbm9tYWx5RGV0ZWN0b3IgLT4gcGx1bUVuZG9yc2VtZW50LmJhY2tlbmQuYW5vbWFseURldGVjdGlvblBvcnQgIkltcGxlbWVudHMgKE9sbGFtYSBwcm9maWxlKSIgIkdlbkFJIgogICAgICAgIHBsdW1FbmRvcnNlbWVudC5iYWNrZW5kLnN0YXRpc3RpY2FsRm9yZWNhc3QgLT4gcGx1bUVuZG9yc2VtZW50LmJhY2tlbmQuZm9yZWNhc3RQb3J0ICJJbXBsZW1lbnRzIiAiU3RhdGlzdGljYWwiCiAgICAgICAgcGx1bUVuZG9yc2VtZW50LmJhY2tlbmQuc2ltdWxhdGVkRXJyb3JSZXNvbHZlciAtPiBwbHVtRW5kb3JzZW1lbnQuYmFja2VuZC5lcnJvclJlc29sdXRpb25Qb3J0ICJJbXBsZW1lbnRzIiAiUGF0dGVybiBNYXRjaGluZyIKICAgICAgICBwbHVtRW5kb3JzZW1lbnQuYmFja2VuZC5vbGxhbWFFcnJvclJlc29sdmVyIC0+IHBsdW1FbmRvcnNlbWVudC5iYWNrZW5kLmVycm9yUmVzb2x1dGlvblBvcnQgIkltcGxlbWVudHMgKE9sbGFtYSBwcm9maWxlKSIgIkdlbkFJIgogICAgICAgIHBsdW1FbmRvcnNlbWVudC5iYWNrZW5kLmV2ZW50U3RyZWFtQW5hbHl6ZXIgLT4gcGx1bUVuZG9yc2VtZW50LmJhY2tlbmQucHJvY2Vzc01pbmluZ1BvcnQgIkltcGxlbWVudHMiICJFdmVudCBBbmFseXNpcyIKICAgICAgICBwbHVtRW5kb3JzZW1lbnQuYmFja2VuZC5jb25zdHJhaW50QmF0Y2hPcHRpbWl6ZXIgLT4gcGx1bUVuZG9yc2VtZW50LmJhY2tlbmQuYmF0Y2hPcHRpbWl6ZXJQb3J0ICJJbXBsZW1lbnRzIiAiRFAgQWxnb3JpdGhtIgoKICAgICAgICAvLyBJbmZyYXN0cnVjdHVyZSBBZGFwdGVycyDihpIgRXh0ZXJuYWwKICAgICAgICBwbHVtRW5kb3JzZW1lbnQuYmFja2VuZC5qcGFFbmRvcnNlbWVudEFkYXB0ZXIgLT4gcGx1bUVuZG9yc2VtZW50LmRhdGFiYXNlICJQZXJzaXN0cyB2aWEgU3ByaW5nIERhdGEgSlBBIiAiSkRCQyIKICAgICAgICBwbHVtRW5kb3JzZW1lbnQuYmFja2VuZC5qcGFFYUFjY291bnRBZGFwdGVyIC0+IHBsdW1FbmRvcnNlbWVudC5kYXRhYmFzZSAiUGVyc2lzdHMgdmlhIFNwcmluZyBEYXRhIEpQQSIgIkpEQkMiCiAgICAgICAgcGx1bUVuZG9yc2VtZW50LmJhY2tlbmQua2Fma2FQdWJsaXNoZXIgLT4gcGx1bUVuZG9yc2VtZW50LmthZmthICJQdWJsaXNoZXMgdG8gZW5kb3JzZW1lbnQtZXZlbnRzIiAiS2Fma2EgUHJvZHVjZXIiCiAgICAgICAgcGx1bUVuZG9yc2VtZW50LmJhY2tlbmQub2xsYW1hQW5vbWFseURldGVjdG9yIC0+IG9sbGFtYVNlcnZpY2UgIlNlbmRzIGFub21hbGllcyBmb3IgTExNIGVucmljaG1lbnQiICJTcHJpbmcgQUkgQ2hhdENsaWVudCIKICAgICAgICBwbHVtRW5kb3JzZW1lbnQuYmFja2VuZC5vbGxhbWFFcnJvclJlc29sdmVyIC0+IG9sbGFtYVNlcnZpY2UgIlNlbmRzIGVycm9ycyBmb3IgTExNIGFuYWx5c2lzIiAiU3ByaW5nIEFJIENoYXRDbGllbnQiCiAgICAgICAgcGx1bUVuZG9yc2VtZW50LmJhY2tlbmQuaWNpY2lBZGFwdGVyIC0+IGljaWNpTG9tYmFyZCAiU3VibWl0cyBlbmRvcnNlbWVudHMiICJSRVNUL0pTT04iCiAgICAgICAgcGx1bUVuZG9yc2VtZW50LmJhY2tlbmQubml2YUFkYXB0ZXIgLT4gbml2YUJ1cGEgIlVwbG9hZHMgQ1NWIGJhdGNoZXMiICJTRlRQIgogICAgICAgIHBsdW1FbmRvcnNlbWVudC5iYWNrZW5kLmJhamFqQWRhcHRlciAtPiBiYWphakFsbGlhbnogIlN1Ym1pdHMgZW5kb3JzZW1lbnRzIiAiU09BUC9YTUwiCiAgICAgICAgcGx1bUVuZG9yc2VtZW50LmJhY2tlbmQuaW5zdXJlclJlZ2lzdHJ5IC0+IHBsdW1FbmRvcnNlbWVudC5yZWRpcyAiQ2FjaGVzIGluc3VyZXIgY29uZmlncyIgIlJlZGlzIgoKICAgICAgICAvLyBBQ0wKICAgICAgICBwbHVtRW5kb3JzZW1lbnQuYmFja2VuZC5qcGFFbmRvcnNlbWVudEFkYXB0ZXIgLT4gcGx1bUVuZG9yc2VtZW50LmJhY2tlbmQuZW5kb3JzZW1lbnRNYXBwZXIgIlRyYW5zbGF0ZXMgZG9tYWluIDwtPiBlbnRpdHkiICJNZXRob2QgQ2FsbCIKCiAgICAgICAgLy8g4pSA4pSAIERlcGxveW1lbnQ6IERvY2tlciBDb21wb3NlIChEZXZlbG9wbWVudCkg4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSACgogICAgICAgIGRldmVsb3BtZW50ID0gZGVwbG95bWVudEVudmlyb25tZW50ICJEZXZlbG9wbWVudCAoRG9ja2VyIENvbXBvc2UpIiB7CgogICAgICAgICAgICBkZXBsb3ltZW50Tm9kZSAiRGV2ZWxvcGVyIE1hY2hpbmUiICIiICJEb2NrZXIgQ29tcG9zZSIgIkRldk1hY2hpbmUiIHsKCiAgICAgICAgICAgICAgICBkZXBsb3ltZW50Tm9kZSAiRnJvbnRlbmQgQ29udGFpbmVyIiAiIiAiTm9kZS5qcyIgIkRvY2tlckNvbnRhaW5lciIgewogICAgICAgICAgICAgICAgICAgIGNvbnRhaW5lckluc3RhbmNlIHBsdW1FbmRvcnNlbWVudC5zcGEKICAgICAgICAgICAgICAgIH0KCiAgICAgICAgICAgICAgICBkZXBsb3ltZW50Tm9kZSAiQmFja2VuZCBDb250YWluZXIiICIiICJFY2xpcHNlIFRlbXVyaW4gMjEgSlJFIiAiRG9ja2VyQ29udGFpbmVyIiB7CiAgICAgICAgICAgICAgICAgICAgY29udGFpbmVySW5zdGFuY2UgcGx1bUVuZG9yc2VtZW50LmJhY2tlbmQKICAgICAgICAgICAgICAgIH0KCiAgICAgICAgICAgICAgICBkZXBsb3ltZW50Tm9kZSAiUG9zdGdyZVNRTCBDb250YWluZXIiICIiICJwb3N0Z3JlczoxNi1hbHBpbmUiICJEb2NrZXJDb250YWluZXIiIHsKICAgICAgICAgICAgICAgICAgICBjb250YWluZXJJbnN0YW5jZSBwbHVtRW5kb3JzZW1lbnQuZGF0YWJhc2UKICAgICAgICAgICAgICAgIH0KCiAgICAgICAgICAgICAgICBkZXBsb3ltZW50Tm9kZSAiUmVkaXMgQ29udGFpbmVyIiAiIiAicmVkaXM6Ny1hbHBpbmUiICJEb2NrZXJDb250YWluZXIiIHsKICAgICAgICAgICAgICAgICAgICBjb250YWluZXJJbnN0YW5jZSBwbHVtRW5kb3JzZW1lbnQucmVkaXMKICAgICAgICAgICAgICAgIH0KCiAgICAgICAgICAgICAgICBkZXBsb3ltZW50Tm9kZSAiS2Fma2EgQ29udGFpbmVyIiAiIiAiYXBhY2hlL2thZmthOjMuNy4wIChLUmFmdCkiICJEb2NrZXJDb250YWluZXIiIHsKICAgICAgICAgICAgICAgICAgICBjb250YWluZXJJbnN0YW5jZSBwbHVtRW5kb3JzZW1lbnQua2Fma2EKICAgICAgICAgICAgICAgIH0KCiAgICAgICAgICAgICAgICBkZXBsb3ltZW50Tm9kZSAiUHJvbWV0aGV1cyBDb250YWluZXIiICIiICJwcm9tL3Byb21ldGhldXM6djIuNTAuMSIgIkRvY2tlckNvbnRhaW5lciIgewogICAgICAgICAgICAgICAgICAgIGNvbnRhaW5lckluc3RhbmNlIHBsdW1FbmRvcnNlbWVudC5wcm9tZXRoZXVzCiAgICAgICAgICAgICAgICB9CgogICAgICAgICAgICAgICAgZGVwbG95bWVudE5vZGUgIkdyYWZhbmEgQ29udGFpbmVyIiAiIiAiZ3JhZmFuYS9ncmFmYW5hOjEwLjMuMyIgIkRvY2tlckNvbnRhaW5lciIgewogICAgICAgICAgICAgICAgICAgIGNvbnRhaW5lckluc3RhbmNlIHBsdW1FbmRvcnNlbWVudC5ncmFmYW5hCiAgICAgICAgICAgICAgICB9CgogICAgICAgICAgICAgICAgZGVwbG95bWVudE5vZGUgIkphZWdlciBDb250YWluZXIiICIiICJqYWVnZXJ0cmFjaW5nL2FsbC1pbi1vbmU6MS41NSIgIkRvY2tlckNvbnRhaW5lciIgewogICAgICAgICAgICAgICAgICAgIGNvbnRhaW5lckluc3RhbmNlIHBsdW1FbmRvcnNlbWVudC5qYWVnZXIKICAgICAgICAgICAgICAgIH0KCiAgICAgICAgICAgICAgICBkZXBsb3ltZW50Tm9kZSAiRWxhc3RpY3NlYXJjaCBDb250YWluZXIiICIiICJlbGFzdGljc2VhcmNoOjguMTIuMiIgIkRvY2tlckNvbnRhaW5lciIgewogICAgICAgICAgICAgICAgICAgIGNvbnRhaW5lckluc3RhbmNlIHBsdW1FbmRvcnNlbWVudC5lbGFzdGljc2VhcmNoCiAgICAgICAgICAgICAgICB9CgogICAgICAgICAgICAgICAgZGVwbG95bWVudE5vZGUgIkxvZ3N0YXNoIENvbnRhaW5lciIgIiIgImxvZ3N0YXNoOjguMTIuMiIgIkRvY2tlckNvbnRhaW5lciIgewogICAgICAgICAgICAgICAgICAgIGNvbnRhaW5lckluc3RhbmNlIHBsdW1FbmRvcnNlbWVudC5sb2dzdGFzaAogICAgICAgICAgICAgICAgfQoKICAgICAgICAgICAgICAgIGRlcGxveW1lbnROb2RlICJLaWJhbmEgQ29udGFpbmVyIiAiIiAia2liYW5hOjguMTIuMiIgIkRvY2tlckNvbnRhaW5lciIgewogICAgICAgICAgICAgICAgICAgIGNvbnRhaW5lckluc3RhbmNlIHBsdW1FbmRvcnNlbWVudC5raWJhbmEKICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgfQogICAgICAgIH0KCiAgICAgICAgLy8g4pSA4pSAIERlcGxveW1lbnQ6IEt1YmVybmV0ZXMgKFByb2R1Y3Rpb24pIOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgAoKICAgICAgICBwcm9kdWN0aW9uID0gZGVwbG95bWVudEVudmlyb25tZW50ICJQcm9kdWN0aW9uIChLdWJlcm5ldGVzKSIgewoKICAgICAgICAgICAgZGVwbG95bWVudE5vZGUgIkt1YmVybmV0ZXMgQ2x1c3RlciIgIiIgIkt1YmVybmV0ZXMiICJLOHNDbHVzdGVyIiB7CgogICAgICAgICAgICAgICAgZGVwbG95bWVudE5vZGUgInBsdW0tZW5kb3JzZW1lbnRzIE5hbWVzcGFjZSIgIiIgIkt1YmVybmV0ZXMgTmFtZXNwYWNlIiAiSzhzTmFtZXNwYWNlIiB7CgogICAgICAgICAgICAgICAgICAgIGRlcGxveW1lbnROb2RlICJCYWNrZW5kIERlcGxveW1lbnQiICIiICJEZXBsb3ltZW50ICsgSFBBICgyLTggcG9kcykiICJLOHNQb2QiIDMgewogICAgICAgICAgICAgICAgICAgICAgICBjb250YWluZXJJbnN0YW5jZSBwbHVtRW5kb3JzZW1lbnQuYmFja2VuZAogICAgICAgICAgICAgICAgICAgIH0KCiAgICAgICAgICAgICAgICAgICAgZGVwbG95bWVudE5vZGUgIlBvc3RncmVTUUwgU3RhdGVmdWxTZXQiICIiICJQVkMtYmFja2VkIiAiSzhzUG9kIiB7CiAgICAgICAgICAgICAgICAgICAgICAgIGNvbnRhaW5lckluc3RhbmNlIHBsdW1FbmRvcnNlbWVudC5kYXRhYmFzZQogICAgICAgICAgICAgICAgICAgIH0KCiAgICAgICAgICAgICAgICAgICAgZGVwbG95bWVudE5vZGUgIlJlZGlzIERlcGxveW1lbnQiICIiICJDbHVzdGVySVAgU2VydmljZSIgIks4c1BvZCIgewogICAgICAgICAgICAgICAgICAgICAgICBjb250YWluZXJJbnN0YW5jZSBwbHVtRW5kb3JzZW1lbnQucmVkaXMKICAgICAgICAgICAgICAgICAgICB9CgogICAgICAgICAgICAgICAgICAgIGRlcGxveW1lbnROb2RlICJLYWZrYSBTdGF0ZWZ1bFNldCIgIiIgIktSYWZ0IG1vZGUiICJLOHNQb2QiIHsKICAgICAgICAgICAgICAgICAgICAgICAgY29udGFpbmVySW5zdGFuY2UgcGx1bUVuZG9yc2VtZW50LmthZmthCiAgICAgICAgICAgICAgICAgICAgfQoKICAgICAgICAgICAgICAgICAgICBkZXBsb3ltZW50Tm9kZSAiT2JzZXJ2YWJpbGl0eSBTdGFjayIgIiIgIk1vbml0b3JpbmciICJLOHNQb2QiIHsKICAgICAgICAgICAgICAgICAgICAgICAgY29udGFpbmVySW5zdGFuY2UgcGx1bUVuZG9yc2VtZW50LnByb21ldGhldXMKICAgICAgICAgICAgICAgICAgICAgICAgY29udGFpbmVySW5zdGFuY2UgcGx1bUVuZG9yc2VtZW50LmdyYWZhbmEKICAgICAgICAgICAgICAgICAgICAgICAgY29udGFpbmVySW5zdGFuY2UgcGx1bUVuZG9yc2VtZW50LmphZWdlcgogICAgICAgICAgICAgICAgICAgIH0KCiAgICAgICAgICAgICAgICAgICAgZGVwbG95bWVudE5vZGUgIkVMSyBTdGFjayIgIiIgIkxvZ2dpbmciICJLOHNQb2QiIHsKICAgICAgICAgICAgICAgICAgICAgICAgY29udGFpbmVySW5zdGFuY2UgcGx1bUVuZG9yc2VtZW50LmVsYXN0aWNzZWFyY2gKICAgICAgICAgICAgICAgICAgICAgICAgY29udGFpbmVySW5zdGFuY2UgcGx1bUVuZG9yc2VtZW50LmxvZ3N0YXNoCiAgICAgICAgICAgICAgICAgICAgICAgIGNvbnRhaW5lckluc3RhbmNlIHBsdW1FbmRvcnNlbWVudC5raWJhbmEKICAgICAgICAgICAgICAgICAgICB9CgogICAgICAgICAgICAgICAgICAgIGluZnJhc3RydWN0dXJlTm9kZSAiSW5ncmVzcyBDb250cm9sbGVyIiAiUm91dGVzIGV4dGVybmFsIHRyYWZmaWMgdG8gYmFja2VuZCBzZXJ2aWNlIiAiTkdJTlggSW5ncmVzcyIKICAgICAgICAgICAgICAgICAgICBpbmZyYXN0cnVjdHVyZU5vZGUgIlBvZERpc3J1cHRpb25CdWRnZXQiICJtaW5BdmFpbGFibGU6IDEg4oCUIGVuc3VyZXMgYXZhaWxhYmlsaXR5IGR1cmluZyByb2xsaW5nIHVwZGF0ZXMiICJLdWJlcm5ldGVzIFBEQiIKICAgICAgICAgICAgICAgICAgICBpbmZyYXN0cnVjdHVyZU5vZGUgIkhvcml6b250YWxQb2RBdXRvc2NhbGVyIiAiMi04IHJlcGxpY2FzIGF0IDcwJSBDUFUgdGhyZXNob2xkIiAiS3ViZXJuZXRlcyBIUEEiCiAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgIH0KICAgICAgICB9CiAgICB9CgogICAgLy8g4pSA4pSAIFZpZXdzIOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgAoKICAgIHZpZXdzIHsKCiAgICAgICAgLy8g4pSA4pSAIExldmVsIDE6IFN5c3RlbSBDb250ZXh0IOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgAoKICAgICAgICBzeXN0ZW1Db250ZXh0IHBsdW1FbmRvcnNlbWVudCAiTDFfU3lzdGVtQ29udGV4dCIgIkxldmVsIDEg4oCUIFdobyB1c2VzIHRoZSBzeXN0ZW0gYW5kIHdoYXQgaXQgY29ubmVjdHMgdG8uIiB7CiAgICAgICAgICAgIGluY2x1ZGUgKgogICAgICAgICAgICBhdXRvTGF5b3V0IGxyIDM1MCAyMDAKICAgICAgICB9CgogICAgICAgIC8vIOKUgOKUgCBMZXZlbCAyOiBDb250YWluZXIgRGlhZ3JhbSDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIAKCiAgICAgICAgY29udGFpbmVyIHBsdW1FbmRvcnNlbWVudCAiTDJfQ29udGFpbmVycyIgIkxldmVsIDIg4oCUIERlcGxveWFibGUgdW5pdHMgYW5kIHRoZWlyIGNvbW11bmljYXRpb24gcHJvdG9jb2xzLiIgewogICAgICAgICAgICBpbmNsdWRlICoKICAgICAgICAgICAgYXV0b0xheW91dCBsciAzMDAgMTUwCiAgICAgICAgfQoKICAgICAgICAvLyDilIDilIAgTGV2ZWwgMzogQ29tcG9uZW50IERpYWdyYW0gKEJhY2tlbmQpIOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgAoKICAgICAgICBjb21wb25lbnQgcGx1bUVuZG9yc2VtZW50LmJhY2tlbmQgIkwzX0NvbXBvbmVudHMiICJMZXZlbCAzIOKAlCBIZXhhZ29uYWwgYXJjaGl0ZWN0dXJlOiBBUEkgTGF5ZXIsIEFwcGxpY2F0aW9uIExheWVyLCBEb21haW4gQ29yZSwgSW5mcmFzdHJ1Y3R1cmUgTGF5ZXIuIiB7CiAgICAgICAgICAgIGluY2x1ZGUgKgogICAgICAgICAgICBhdXRvTGF5b3V0IGxyIDI1MCAxMDAKICAgICAgICB9CgogICAgICAgIC8vIOKUgOKUgCBMZXZlbCAzOiBGaWx0ZXJlZCDigJQgQVBJIExheWVyIE9ubHkg4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSACgogICAgICAgIGNvbXBvbmVudCBwbHVtRW5kb3JzZW1lbnQuYmFja2VuZCAiTDNfQVBJTGF5ZXIiICJBUEkgTGF5ZXIg4oCUIDYgQ29udHJvbGxlcnMsIDI3IFJFU1QgZW5kcG9pbnRzLCBSRkMgNzgwNyBlcnJvciBoYW5kbGluZy4iIHsKICAgICAgICAgICAgaW5jbHVkZSBlbGVtZW50LnRhZz09Q29udHJvbGxlcgogICAgICAgICAgICBpbmNsdWRlIGVsZW1lbnQudGFnPT1Dcm9zc0N1dHRpbmcKICAgICAgICAgICAgaW5jbHVkZSBlbGVtZW50LnRhZz09SGFuZGxlcgogICAgICAgICAgICBhdXRvTGF5b3V0IGxyIDMwMCAxNTAKICAgICAgICB9CgogICAgICAgIC8vIOKUgOKUgCBMZXZlbCAzOiBGaWx0ZXJlZCDigJQgRG9tYWluIENvcmUgT25seSDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIAKCiAgICAgICAgY29tcG9uZW50IHBsdW1FbmRvcnNlbWVudC5iYWNrZW5kICJMM19Eb21haW5Db3JlIiAiRG9tYWluIENvcmUg4oCUIE1vZGVscywgcG9ydHMsIGRvbWFpbiBzZXJ2aWNlcy4gWmVybyBpbmZyYXN0cnVjdHVyZSBpbXBvcnRzLiIgewogICAgICAgICAgICBpbmNsdWRlIGVsZW1lbnQudGFnPT1Eb21haW5Nb2RlbAogICAgICAgICAgICBpbmNsdWRlIGVsZW1lbnQudGFnPT1Eb21haW5TZXJ2aWNlCiAgICAgICAgICAgIGluY2x1ZGUgZWxlbWVudC50YWc9PVBvcnQKICAgICAgICAgICAgYXV0b0xheW91dCBsciAzMDAgMTUwCiAgICAgICAgfQoKICAgICAgICAvLyDilIDilIAgTGV2ZWwgMzogRmlsdGVyZWQg4oCUIEludGVsbGlnZW5jZSBBZGFwdGVycyDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIAKCiAgICAgICAgY29tcG9uZW50IHBsdW1FbmRvcnNlbWVudC5iYWNrZW5kICJMM19JbnRlbGxpZ2VuY2UiICJJbnRlbGxpZ2VuY2UgTGF5ZXIg4oCUIDUgcnVsZS1iYXNlZCBhZGFwdGVycyArIDIgT2xsYW1hIEdlbkFJIGFkYXB0ZXJzLiIgewogICAgICAgICAgICBpbmNsdWRlIGVsZW1lbnQudGFnPT1JbnRlbGxpZ2VuY2UKICAgICAgICAgICAgaW5jbHVkZSBlbGVtZW50LnRhZz09UG9ydAogICAgICAgICAgICBpbmNsdWRlIHBsdW1FbmRvcnNlbWVudC5iYWNrZW5kLmFub21hbHlEZXRlY3Rpb25TZXJ2aWNlCiAgICAgICAgICAgIGluY2x1ZGUgcGx1bUVuZG9yc2VtZW50LmJhY2tlbmQuYmFsYW5jZUZvcmVjYXN0U2VydmljZQogICAgICAgICAgICBpbmNsdWRlIHBsdW1FbmRvcnNlbWVudC5iYWNrZW5kLmVycm9yUmVzb2x1dGlvblNlcnZpY2UKICAgICAgICAgICAgaW5jbHVkZSBwbHVtRW5kb3JzZW1lbnQuYmFja2VuZC5wcm9jZXNzTWluaW5nU2VydmljZQogICAgICAgICAgICBhdXRvTGF5b3V0IGxyIDMwMCAxNTAKICAgICAgICB9CgogICAgICAgIC8vIOKUgOKUgCBMZXZlbCAzOiBGaWx0ZXJlZCDigJQgSW5zdXJlciBBZGFwdGVycyDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIAKCiAgICAgICAgY29tcG9uZW50IHBsdW1FbmRvcnNlbWVudC5iYWNrZW5kICJMM19JbnN1cmVyQWRhcHRlcnMiICJNdWx0aS1JbnN1cmVyIEZyYW1ld29yayDigJQgU3RyYXRlZ3kgcGF0dGVybiB3aXRoIHBlci1pbnN1cmVyIGNpcmN1aXQgYnJlYWtlcnMuIiB7CiAgICAgICAgICAgIGluY2x1ZGUgZWxlbWVudC50YWc9PUluc3VyZXIKICAgICAgICAgICAgaW5jbHVkZSBlbGVtZW50LnRhZz09RmFjdG9yeQogICAgICAgICAgICBpbmNsdWRlIHBsdW1FbmRvcnNlbWVudC5iYWNrZW5kLmluc3VyZXJQb3J0CiAgICAgICAgICAgIGluY2x1ZGUgcGx1bUVuZG9yc2VtZW50LmJhY2tlbmQuaW5zdXJlclJlZ2lzdHJ5CiAgICAgICAgICAgIGluY2x1ZGUgcGx1bUVuZG9yc2VtZW50LmJhY2tlbmQucHJvY2Vzc0VuZG9yc2VtZW50SGFuZGxlcgogICAgICAgICAgICBhdXRvTGF5b3V0IGxyIDMwMCAxNTAKICAgICAgICB9CgogICAgICAgIC8vIOKUgOKUgCBEeW5hbWljOiBDcmVhdGUgRW5kb3JzZW1lbnQgRmxvdyDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIAKCiAgICAgICAgZHluYW1pYyBwbHVtRW5kb3JzZW1lbnQgIkR5bl9DcmVhdGVFbmRvcnNlbWVudCIgIkVuZC10by1lbmQgZW5kb3JzZW1lbnQgY3JlYXRpb246IHZhbGlkYXRlLCBkZWR1cCwgZGViaXQgRUEsIGdyYW50IHByb3Zpc2lvbmFsIGNvdmVyYWdlLCBwdWJsaXNoIGV2ZW50LiIgewogICAgICAgICAgICB0aXRsZSAiQ3JlYXRlIEVuZG9yc2VtZW50IEZsb3ciCiAgICAgICAgICAgIGhyQWRtaW4gLT4gcGx1bUVuZG9yc2VtZW50LnNwYSAiMS4gRmlsbHMgZW5kb3JzZW1lbnQgZm9ybSAodHlwZSwgZW1wbG95ZWUsIHByZW1pdW0pIgogICAgICAgICAgICBwbHVtRW5kb3JzZW1lbnQuc3BhIC0+IHBsdW1FbmRvcnNlbWVudC5iYWNrZW5kICIyLiBQT1NUIC9hcGkvdjEvZW5kb3JzZW1lbnRzIgogICAgICAgICAgICBwbHVtRW5kb3JzZW1lbnQuYmFja2VuZCAtPiBwbHVtRW5kb3JzZW1lbnQuZGF0YWJhc2UgIjMuIElkZW1wb3RlbmN5IGNoZWNrIChTRUxFQ1QgYnkga2V5KSIKICAgICAgICAgICAgcGx1bUVuZG9yc2VtZW50LmJhY2tlbmQgLT4gcGx1bUVuZG9yc2VtZW50LmRhdGFiYXNlICI0LiBSZXNlcnZlIEVBIGJhbGFuY2UgKyBzYXZlIGVuZG9yc2VtZW50IgogICAgICAgICAgICBwbHVtRW5kb3JzZW1lbnQuYmFja2VuZCAtPiBwbHVtRW5kb3JzZW1lbnQua2Fma2EgIjUuIFB1Ymxpc2ggRW5kb3JzZW1lbnRFdmVudC5DcmVhdGVkIgogICAgICAgICAgICBwbHVtRW5kb3JzZW1lbnQuYmFja2VuZCAtPiBwbHVtRW5kb3JzZW1lbnQuc3BhICI2LiBSZXR1cm4gMjAxICsgZW5kb3JzZW1lbnQgSUQiCiAgICAgICAgICAgIGF1dG9MYXlvdXQgbHIKICAgICAgICB9CgogICAgICAgIC8vIOKUgOKUgCBEeW5hbWljOiBTdWJtaXQgdG8gSW5zdXJlciBGbG93IOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgAoKICAgICAgICBkeW5hbWljIHBsdW1FbmRvcnNlbWVudCAiRHluX0luc3VyZXJTdWJtaXNzaW9uIiAiSW5zdXJlciBzdWJtaXNzaW9uOiByb3V0ZXIgcmVzb2x2ZXMgYWRhcHRlciBieSBTdHJhdGVneSBwYXR0ZXJuLCBjaXJjdWl0IGJyZWFrZXIgcHJvdGVjdHMgdGhlIGNhbGwuIiB7CiAgICAgICAgICAgIHRpdGxlICJTdWJtaXQgdG8gSW5zdXJlciAoUmVhbC1UaW1lIFBhdGgpIgogICAgICAgICAgICBwbHVtRW5kb3JzZW1lbnQuc3BhIC0+IHBsdW1FbmRvcnNlbWVudC5iYWNrZW5kICIxLiBQT1NUIC9hcGkvdjEvZW5kb3JzZW1lbnRzL3tpZH0vc3VibWl0IgogICAgICAgICAgICBwbHVtRW5kb3JzZW1lbnQuYmFja2VuZCAtPiBwbHVtRW5kb3JzZW1lbnQucmVkaXMgIjIuIExvb2t1cCBpbnN1cmVyIGNvbmZpZyAoY2FjaGVkKSIKICAgICAgICAgICAgcGx1bUVuZG9yc2VtZW50LmJhY2tlbmQgLT4gaWNpY2lMb21iYXJkICIzLiBTdWJtaXQgdmlhIHJlc29sdmVkIGFkYXB0ZXIgKEBDaXJjdWl0QnJlYWtlciArIEBSZXRyeSkiCiAgICAgICAgICAgIHBsdW1FbmRvcnNlbWVudC5iYWNrZW5kIC0+IHBsdW1FbmRvcnNlbWVudC5kYXRhYmFzZSAiNC4gVXBkYXRlIHN0YXR1cyB0byBDT05GSVJNRUQsIHNhdmUgaW5zdXJlciByZWZlcmVuY2UiCiAgICAgICAgICAgIHBsdW1FbmRvcnNlbWVudC5iYWNrZW5kIC0+IHBsdW1FbmRvcnNlbWVudC5rYWZrYSAiNS4gUHVibGlzaCBFbmRvcnNlbWVudEV2ZW50LkNvbmZpcm1lZCIKICAgICAgICAgICAgcGx1bUVuZG9yc2VtZW50LmJhY2tlbmQgLT4gcGx1bUVuZG9yc2VtZW50LnNwYSAiNi4gUmV0dXJuIHVwZGF0ZWQgZW5kb3JzZW1lbnQiCiAgICAgICAgICAgIGF1dG9MYXlvdXQgbHIKICAgICAgICB9CgogICAgICAgIC8vIOKUgOKUgCBEeW5hbWljOiBCYXRjaCBBc3NlbWJseSBGbG93IOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgAoKICAgICAgICBkeW5hbWljIHBsdW1FbmRvcnNlbWVudCAiRHluX0JhdGNoQXNzZW1ibHkiICJCYXRjaCBhc3NlbWJseTogc2NoZWR1bGVkIGV2ZXJ5IDE1IG1pbiwgb3B0aW1pemVzIG9yZGVyIChERUxFVEVzIGZpcnN0KSwgc3VibWl0cyB0byBiYXRjaC1vbmx5IGluc3VyZXJzLiIgewogICAgICAgICAgICB0aXRsZSAiQmF0Y2ggQXNzZW1ibHkgJiBTdWJtaXNzaW9uIChFdmVyeSAxNSBtaW4pIgogICAgICAgICAgICBwbHVtRW5kb3JzZW1lbnQuYmFja2VuZCAtPiBwbHVtRW5kb3JzZW1lbnQuZGF0YWJhc2UgIjEuIEZpbmQgUVVFVUVEX0ZPUl9CQVRDSCBlbmRvcnNlbWVudHMiCiAgICAgICAgICAgIHBsdW1FbmRvcnNlbWVudC5iYWNrZW5kIC0+IHBsdW1FbmRvcnNlbWVudC5kYXRhYmFzZSAiMi4gR3JvdXAgYnkgaW5zdXJlciwgb3B0aW1pemUgb3JkZXIgKEtuYXBzYWNrIERQKSIKICAgICAgICAgICAgcGx1bUVuZG9yc2VtZW50LmJhY2tlbmQgLT4gbml2YUJ1cGEgIjMuIFVwbG9hZCBDU1YgYmF0Y2ggdG8gTml2YSBCdXBhIChTRlRQKSIKICAgICAgICAgICAgcGx1bUVuZG9yc2VtZW50LmJhY2tlbmQgLT4gcGx1bUVuZG9yc2VtZW50LmRhdGFiYXNlICI0LiBVcGRhdGUgdG8gQkFUQ0hfU1VCTUlUVEVELCBzYXZlIGJhdGNoIHJlZiIKICAgICAgICAgICAgcGx1bUVuZG9yc2VtZW50LmJhY2tlbmQgLT4gcGx1bUVuZG9yc2VtZW50LmthZmthICI1LiBQdWJsaXNoIEVuZG9yc2VtZW50RXZlbnQuQmF0Y2hTdWJtaXR0ZWQiCiAgICAgICAgICAgIGF1dG9MYXlvdXQgbHIKICAgICAgICB9CgogICAgICAgIC8vIOKUgOKUgCBEeW5hbWljOiBBbm9tYWx5IERldGVjdGlvbiBGbG93IOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgAoKICAgICAgICBkeW5hbWljIHBsdW1FbmRvcnNlbWVudCAiRHluX0Fub21hbHlEZXRlY3Rpb24iICJBbm9tYWx5IGRldGVjdGlvbjogNSBydWxlcyBydW4gZXZlcnkgNSBtaW4sIE9sbGFtYSBlbnJpY2hlcyBoaWdoLXNjb3JpbmcgYW5vbWFsaWVzIHdpdGggTExNIG5hcnJhdGl2ZXMuIiB7CiAgICAgICAgICAgIHRpdGxlICJBbm9tYWx5IERldGVjdGlvbiAoRXZlcnkgNSBtaW4pIgogICAgICAgICAgICBwbHVtRW5kb3JzZW1lbnQuYmFja2VuZCAtPiBwbHVtRW5kb3JzZW1lbnQuZGF0YWJhc2UgIjEuIExvYWQgcmVjZW50IGVuZG9yc2VtZW50cyBwZXIgZW1wbG95ZXIiCiAgICAgICAgICAgIHBsdW1FbmRvcnNlbWVudC5iYWNrZW5kIC0+IHBsdW1FbmRvcnNlbWVudC5kYXRhYmFzZSAiMi4gUnVuIDUgcnVsZXMsIGNvbXB1dGUgc2NvcmVzICgwLTEpIgogICAgICAgICAgICBwbHVtRW5kb3JzZW1lbnQuYmFja2VuZCAtPiBvbGxhbWFTZXJ2aWNlICIzLiBTZW5kIHNjb3JlcyA+IDAuNyB0byBMTE0gZm9yIGVucmljaG1lbnQiCiAgICAgICAgICAgIHBsdW1FbmRvcnNlbWVudC5iYWNrZW5kIC0+IHBsdW1FbmRvcnNlbWVudC5kYXRhYmFzZSAiNC4gU2F2ZSBhbm9tYWx5IHdpdGggc2NvcmUgKyBMTE0gZXhwbGFuYXRpb24iCiAgICAgICAgICAgIHBsdW1FbmRvcnNlbWVudC5iYWNrZW5kIC0+IHBsdW1FbmRvcnNlbWVudC5rYWZrYSAiNS4gUHVibGlzaCBFbmRvcnNlbWVudEV2ZW50LkFub21hbHlEZXRlY3RlZCIKICAgICAgICAgICAgYXV0b0xheW91dCBscgogICAgICAgIH0KCiAgICAgICAgLy8g4pSA4pSAIERlcGxveW1lbnQ6IERvY2tlciBDb21wb3NlIOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgAoKICAgICAgICBkZXBsb3ltZW50IHBsdW1FbmRvcnNlbWVudCBkZXZlbG9wbWVudCAiRGVwbG95X0RvY2tlckNvbXBvc2UiICJEZXZlbG9wbWVudCBlbnZpcm9ubWVudDogRG9ja2VyIENvbXBvc2Ugd2l0aCA5KyBzZXJ2aWNlcywgaGVhbHRoIGNoZWNrcywgYW5kIHZvbHVtZSBtb3VudHMuIiB7CiAgICAgICAgICAgIGluY2x1ZGUgKgogICAgICAgICAgICBhdXRvTGF5b3V0IGxyIDMwMCAxNTAKICAgICAgICB9CgogICAgICAgIC8vIOKUgOKUgCBEZXBsb3ltZW50OiBLdWJlcm5ldGVzIOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgAoKICAgICAgICBkZXBsb3ltZW50IHBsdW1FbmRvcnNlbWVudCBwcm9kdWN0aW9uICJEZXBsb3lfS3ViZXJuZXRlcyIgIlByb2R1Y3Rpb24gZW52aXJvbm1lbnQ6IEt1YmVybmV0ZXMgd2l0aCBIUEEgKDItOCBwb2RzKSwgUERCLCBJbmdyZXNzLCBhbmQgUFZDLWJhY2tlZCBzdG9yYWdlLiIgewogICAgICAgICAgICBpbmNsdWRlICoKICAgICAgICAgICAgYXV0b0xheW91dCBsciAzMDAgMTUwCiAgICAgICAgfQoKICAgICAgICAvLyDilIDilIAgU3R5bGVzIOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgAoKICAgICAgICBzdHlsZXMgewogICAgICAgICAgICAvLyBQZW9wbGUKICAgICAgICAgICAgZWxlbWVudCAiVXNlciIgewogICAgICAgICAgICAgICAgc2hhcGUgUGVyc29uCiAgICAgICAgICAgICAgICBiYWNrZ3JvdW5kICM0MzM4Q0EKICAgICAgICAgICAgICAgIGNvbG9yICNmZmZmZmYKICAgICAgICAgICAgICAgIGZvbnRTaXplIDIyCiAgICAgICAgICAgIH0KCiAgICAgICAgICAgIC8vIFNvZnR3YXJlIFN5c3RlbXMKICAgICAgICAgICAgZWxlbWVudCAiU29mdHdhcmUgU3lzdGVtIiB7CiAgICAgICAgICAgICAgICBiYWNrZ3JvdW5kICM2MzY2RjEKICAgICAgICAgICAgICAgIGNvbG9yICNmZmZmZmYKICAgICAgICAgICAgICAgIHNoYXBlIFJvdW5kZWRCb3gKICAgICAgICAgICAgICAgIGZvbnRTaXplIDIyCiAgICAgICAgICAgIH0KICAgICAgICAgICAgZWxlbWVudCAiRXh0ZXJuYWwgU3lzdGVtIiB7CiAgICAgICAgICAgICAgICBiYWNrZ3JvdW5kICM2NDc0OEIKICAgICAgICAgICAgICAgIGNvbG9yICNmZmZmZmYKICAgICAgICAgICAgICAgIHNoYXBlIFJvdW5kZWRCb3gKICAgICAgICAgICAgfQogICAgICAgICAgICBlbGVtZW50ICJJbnN1cmVyIiB7CiAgICAgICAgICAgICAgICBiYWNrZ3JvdW5kICMwODkxQjIKICAgICAgICAgICAgICAgIGNvbG9yICNmZmZmZmYKICAgICAgICAgICAgfQogICAgICAgICAgICBlbGVtZW50ICJBSSIgewogICAgICAgICAgICAgICAgYmFja2dyb3VuZCAjN0MzQUVECiAgICAgICAgICAgICAgICBjb2xvciAjZmZmZmZmCiAgICAgICAgICAgIH0KCiAgICAgICAgICAgIC8vIENvbnRhaW5lcnMKICAgICAgICAgICAgZWxlbWVudCAiQ29udGFpbmVyIiB7CiAgICAgICAgICAgICAgICBiYWNrZ3JvdW5kICM4MThDRjgKICAgICAgICAgICAgICAgIGNvbG9yICNmZmZmZmYKICAgICAgICAgICAgfQogICAgICAgICAgICBlbGVtZW50ICJXZWJCcm93c2VyIiB7CiAgICAgICAgICAgICAgICBzaGFwZSBXZWJCcm93c2VyCiAgICAgICAgICAgICAgICBiYWNrZ3JvdW5kICMzQjgyRjYKICAgICAgICAgICAgICAgIGNvbG9yICNmZmZmZmYKICAgICAgICAgICAgfQogICAgICAgICAgICBlbGVtZW50ICJTcHJpbmdCb290IiB7CiAgICAgICAgICAgICAgICBiYWNrZ3JvdW5kICM0RjQ2RTUKICAgICAgICAgICAgICAgIGNvbG9yICNmZmZmZmYKICAgICAgICAgICAgICAgIHNoYXBlIEhleGFnb24KICAgICAgICAgICAgfQogICAgICAgICAgICBlbGVtZW50ICJEYXRhYmFzZSIgewogICAgICAgICAgICAgICAgc2hhcGUgQ3lsaW5kZXIKICAgICAgICAgICAgICAgIGJhY2tncm91bmQgIzBEOTQ4OAogICAgICAgICAgICAgICAgY29sb3IgI2ZmZmZmZgogICAgICAgICAgICB9CiAgICAgICAgICAgIGVsZW1lbnQgIkNhY2hlIiB7CiAgICAgICAgICAgICAgICBzaGFwZSBDeWxpbmRlcgogICAgICAgICAgICAgICAgYmFja2dyb3VuZCAjREMyNjI2CiAgICAgICAgICAgICAgICBjb2xvciAjZmZmZmZmCiAgICAgICAgICAgIH0KICAgICAgICAgICAgZWxlbWVudCAiTWVzc2FnZVF1ZXVlIiB7CiAgICAgICAgICAgICAgICBzaGFwZSBQaXBlCiAgICAgICAgICAgICAgICBiYWNrZ3JvdW5kICNEOTc3MDYKICAgICAgICAgICAgICAgIGNvbG9yICNmZmZmZmYKICAgICAgICAgICAgfQogICAgICAgICAgICBlbGVtZW50ICJNb25pdG9yaW5nIiB7CiAgICAgICAgICAgICAgICBzaGFwZSBSb3VuZGVkQm94CiAgICAgICAgICAgICAgICBiYWNrZ3JvdW5kICMwNTk2NjkKICAgICAgICAgICAgICAgIGNvbG9yICNmZmZmZmYKICAgICAgICAgICAgfQoKICAgICAgICAgICAgLy8gQ29tcG9uZW50cwogICAgICAgICAgICBlbGVtZW50ICJDb250cm9sbGVyIiB7CiAgICAgICAgICAgICAgICBzaGFwZSBSb3VuZGVkQm94CiAgICAgICAgICAgICAgICBiYWNrZ3JvdW5kICMzQjgyRjYKICAgICAgICAgICAgICAgIGNvbG9yICNmZmZmZmYKICAgICAgICAgICAgfQogICAgICAgICAgICBlbGVtZW50ICJIYW5kbGVyIiB7CiAgICAgICAgICAgICAgICBzaGFwZSBSb3VuZGVkQm94CiAgICAgICAgICAgICAgICBiYWNrZ3JvdW5kICM4QjVDRjYKICAgICAgICAgICAgICAgIGNvbG9yICNmZmZmZmYKICAgICAgICAgICAgfQogICAgICAgICAgICBlbGVtZW50ICJBcHBTZXJ2aWNlIiB7CiAgICAgICAgICAgICAgICBzaGFwZSBSb3VuZGVkQm94CiAgICAgICAgICAgICAgICBiYWNrZ3JvdW5kICM2MzY2RjEKICAgICAgICAgICAgICAgIGNvbG9yICNmZmZmZmYKICAgICAgICAgICAgfQogICAgICAgICAgICBlbGVtZW50ICJTY2hlZHVsZXIiIHsKICAgICAgICAgICAgICAgIHNoYXBlIFJvdW5kZWRCb3gKICAgICAgICAgICAgICAgIGJhY2tncm91bmQgIzA4OTFCMgogICAgICAgICAgICAgICAgY29sb3IgI2ZmZmZmZgogICAgICAgICAgICB9CiAgICAgICAgICAgIGVsZW1lbnQgIkRvbWFpbk1vZGVsIiB7CiAgICAgICAgICAgICAgICBzaGFwZSBSb3VuZGVkQm94CiAgICAgICAgICAgICAgICBiYWNrZ3JvdW5kICMwNTk2NjkKICAgICAgICAgICAgICAgIGNvbG9yICNmZmZmZmYKICAgICAgICAgICAgfQogICAgICAgICAgICBlbGVtZW50ICJEb21haW5TZXJ2aWNlIiB7CiAgICAgICAgICAgICAgICBzaGFwZSBIZXhhZ29uCiAgICAgICAgICAgICAgICBiYWNrZ3JvdW5kICMxMEI5ODEKICAgICAgICAgICAgICAgIGNvbG9yICNmZmZmZmYKICAgICAgICAgICAgfQogICAgICAgICAgICBlbGVtZW50ICJQb3J0IiB7CiAgICAgICAgICAgICAgICBzaGFwZSBDb21wb25lbnQKICAgICAgICAgICAgICAgIGJhY2tncm91bmQgIzE0QjhBNgogICAgICAgICAgICAgICAgY29sb3IgI2ZmZmZmZgogICAgICAgICAgICAgICAgYm9yZGVyIGRhc2hlZAogICAgICAgICAgICB9CiAgICAgICAgICAgIGVsZW1lbnQgIkFkYXB0ZXIiIHsKICAgICAgICAgICAgICAgIHNoYXBlIFJvdW5kZWRCb3gKICAgICAgICAgICAgICAgIGJhY2tncm91bmQgI0Y1OUUwQgogICAgICAgICAgICAgICAgY29sb3IgIzAwMDAwMAogICAgICAgICAgICB9CiAgICAgICAgICAgIGVsZW1lbnQgIkludGVsbGlnZW5jZSIgewogICAgICAgICAgICAgICAgYmFja2dyb3VuZCAjQTg1NUY3CiAgICAgICAgICAgICAgICBjb2xvciAjZmZmZmZmCiAgICAgICAgICAgIH0KICAgICAgICAgICAgZWxlbWVudCAiQUNMIiB7CiAgICAgICAgICAgICAgICBzaGFwZSBEaWFtb25kCiAgICAgICAgICAgICAgICBiYWNrZ3JvdW5kICNFRjQ0NDQKICAgICAgICAgICAgICAgIGNvbG9yICNmZmZmZmYKICAgICAgICAgICAgfQogICAgICAgICAgICBlbGVtZW50ICJDcm9zc0N1dHRpbmciIHsKICAgICAgICAgICAgICAgIHNoYXBlIFJvdW5kZWRCb3gKICAgICAgICAgICAgICAgIGJhY2tncm91bmQgIzY0NzQ4QgogICAgICAgICAgICAgICAgY29sb3IgI2ZmZmZmZgogICAgICAgICAgICB9CiAgICAgICAgICAgIGVsZW1lbnQgIkZhY3RvcnkiIHsKICAgICAgICAgICAgICAgIHNoYXBlIEhleGFnb24KICAgICAgICAgICAgICAgIGJhY2tncm91bmQgI0Y5NzMxNgogICAgICAgICAgICAgICAgY29sb3IgI2ZmZmZmZgogICAgICAgICAgICB9CgogICAgICAgICAgICAvLyBEZXBsb3ltZW50CiAgICAgICAgICAgIGVsZW1lbnQgIkRldk1hY2hpbmUiIHsKICAgICAgICAgICAgICAgIGJhY2tncm91bmQgIzFFMjkzQgogICAgICAgICAgICAgICAgY29sb3IgI2ZmZmZmZgogICAgICAgICAgICB9CiAgICAgICAgICAgIGVsZW1lbnQgIkRvY2tlckNvbnRhaW5lciIgewogICAgICAgICAgICAgICAgYmFja2dyb3VuZCAjMUU0MEFGCiAgICAgICAgICAgICAgICBjb2xvciAjZmZmZmZmCiAgICAgICAgICAgIH0KICAgICAgICAgICAgZWxlbWVudCAiSzhzQ2x1c3RlciIgewogICAgICAgICAgICAgICAgYmFja2dyb3VuZCAjMUUyOTNCCiAgICAgICAgICAgICAgICBjb2xvciAjZmZmZmZmCiAgICAgICAgICAgIH0KICAgICAgICAgICAgZWxlbWVudCAiSzhzTmFtZXNwYWNlIiB7CiAgICAgICAgICAgICAgICBiYWNrZ3JvdW5kICMzMTJFODEKICAgICAgICAgICAgICAgIGNvbG9yICNmZmZmZmYKICAgICAgICAgICAgfQogICAgICAgICAgICBlbGVtZW50ICJLOHNQb2QiIHsKICAgICAgICAgICAgICAgIGJhY2tncm91bmQgIzFFNDBBRgogICAgICAgICAgICAgICAgY29sb3IgI2ZmZmZmZgogICAgICAgICAgICB9CiAgICAgICAgICAgIGVsZW1lbnQgIkluZnJhc3RydWN0dXJlIE5vZGUiIHsKICAgICAgICAgICAgICAgIHNoYXBlIFJvdW5kZWRCb3gKICAgICAgICAgICAgICAgIGJhY2tncm91bmQgIzQ3NTU2OQogICAgICAgICAgICAgICAgY29sb3IgI2ZmZmZmZgogICAgICAgICAgICB9CgogICAgICAgICAgICAvLyBSZWxhdGlvbnNoaXBzCiAgICAgICAgICAgIHJlbGF0aW9uc2hpcCAiUmVsYXRpb25zaGlwIiB7CiAgICAgICAgICAgICAgICBjb2xvciAjNkI3MjgwCiAgICAgICAgICAgICAgICB0aGlja25lc3MgMgogICAgICAgICAgICB9CiAgICAgICAgICAgIHJlbGF0aW9uc2hpcCAiSW5zdXJlciIgewogICAgICAgICAgICAgICAgY29sb3IgIzA4OTFCMgogICAgICAgICAgICAgICAgdGhpY2tuZXNzIDMKICAgICAgICAgICAgICAgIHN0eWxlIGRhc2hlZAogICAgICAgICAgICB9CiAgICAgICAgICAgIHJlbGF0aW9uc2hpcCAiQUkiIHsKICAgICAgICAgICAgICAgIGNvbG9yICM3QzNBRUQKICAgICAgICAgICAgICAgIHRoaWNrbmVzcyAyCiAgICAgICAgICAgICAgICBzdHlsZSBkb3R0ZWQKICAgICAgICAgICAgfQogICAgICAgICAgICByZWxhdGlvbnNoaXAgIlN5bmMiIHsKICAgICAgICAgICAgICAgIHN0eWxlIHNvbGlkCiAgICAgICAgICAgIH0KICAgICAgICAgICAgcmVsYXRpb25zaGlwICJBc3luYyIgewogICAgICAgICAgICAgICAgc3R5bGUgZGFzaGVkCiAgICAgICAgICAgIH0KICAgICAgICB9CiAgICB9Cn0="
+  },
+  "views" : {
+    "componentViews" : [ {
+      "automaticLayout" : {
+        "applied" : true,
+        "edgeSeparation" : 0,
+        "implementation" : "Graphviz",
+        "nodeSeparation" : 100,
+        "rankDirection" : "LeftRight",
+        "rankSeparation" : 250,
+        "vertices" : false
+      },
+      "containerId" : "10",
+      "description" : "Level 3 — Hexagonal architecture: API Layer, Application Layer, Domain Core, Infrastructure Layer.",
+      "dimensions" : {
+        "height" : 16261,
+        "width" : 3730
+      },
+      "elements" : [ {
+        "id" : "4",
+        "x" : 3059,
+        "y" : 14903
+      }, {
+        "id" : "5",
+        "x" : 3059,
+        "y" : 15303
+      }, {
+        "id" : "6",
+        "x" : 3059,
+        "y" : 15703
+      }, {
+        "id" : "7",
+        "x" : 2359,
+        "y" : 14903
+      }, {
+        "id" : "11",
+        "x" : 259,
+        "y" : 9387
+      }, {
+        "id" : "12",
+        "x" : 259,
+        "y" : 10187
+      }, {
+        "id" : "13",
+        "x" : 259,
+        "y" : 8987
+      }, {
+        "id" : "14",
+        "x" : 259,
+        "y" : 8187
+      }, {
+        "id" : "15",
+        "x" : 259,
+        "y" : 8587
+      }, {
+        "id" : "16",
+        "x" : 259,
+        "y" : 9787
+      }, {
+        "id" : "17",
+        "x" : 259,
+        "y" : 10587
+      }, {
+        "id" : "18",
+        "x" : 959,
+        "y" : 12187
+      }, {
+        "id" : "19",
+        "x" : 959,
+        "y" : 11787
+      }, {
+        "id" : "20",
+        "x" : 959,
+        "y" : 11387
+      }, {
+        "id" : "21",
+        "x" : 1659,
+        "y" : 8187
+      }, {
+        "id" : "22",
+        "x" : 1659,
+        "y" : 9787
+      }, {
+        "id" : "23",
+        "x" : 959,
+        "y" : 10987
+      }, {
+        "id" : "24",
+        "x" : 1659,
+        "y" : 8987
+      }, {
+        "id" : "25",
+        "x" : 959,
+        "y" : 8587
+      }, {
+        "id" : "26",
+        "x" : 959,
+        "y" : 8987
+      }, {
+        "id" : "27",
+        "x" : 959,
+        "y" : 12587
+      }, {
+        "id" : "28",
+        "x" : 1659,
+        "y" : 8587
+      }, {
+        "id" : "29",
+        "x" : 959,
+        "y" : 9787
+      }, {
+        "id" : "30",
+        "x" : 959,
+        "y" : 8187
+      }, {
+        "id" : "31",
+        "x" : 959,
+        "y" : 10587
+      }, {
+        "id" : "32",
+        "x" : 959,
+        "y" : 9387
+      }, {
+        "id" : "33",
+        "x" : 959,
+        "y" : 10187
+      }, {
+        "id" : "34",
+        "x" : 959,
+        "y" : 12987
+      }, {
+        "id" : "35",
+        "x" : 959,
+        "y" : 13387
+      }, {
+        "id" : "36",
+        "x" : 959,
+        "y" : 13787
+      }, {
+        "id" : "37",
+        "x" : 2359,
+        "y" : 13387
+      }, {
+        "id" : "38",
+        "x" : 2359,
+        "y" : 12987
+      }, {
+        "id" : "39",
+        "x" : 2359,
+        "y" : 8187
+      }, {
+        "id" : "40",
+        "x" : 2359,
+        "y" : 8587
+      }, {
+        "id" : "41",
+        "x" : 2359,
+        "y" : 12187
+      }, {
+        "id" : "42",
+        "x" : 2359,
+        "y" : 9387
+      }, {
+        "id" : "43",
+        "x" : 2359,
+        "y" : 7387
+      }, {
+        "id" : "44",
+        "x" : 2359,
+        "y" : 10587
+      }, {
+        "id" : "45",
+        "x" : 2359,
+        "y" : 13787
+      }, {
+        "id" : "46",
+        "x" : 2359,
+        "y" : 10987
+      }, {
+        "id" : "47",
+        "x" : 2359,
+        "y" : 11387
+      }, {
+        "id" : "48",
+        "x" : 2359,
+        "y" : 12587
+      }, {
+        "id" : "49",
+        "x" : 2359,
+        "y" : 7787
+      }, {
+        "id" : "50",
+        "x" : 2359,
+        "y" : 9787
+      }, {
+        "id" : "51",
+        "x" : 2359,
+        "y" : 11787
+      }, {
+        "id" : "52",
+        "x" : 2359,
+        "y" : 8987
+      }, {
+        "id" : "53",
+        "x" : 2359,
+        "y" : 10187
+      }, {
+        "id" : "54",
+        "x" : 2359,
+        "y" : 14187
+      }, {
+        "id" : "55",
+        "x" : 1659,
+        "y" : 1974
+      }, {
+        "id" : "56",
+        "x" : 1659,
+        "y" : 1574
+      }, {
+        "id" : "57",
+        "x" : 2359,
+        "y" : 1974
+      }, {
+        "id" : "58",
+        "x" : 1659,
+        "y" : 2374
+      }, {
+        "id" : "59",
+        "x" : 2359,
+        "y" : 3174
+      }, {
+        "id" : "60",
+        "x" : 2359,
+        "y" : 2374
+      }, {
+        "id" : "61",
+        "x" : 2359,
+        "y" : 2774
+      }, {
+        "id" : "62",
+        "x" : 2359,
+        "y" : 5174
+      }, {
+        "id" : "63",
+        "x" : 1659,
+        "y" : 2774
+      }, {
+        "id" : "64",
+        "x" : 1659,
+        "y" : 4774
+      }, {
+        "id" : "65",
+        "x" : 1659,
+        "y" : 3574
+      }, {
+        "id" : "66",
+        "x" : 1659,
+        "y" : 4374
+      }, {
+        "id" : "67",
+        "x" : 1659,
+        "y" : 5174
+      }, {
+        "id" : "68",
+        "x" : 1659,
+        "y" : 3174
+      }, {
+        "id" : "69",
+        "x" : 1659,
+        "y" : 3974
+      }, {
+        "id" : "70",
+        "x" : 1659,
+        "y" : 1174
+      }, {
+        "id" : "71",
+        "x" : 1659,
+        "y" : 5574
+      }, {
+        "id" : "72",
+        "x" : 1659,
+        "y" : 5974
+      }, {
+        "id" : "73",
+        "x" : 1659,
+        "y" : 6374
+      }, {
+        "id" : "74",
+        "x" : 1659,
+        "y" : 6774
+      }, {
+        "id" : "75",
+        "x" : 2359,
+        "y" : 562
+      }, {
+        "id" : "76",
+        "x" : 3059,
+        "y" : 7387
+      }, {
+        "id" : "77",
+        "x" : 2359,
+        "y" : 162
+      } ],
+      "externalContainerBoundariesVisible" : false,
+      "key" : "L3_Components",
+      "name" : "Component View: Plum Endorsement System - Endorsement Service",
+      "order" : 3,
+      "relationships" : [ {
+        "id" : "111",
+        "vertices" : [ {
+          "x" : 813,
+          "y" : 9737
+        }, {
+          "x" : 855,
+          "y" : 12137
+        } ]
+      }, {
+        "id" : "112",
+        "vertices" : [ {
+          "x" : 813,
+          "y" : 9737
+        }, {
+          "x" : 855,
+          "y" : 11737
+        } ]
+      }, {
+        "id" : "113",
+        "vertices" : [ {
+          "x" : 813,
+          "y" : 9737
+        }, {
+          "x" : 855,
+          "y" : 11337
+        } ]
+      }, {
+        "id" : "114",
+        "vertices" : [ {
+          "x" : 813,
+          "y" : 10537
+        }, {
+          "x" : 855,
+          "y" : 14216
+        }, {
+          "x" : 2213,
+          "y" : 14216
+        }, {
+          "x" : 2255,
+          "y" : 14137
+        } ]
+      }, {
+        "id" : "115",
+        "vertices" : [ {
+          "x" : 813,
+          "y" : 8937
+        }, {
+          "x" : 855,
+          "y" : 8024
+        }, {
+          "x" : 1409,
+          "y" : 8024
+        } ]
+      }, {
+        "id" : "116",
+        "vertices" : [ {
+          "x" : 813,
+          "y" : 8937
+        }, {
+          "x" : 855,
+          "y" : 8137
+        }, {
+          "x" : 1409,
+          "y" : 8137
+        }, {
+          "x" : 1555,
+          "y" : 9337
+        } ]
+      }, {
+        "id" : "117",
+        "vertices" : [ {
+          "x" : 813,
+          "y" : 9337
+        }, {
+          "x" : 855,
+          "y" : 10937
+        } ]
+      }, {
+        "id" : "118",
+        "vertices" : [ {
+          "x" : 813,
+          "y" : 8937
+        }, {
+          "x" : 855,
+          "y" : 8053
+        }, {
+          "x" : 1409,
+          "y" : 8053
+        }, {
+          "x" : 1555,
+          "y" : 8937
+        } ]
+      }, {
+        "id" : "119"
+      }, {
+        "id" : "120"
+      }, {
+        "id" : "121",
+        "vertices" : [ {
+          "x" : 855,
+          "y" : 7995
+        } ]
+      }, {
+        "id" : "122",
+        "vertices" : [ {
+          "x" : 813,
+          "y" : 8537
+        }, {
+          "x" : 855,
+          "y" : 8024
+        }, {
+          "x" : 1409,
+          "y" : 8024
+        }, {
+          "x" : 1555,
+          "y" : 8537
+        } ]
+      }, {
+        "id" : "123",
+        "vertices" : [ {
+          "x" : 813,
+          "y" : 10137
+        }, {
+          "x" : 855,
+          "y" : 12537
+        } ]
+      }, {
+        "id" : "124",
+        "vertices" : [ {
+          "x" : 1409,
+          "y" : 12537
+        }, {
+          "x" : 1555,
+          "y" : 12983
+        } ]
+      }, {
+        "id" : "125"
+      }, {
+        "id" : "126",
+        "vertices" : [ {
+          "x" : 1555,
+          "y" : 12658
+        } ]
+      }, {
+        "id" : "127",
+        "vertices" : [ {
+          "x" : 2213,
+          "y" : 11741
+        }, {
+          "x" : 2255,
+          "y" : 10937
+        } ]
+      }, {
+        "id" : "128",
+        "vertices" : [ {
+          "x" : 1409,
+          "y" : 12537
+        }, {
+          "x" : 1555,
+          "y" : 13353
+        } ]
+      }, {
+        "id" : "129"
+      }, {
+        "id" : "130",
+        "vertices" : [ {
+          "x" : 1409,
+          "y" : 11737
+        }, {
+          "x" : 1555,
+          "y" : 2724
+        } ]
+      }, {
+        "id" : "131",
+        "vertices" : [ {
+          "x" : 2213,
+          "y" : 12108
+        }, {
+          "x" : 2255,
+          "y" : 12137
+        } ]
+      }, {
+        "id" : "132",
+        "vertices" : [ {
+          "x" : 2213,
+          "y" : 11349
+        }, {
+          "x" : 2255,
+          "y" : 10937
+        } ]
+      }, {
+        "id" : "133",
+        "vertices" : [ {
+          "x" : 2213,
+          "y" : 12508
+        }, {
+          "x" : 2255,
+          "y" : 12537
+        } ]
+      }, {
+        "id" : "134"
+      }, {
+        "id" : "135"
+      }, {
+        "id" : "136"
+      }, {
+        "id" : "137"
+      }, {
+        "id" : "138"
+      }, {
+        "id" : "139",
+        "vertices" : [ {
+          "x" : 1555,
+          "y" : 10137
+        } ]
+      }, {
+        "id" : "140",
+        "vertices" : [ {
+          "x" : 1409,
+          "y" : 9737
+        }, {
+          "x" : 1555,
+          "y" : 2724
+        } ]
+      }, {
+        "id" : "141"
+      }, {
+        "id" : "142",
+        "vertices" : [ {
+          "x" : 1409,
+          "y" : 10537
+        } ]
+      }, {
+        "id" : "143",
+        "vertices" : [ {
+          "x" : 1409,
+          "y" : 9337
+        }, {
+          "x" : 1555,
+          "y" : 8937
+        } ]
+      }, {
+        "id" : "144",
+        "vertices" : [ {
+          "x" : 1409,
+          "y" : 10137
+        }, {
+          "x" : 1555,
+          "y" : 9737
+        } ]
+      }, {
+        "id" : "145",
+        "vertices" : [ {
+          "x" : 2213,
+          "y" : 2724
+        }, {
+          "x" : 2255,
+          "y" : 7203
+        } ]
+      }, {
+        "id" : "146",
+        "vertices" : [ {
+          "x" : 2213,
+          "y" : 2724
+        }, {
+          "x" : 2255,
+          "y" : 3124
+        } ]
+      }, {
+        "id" : "147"
+      }, {
+        "id" : "148"
+      }, {
+        "id" : "149",
+        "vertices" : [ {
+          "x" : 2213,
+          "y" : 2724
+        }, {
+          "x" : 2255,
+          "y" : 3524
+        } ]
+      }, {
+        "id" : "150",
+        "vertices" : [ {
+          "x" : 2213,
+          "y" : 3124
+        }, {
+          "x" : 2255,
+          "y" : 7737
+        } ]
+      }, {
+        "id" : "151",
+        "vertices" : [ {
+          "x" : 2213,
+          "y" : 5124
+        }, {
+          "x" : 2255,
+          "y" : 7737
+        } ]
+      }, {
+        "id" : "152",
+        "vertices" : [ {
+          "x" : 2213,
+          "y" : 3924
+        }, {
+          "x" : 2255,
+          "y" : 9737
+        } ]
+      }, {
+        "id" : "153",
+        "vertices" : [ {
+          "x" : 2213,
+          "y" : 4724
+        }, {
+          "x" : 2255,
+          "y" : 11737
+        } ]
+      }, {
+        "id" : "154",
+        "vertices" : [ {
+          "x" : 2213,
+          "y" : 5524
+        }, {
+          "x" : 2255,
+          "y" : 11737
+        } ]
+      }, {
+        "id" : "155",
+        "vertices" : [ {
+          "x" : 2213,
+          "y" : 3524
+        }, {
+          "x" : 2255,
+          "y" : 8937
+        } ]
+      }, {
+        "id" : "156",
+        "vertices" : [ {
+          "x" : 2213,
+          "y" : 4324
+        }, {
+          "x" : 2255,
+          "y" : 10137
+        } ]
+      }, {
+        "id" : "157",
+        "vertices" : [ {
+          "x" : 2213,
+          "y" : 1924
+        }, {
+          "x" : 2255,
+          "y" : 1045
+        } ]
+      }, {
+        "id" : "158",
+        "vertices" : [ {
+          "x" : 2213,
+          "y" : 1524
+        }, {
+          "x" : 2255,
+          "y" : 1045
+        } ]
+      }, {
+        "id" : "159",
+        "vertices" : [ {
+          "x" : 2255,
+          "y" : 512
+        } ]
+      }, {
+        "id" : "160",
+        "vertices" : [ {
+          "x" : 2213,
+          "y" : 5124
+        }, {
+          "x" : 2255,
+          "y" : 14616
+        } ]
+      }, {
+        "id" : "161",
+        "vertices" : [ {
+          "x" : 2213,
+          "y" : 5524
+        }, {
+          "x" : 2255,
+          "y" : 14616
+        } ]
+      }, {
+        "id" : "162",
+        "vertices" : [ {
+          "x" : 3017,
+          "y" : 2724
+        }, {
+          "x" : 3059,
+          "y" : 14824
+        } ]
+      }, {
+        "id" : "163",
+        "vertices" : [ {
+          "x" : 3017,
+          "y" : 3124
+        }, {
+          "x" : 3059,
+          "y" : 15253
+        } ]
+      }, {
+        "id" : "164",
+        "vertices" : [ {
+          "x" : 3017,
+          "y" : 7258
+        }, {
+          "x" : 3059,
+          "y" : 15653
+        } ]
+      }, {
+        "id" : "165"
+      }, {
+        "id" : "166"
+      } ]
+    }, {
+      "automaticLayout" : {
+        "applied" : true,
+        "edgeSeparation" : 0,
+        "implementation" : "Graphviz",
+        "nodeSeparation" : 150,
+        "rankDirection" : "LeftRight",
+        "rankSeparation" : 300,
+        "vertices" : false
+      },
+      "containerId" : "10",
+      "description" : "API Layer — 6 Controllers, 27 REST endpoints, RFC 7807 error handling.",
+      "dimensions" : {
+        "height" : 5704,
+        "width" : 1720
+      },
+      "elements" : [ {
+        "id" : "11",
+        "x" : 260,
+        "y" : 203
+      }, {
+        "id" : "12",
+        "x" : 260,
+        "y" : 653
+      }, {
+        "id" : "13",
+        "x" : 260,
+        "y" : 1103
+      }, {
+        "id" : "14",
+        "x" : 260,
+        "y" : 1553
+      }, {
+        "id" : "15",
+        "x" : 260,
+        "y" : 2003
+      }, {
+        "id" : "16",
+        "x" : 260,
+        "y" : 2453
+      }, {
+        "id" : "17",
+        "x" : 260,
+        "y" : 2903
+      }, {
+        "id" : "18",
+        "x" : 1010,
+        "y" : 203
+      }, {
+        "id" : "19",
+        "x" : 1010,
+        "y" : 653
+      }, {
+        "id" : "20",
+        "x" : 1010,
+        "y" : 1103
+      }, {
+        "id" : "71",
+        "x" : 260,
+        "y" : 3516
+      }, {
+        "id" : "72",
+        "x" : 260,
+        "y" : 3966
+      }, {
+        "id" : "73",
+        "x" : 260,
+        "y" : 4416
+      }, {
+        "id" : "74",
+        "x" : 260,
+        "y" : 4866
+      } ],
+      "externalContainerBoundariesVisible" : false,
+      "key" : "L3_APILayer",
+      "name" : "Component View: Plum Endorsement System - Endorsement Service",
+      "order" : 4,
+      "relationships" : [ {
+        "id" : "111"
+      }, {
+        "id" : "112"
+      }, {
+        "id" : "113",
+        "vertices" : [ {
+          "x" : 814,
+          "y" : 578
+        }, {
+          "x" : 906,
+          "y" : 1028
+        } ]
+      } ]
+    }, {
+      "automaticLayout" : {
+        "applied" : false,
+        "edgeSeparation" : 0,
+        "implementation" : "Graphviz",
+        "nodeSeparation" : 150,
+        "rankDirection" : "LeftRight",
+        "rankSeparation" : 300,
+        "vertices" : false
+      },
+      "containerId" : "10",
+      "description" : "Domain Core — Models, ports, domain services. Zero infrastructure imports.",
+      "elements" : [ {
+        "id" : "37",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "38",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "39",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "40",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "41",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "42",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "43",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "44",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "45",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "46",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "47",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "48",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "49",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "50",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "51",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "52",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "53",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "54",
+        "x" : 0,
+        "y" : 0
+      } ],
+      "externalContainerBoundariesVisible" : false,
+      "key" : "L3_DomainCore",
+      "name" : "Component View: Plum Endorsement System - Endorsement Service",
+      "order" : 5
+    }, {
+      "automaticLayout" : {
+        "applied" : false,
+        "edgeSeparation" : 0,
+        "implementation" : "Graphviz",
+        "nodeSeparation" : 150,
+        "rankDirection" : "LeftRight",
+        "rankSeparation" : 300,
+        "vertices" : false
+      },
+      "containerId" : "10",
+      "description" : "Intelligence Layer — 5 rule-based adapters + 2 Ollama GenAI adapters.",
+      "elements" : [ {
+        "id" : "21",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "22",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "23",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "24",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "44",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "45",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "46",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "47",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "48",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "49",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "50",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "51",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "52",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "53",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "54",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "63",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "64",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "65",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "66",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "67",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "68",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "69",
+        "x" : 0,
+        "y" : 0
+      } ],
+      "externalContainerBoundariesVisible" : false,
+      "key" : "L3_Intelligence",
+      "name" : "Component View: Plum Endorsement System - Endorsement Service",
+      "order" : 6,
+      "relationships" : [ {
+        "id" : "135"
+      }, {
+        "id" : "136"
+      }, {
+        "id" : "137"
+      }, {
+        "id" : "138"
+      }, {
+        "id" : "150"
+      }, {
+        "id" : "151"
+      }, {
+        "id" : "152"
+      }, {
+        "id" : "153"
+      }, {
+        "id" : "154"
+      }, {
+        "id" : "155"
+      }, {
+        "id" : "156"
+      } ]
+    }, {
+      "automaticLayout" : {
+        "applied" : false,
+        "edgeSeparation" : 0,
+        "implementation" : "Graphviz",
+        "nodeSeparation" : 150,
+        "rankDirection" : "LeftRight",
+        "rankSeparation" : 300,
+        "vertices" : false
+      },
+      "containerId" : "10",
+      "description" : "Multi-Insurer Framework — Strategy pattern with per-insurer circuit breakers.",
+      "elements" : [ {
+        "id" : "4",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "5",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "6",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "19",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "43",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "47",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "58",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "59",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "60",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "61",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "62",
+        "x" : 0,
+        "y" : 0
+      } ],
+      "externalContainerBoundariesVisible" : false,
+      "key" : "L3_InsurerAdapters",
+      "name" : "Component View: Plum Endorsement System - Endorsement Service",
+      "order" : 7,
+      "relationships" : [ {
+        "id" : "130"
+      }, {
+        "id" : "145"
+      }, {
+        "id" : "146"
+      }, {
+        "id" : "147"
+      }, {
+        "id" : "148"
+      }, {
+        "id" : "149"
+      }, {
+        "id" : "162"
+      }, {
+        "id" : "163"
+      }, {
+        "id" : "164"
+      } ]
+    } ],
+    "configuration" : {
+      "branding" : { },
+      "lastSavedView" : "L3_Components",
+      "metadataSymbols" : "SquareBrackets",
+      "styles" : {
+        "elements" : [ {
+          "background" : "#ef4444",
+          "color" : "#ffffff",
+          "shape" : "Diamond",
+          "tag" : "ACL"
+        }, {
+          "background" : "#f59e0b",
+          "color" : "#000000",
+          "shape" : "RoundedBox",
+          "tag" : "Adapter"
+        }, {
+          "background" : "#7c3aed",
+          "color" : "#ffffff",
+          "tag" : "AI"
+        }, {
+          "background" : "#6366f1",
+          "color" : "#ffffff",
+          "shape" : "RoundedBox",
+          "tag" : "AppService"
+        }, {
+          "background" : "#dc2626",
+          "color" : "#ffffff",
+          "shape" : "Cylinder",
+          "tag" : "Cache"
+        }, {
+          "background" : "#818cf8",
+          "color" : "#ffffff",
+          "tag" : "Container"
+        }, {
+          "background" : "#3b82f6",
+          "color" : "#ffffff",
+          "shape" : "RoundedBox",
+          "tag" : "Controller"
+        }, {
+          "background" : "#64748b",
+          "color" : "#ffffff",
+          "shape" : "RoundedBox",
+          "tag" : "CrossCutting"
+        }, {
+          "background" : "#0d9488",
+          "color" : "#ffffff",
+          "shape" : "Cylinder",
+          "tag" : "Database"
+        }, {
+          "background" : "#1e293b",
+          "color" : "#ffffff",
+          "tag" : "DevMachine"
+        }, {
+          "background" : "#1e40af",
+          "color" : "#ffffff",
+          "tag" : "DockerContainer"
+        }, {
+          "background" : "#059669",
+          "color" : "#ffffff",
+          "shape" : "RoundedBox",
+          "tag" : "DomainModel"
+        }, {
+          "background" : "#10b981",
+          "color" : "#ffffff",
+          "shape" : "Hexagon",
+          "tag" : "DomainService"
+        }, {
+          "background" : "#64748b",
+          "color" : "#ffffff",
+          "shape" : "RoundedBox",
+          "tag" : "External System"
+        }, {
+          "background" : "#f97316",
+          "color" : "#ffffff",
+          "shape" : "Hexagon",
+          "tag" : "Factory"
+        }, {
+          "background" : "#8b5cf6",
+          "color" : "#ffffff",
+          "shape" : "RoundedBox",
+          "tag" : "Handler"
+        }, {
+          "background" : "#475569",
+          "color" : "#ffffff",
+          "shape" : "RoundedBox",
+          "tag" : "Infrastructure Node"
+        }, {
+          "background" : "#0891b2",
+          "color" : "#ffffff",
+          "tag" : "Insurer"
+        }, {
+          "background" : "#a855f7",
+          "color" : "#ffffff",
+          "tag" : "Intelligence"
+        }, {
+          "background" : "#1e293b",
+          "color" : "#ffffff",
+          "tag" : "K8sCluster"
+        }, {
+          "background" : "#312e81",
+          "color" : "#ffffff",
+          "tag" : "K8sNamespace"
+        }, {
+          "background" : "#1e40af",
+          "color" : "#ffffff",
+          "tag" : "K8sPod"
+        }, {
+          "background" : "#d97706",
+          "color" : "#ffffff",
+          "shape" : "Pipe",
+          "tag" : "MessageQueue"
+        }, {
+          "background" : "#059669",
+          "color" : "#ffffff",
+          "shape" : "RoundedBox",
+          "tag" : "Monitoring"
+        }, {
+          "background" : "#14b8a6",
+          "border" : "Dashed",
+          "color" : "#ffffff",
+          "shape" : "Component",
+          "tag" : "Port"
+        }, {
+          "background" : "#0891b2",
+          "color" : "#ffffff",
+          "shape" : "RoundedBox",
+          "tag" : "Scheduler"
+        }, {
+          "background" : "#6366f1",
+          "color" : "#ffffff",
+          "fontSize" : 22,
+          "shape" : "RoundedBox",
+          "tag" : "Software System"
+        }, {
+          "background" : "#4f46e5",
+          "color" : "#ffffff",
+          "shape" : "Hexagon",
+          "tag" : "SpringBoot"
+        }, {
+          "background" : "#4338ca",
+          "color" : "#ffffff",
+          "fontSize" : 22,
+          "shape" : "Person",
+          "tag" : "User"
+        }, {
+          "background" : "#3b82f6",
+          "color" : "#ffffff",
+          "shape" : "WebBrowser",
+          "tag" : "WebBrowser"
+        } ],
+        "relationships" : [ {
+          "color" : "#7c3aed",
+          "style" : "Dotted",
+          "tag" : "AI",
+          "thickness" : 2
+        }, {
+          "style" : "Dashed",
+          "tag" : "Async"
+        }, {
+          "color" : "#0891b2",
+          "style" : "Dashed",
+          "tag" : "Insurer",
+          "thickness" : 3
+        }, {
+          "color" : "#6b7280",
+          "tag" : "Relationship",
+          "thickness" : 2
+        }, {
+          "style" : "Solid",
+          "tag" : "Sync"
+        } ]
+      },
+      "terminology" : { }
+    },
+    "containerViews" : [ {
+      "automaticLayout" : {
+        "applied" : true,
+        "edgeSeparation" : 0,
+        "implementation" : "Graphviz",
+        "nodeSeparation" : 150,
+        "rankDirection" : "LeftRight",
+        "rankSeparation" : 300,
+        "vertices" : false
+      },
+      "description" : "Level 2 — Deployable units and their communication protocols.",
+      "dimensions" : {
+        "height" : 5388,
+        "width" : 4570
+      },
+      "elements" : [ {
+        "id" : "1",
+        "x" : 199,
+        "y" : 3381
+      }, {
+        "id" : "2",
+        "x" : 199,
+        "y" : 3931
+      }, {
+        "id" : "3",
+        "x" : 199,
+        "y" : 4514
+      }, {
+        "id" : "4",
+        "x" : 2399,
+        "y" : 143
+      }, {
+        "id" : "5",
+        "x" : 2399,
+        "y" : 593
+      }, {
+        "id" : "6",
+        "x" : 2399,
+        "y" : 1043
+      }, {
+        "id" : "7",
+        "x" : 2399,
+        "y" : 1493
+      }, {
+        "id" : "9",
+        "x" : 899,
+        "y" : 3672
+      }, {
+        "id" : "10",
+        "x" : 1649,
+        "y" : 2452
+      }, {
+        "id" : "75",
+        "x" : 2399,
+        "y" : 2002
+      }, {
+        "id" : "76",
+        "x" : 2399,
+        "y" : 3802
+      }, {
+        "id" : "77",
+        "x" : 2399,
+        "y" : 3352
+      }, {
+        "id" : "78",
+        "x" : 2399,
+        "y" : 2902
+      }, {
+        "id" : "79",
+        "x" : 3149,
+        "y" : 3914
+      }, {
+        "id" : "80",
+        "x" : 2399,
+        "y" : 4252
+      }, {
+        "id" : "81",
+        "x" : 3149,
+        "y" : 2789
+      }, {
+        "id" : "82",
+        "x" : 2399,
+        "y" : 2452
+      }, {
+        "id" : "83",
+        "x" : 3899,
+        "y" : 3689
+      } ],
+      "externalSoftwareSystemBoundariesVisible" : false,
+      "key" : "L2_Containers",
+      "name" : "Container View: Plum Endorsement System",
+      "order" : 2,
+      "relationships" : [ {
+        "id" : "100",
+        "vertices" : [ {
+          "x" : 1349,
+          "y" : 4685
+        }, {
+          "x" : 2849,
+          "y" : 4627
+        } ]
+      }, {
+        "id" : "101"
+      }, {
+        "id" : "102",
+        "vertices" : [ {
+          "x" : 1870,
+          "y" : 5089
+        }, {
+          "x" : 2628,
+          "y" : 5089
+        }, {
+          "x" : 3599,
+          "y" : 4289
+        } ]
+      }, {
+        "id" : "103",
+        "vertices" : [ {
+          "x" : 2399,
+          "y" : 518
+        } ]
+      }, {
+        "id" : "105",
+        "vertices" : [ {
+          "x" : 2399,
+          "y" : 968
+        } ]
+      }, {
+        "id" : "107",
+        "vertices" : [ {
+          "x" : 2399,
+          "y" : 1418
+        } ]
+      }, {
+        "id" : "109",
+        "vertices" : [ {
+          "x" : 2399,
+          "y" : 1860
+        } ]
+      }, {
+        "id" : "84"
+      }, {
+        "id" : "85"
+      }, {
+        "id" : "86",
+        "vertices" : [ {
+          "x" : 2399,
+          "y" : 3727
+        } ]
+      }, {
+        "id" : "87",
+        "vertices" : [ {
+          "x" : 2399,
+          "y" : 3277
+        } ]
+      }, {
+        "id" : "88"
+      }, {
+        "id" : "89",
+        "vertices" : [ {
+          "x" : 2399,
+          "y" : 4177
+        } ]
+      }, {
+        "id" : "90"
+      }, {
+        "id" : "91",
+        "vertices" : [ {
+          "x" : 2849,
+          "y" : 3277
+        } ]
+      }, {
+        "id" : "92"
+      }, {
+        "id" : "93"
+      }, {
+        "id" : "94"
+      }, {
+        "id" : "96"
+      }, {
+        "id" : "98"
+      } ],
+      "softwareSystemId" : "8"
+    } ],
+    "deploymentViews" : [ {
+      "automaticLayout" : {
+        "applied" : false,
+        "edgeSeparation" : 0,
+        "implementation" : "Graphviz",
+        "nodeSeparation" : 150,
+        "rankDirection" : "LeftRight",
+        "rankSeparation" : 300,
+        "vertices" : false
+      },
+      "description" : "Development environment: Docker Compose with 9+ services, health checks, and volume mounts.",
+      "elements" : [ {
+        "id" : "167",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "168",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "169",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "170",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "171",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "173",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "174",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "176",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "177",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "179",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "180",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "182",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "183",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "185",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "186",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "188",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "189",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "191",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "192",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "193",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "194",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "197",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "198",
+        "x" : 0,
+        "y" : 0
+      } ],
+      "environment" : "Development (Docker Compose)",
+      "key" : "Deploy_DockerCompose",
+      "name" : "Deployment View: Plum Endorsement System - Development (Docker Compose)",
+      "order" : 12,
+      "relationships" : [ {
+        "id" : "172"
+      }, {
+        "id" : "175"
+      }, {
+        "id" : "178"
+      }, {
+        "id" : "181"
+      }, {
+        "id" : "184"
+      }, {
+        "id" : "187"
+      }, {
+        "id" : "190"
+      }, {
+        "id" : "195"
+      }, {
+        "id" : "196"
+      }, {
+        "id" : "199"
+      } ],
+      "softwareSystemId" : "8"
+    }, {
+      "automaticLayout" : {
+        "applied" : false,
+        "edgeSeparation" : 0,
+        "implementation" : "Graphviz",
+        "nodeSeparation" : 150,
+        "rankDirection" : "LeftRight",
+        "rankSeparation" : 300,
+        "vertices" : false
+      },
+      "description" : "Production environment: Kubernetes with HPA (2-8 pods), PDB, Ingress, and PVC-backed storage.",
+      "elements" : [ {
+        "id" : "200",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "201",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "202",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "203",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "204",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "205",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "207",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "208",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "210",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "211",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "213",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "214",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "216",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "218",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "220",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "221",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "222",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "225",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "227",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "228",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "229",
+        "x" : 0,
+        "y" : 0
+      } ],
+      "environment" : "Production (Kubernetes)",
+      "key" : "Deploy_Kubernetes",
+      "name" : "Deployment View: Plum Endorsement System - Production (Kubernetes)",
+      "order" : 13,
+      "relationships" : [ {
+        "id" : "206"
+      }, {
+        "id" : "209"
+      }, {
+        "id" : "212"
+      }, {
+        "id" : "215"
+      }, {
+        "id" : "217"
+      }, {
+        "id" : "219"
+      }, {
+        "id" : "223"
+      }, {
+        "id" : "224"
+      }, {
+        "id" : "226"
+      } ],
+      "softwareSystemId" : "8"
+    } ],
+    "dynamicViews" : [ {
+      "automaticLayout" : {
+        "applied" : false,
+        "edgeSeparation" : 0,
+        "implementation" : "Graphviz",
+        "nodeSeparation" : 300,
+        "rankDirection" : "LeftRight",
+        "rankSeparation" : 300,
+        "vertices" : false
+      },
+      "description" : "End-to-end endorsement creation: validate, dedup, debit EA, grant provisional coverage, publish event.",
+      "elementId" : "8",
+      "elements" : [ {
+        "id" : "1",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "9",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "10",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "75",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "77",
+        "x" : 0,
+        "y" : 0
+      } ],
+      "externalBoundariesVisible" : false,
+      "key" : "Dyn_CreateEndorsement",
+      "name" : "Dynamic View: Plum Endorsement System",
+      "order" : 8,
+      "relationships" : [ {
+        "description" : "1. Fills endorsement form (type, employee, premium)",
+        "id" : "94",
+        "order" : "1",
+        "response" : false
+      }, {
+        "description" : "2. POST /api/v1/endorsements",
+        "id" : "84",
+        "order" : "2",
+        "response" : false
+      }, {
+        "description" : "3. Idempotency check (SELECT by key)",
+        "id" : "85",
+        "order" : "3",
+        "response" : false
+      }, {
+        "description" : "4. Reserve EA balance + save endorsement",
+        "id" : "85",
+        "order" : "4",
+        "response" : false
+      }, {
+        "description" : "5. Publish EndorsementEvent.Created",
+        "id" : "87",
+        "order" : "5",
+        "response" : false
+      }, {
+        "description" : "6. Return 201 + endorsement ID",
+        "id" : "84",
+        "order" : "6",
+        "response" : true
+      } ],
+      "title" : "Create Endorsement Flow"
+    }, {
+      "automaticLayout" : {
+        "applied" : false,
+        "edgeSeparation" : 0,
+        "implementation" : "Graphviz",
+        "nodeSeparation" : 300,
+        "rankDirection" : "LeftRight",
+        "rankSeparation" : 300,
+        "vertices" : false
+      },
+      "description" : "Insurer submission: router resolves adapter by Strategy pattern, circuit breaker protects the call.",
+      "elementId" : "8",
+      "elements" : [ {
+        "id" : "4",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "9",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "10",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "75",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "76",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "77",
+        "x" : 0,
+        "y" : 0
+      } ],
+      "externalBoundariesVisible" : false,
+      "key" : "Dyn_InsurerSubmission",
+      "name" : "Dynamic View: Plum Endorsement System",
+      "order" : 9,
+      "relationships" : [ {
+        "description" : "1. POST /api/v1/endorsements/{id}/submit",
+        "id" : "84",
+        "order" : "1",
+        "response" : false
+      }, {
+        "description" : "2. Lookup insurer config (cached)",
+        "id" : "86",
+        "order" : "2",
+        "response" : false
+      }, {
+        "description" : "3. Submit via resolved adapter (@CircuitBreaker + @Retry)",
+        "id" : "103",
+        "order" : "3",
+        "response" : false
+      }, {
+        "description" : "4. Update status to CONFIRMED, save insurer reference",
+        "id" : "85",
+        "order" : "4",
+        "response" : false
+      }, {
+        "description" : "5. Publish EndorsementEvent.Confirmed",
+        "id" : "87",
+        "order" : "5",
+        "response" : false
+      }, {
+        "description" : "6. Return updated endorsement",
+        "id" : "84",
+        "order" : "6",
+        "response" : true
+      } ],
+      "title" : "Submit to Insurer (Real-Time Path)"
+    }, {
+      "automaticLayout" : {
+        "applied" : false,
+        "edgeSeparation" : 0,
+        "implementation" : "Graphviz",
+        "nodeSeparation" : 300,
+        "rankDirection" : "LeftRight",
+        "rankSeparation" : 300,
+        "vertices" : false
+      },
+      "description" : "Batch assembly: scheduled every 15 min, optimizes order (DELETEs first), submits to batch-only insurers.",
+      "elementId" : "8",
+      "elements" : [ {
+        "id" : "5",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "10",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "75",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "77",
+        "x" : 0,
+        "y" : 0
+      } ],
+      "externalBoundariesVisible" : false,
+      "key" : "Dyn_BatchAssembly",
+      "name" : "Dynamic View: Plum Endorsement System",
+      "order" : 10,
+      "relationships" : [ {
+        "description" : "1. Find QUEUED_FOR_BATCH endorsements",
+        "id" : "85",
+        "order" : "1",
+        "response" : false
+      }, {
+        "description" : "2. Group by insurer, optimize order (Knapsack DP)",
+        "id" : "85",
+        "order" : "2",
+        "response" : false
+      }, {
+        "description" : "3. Upload CSV batch to Niva Bupa (SFTP)",
+        "id" : "105",
+        "order" : "3",
+        "response" : false
+      }, {
+        "description" : "4. Update to BATCH_SUBMITTED, save batch ref",
+        "id" : "85",
+        "order" : "4",
+        "response" : false
+      }, {
+        "description" : "5. Publish EndorsementEvent.BatchSubmitted",
+        "id" : "87",
+        "order" : "5",
+        "response" : false
+      } ],
+      "title" : "Batch Assembly & Submission (Every 15 min)"
+    }, {
+      "automaticLayout" : {
+        "applied" : true,
+        "edgeSeparation" : 0,
+        "implementation" : "Graphviz",
+        "nodeSeparation" : 300,
+        "rankDirection" : "LeftRight",
+        "rankSeparation" : 300,
+        "vertices" : false
+      },
+      "description" : "Anomaly detection: 5 rules run every 5 min, Ollama enriches high-scoring anomalies with LLM narratives.",
+      "dimensions" : {
+        "height" : 1920,
+        "width" : 1640
+      },
+      "elementId" : "8",
+      "elements" : [ {
+        "id" : "7",
+        "x" : 970,
+        "y" : 1363
+      }, {
+        "id" : "10",
+        "x" : 220,
+        "y" : 763
+      }, {
+        "id" : "75",
+        "x" : 970,
+        "y" : 763
+      }, {
+        "id" : "77",
+        "x" : 970,
+        "y" : 163
+      } ],
+      "externalBoundariesVisible" : false,
+      "key" : "Dyn_AnomalyDetection",
+      "name" : "Dynamic View: Plum Endorsement System",
+      "order" : 11,
+      "relationships" : [ {
+        "description" : "1. Load recent endorsements per employer",
+        "id" : "85",
+        "order" : "1",
+        "response" : false,
+        "vertices" : [ {
+          "x" : 820,
+          "y" : 935
+        } ]
+      }, {
+        "description" : "2. Run 5 rules, compute scores (0-1)",
+        "id" : "85",
+        "order" : "2",
+        "response" : false,
+        "vertices" : [ {
+          "x" : 811,
+          "y" : 785
+        } ]
+      }, {
+        "description" : "3. Send scores > 0.7 to LLM for enrichment",
+        "id" : "109",
+        "order" : "3",
+        "response" : false
+      }, {
+        "description" : "4. Save anomaly with score + LLM explanation",
+        "id" : "85",
+        "order" : "4",
+        "response" : false,
+        "vertices" : [ {
+          "x" : 828,
+          "y" : 1084
+        } ]
+      }, {
+        "description" : "5. Publish EndorsementEvent.AnomalyDetected",
+        "id" : "87",
+        "order" : "5",
+        "response" : false
+      } ],
+      "title" : "Anomaly Detection (Every 5 min)"
+    } ],
+    "systemContextViews" : [ {
+      "automaticLayout" : {
+        "applied" : true,
+        "edgeSeparation" : 0,
+        "implementation" : "Graphviz",
+        "nodeSeparation" : 200,
+        "rankDirection" : "LeftRight",
+        "rankSeparation" : 350,
+        "vertices" : false
+      },
+      "description" : "Level 1 — Who uses the system and what it connects to.",
+      "dimensions" : {
+        "height" : 2200,
+        "width" : 2400
+      },
+      "elements" : [ {
+        "id" : "1",
+        "x" : 200,
+        "y" : 243
+      }, {
+        "id" : "2",
+        "x" : 200,
+        "y" : 843
+      }, {
+        "id" : "3",
+        "x" : 200,
+        "y" : 1443
+      }, {
+        "id" : "4",
+        "x" : 1750,
+        "y" : 143
+      }, {
+        "id" : "5",
+        "x" : 1750,
+        "y" : 643
+      }, {
+        "id" : "6",
+        "x" : 1750,
+        "y" : 1143
+      }, {
+        "id" : "7",
+        "x" : 1750,
+        "y" : 1643
+      }, {
+        "id" : "8",
+        "x" : 950,
+        "y" : 893
+      } ],
+      "enterpriseBoundaryVisible" : true,
+      "key" : "L1_SystemContext",
+      "name" : "System Context View: Plum Endorsement System",
+      "order" : 1,
+      "relationships" : [ {
+        "id" : "104"
+      }, {
+        "id" : "106"
+      }, {
+        "id" : "108"
+      }, {
+        "id" : "110"
+      }, {
+        "id" : "95"
+      }, {
+        "id" : "97"
+      }, {
+        "id" : "99"
+      } ],
+      "softwareSystemId" : "8"
+    } ]
+  }
+}
