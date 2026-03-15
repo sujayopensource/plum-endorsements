@@ -1,0 +1,30 @@
+[
+  {
+    "name": "Passed",
+    "matchedStatuses": ["passed"],
+    "traceRegex": ""
+  },
+  {
+    "name": "Test Defects",
+    "matchedStatuses": ["broken"],
+    "messageRegex": ".*",
+    "traceRegex": ".*"
+  },
+  {
+    "name": "Product Defects",
+    "matchedStatuses": ["failed"],
+    "messageRegex": ".*Expected.*",
+    "traceRegex": ".*"
+  },
+  {
+    "name": "Known Issues",
+    "matchedStatuses": ["failed"],
+    "messageRegex": ".*timeout.*|.*Timeout.*",
+    "traceRegex": ".*"
+  },
+  {
+    "name": "Skipped",
+    "matchedStatuses": ["skipped"],
+    "traceRegex": ""
+  }
+]

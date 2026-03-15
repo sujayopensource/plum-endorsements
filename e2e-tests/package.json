@@ -1,0 +1,14 @@
+{
+  "name": "e2e-tests",
+  "private": true,
+  "scripts": {
+    "test": "npx playwright test",
+    "test:e2e": "npx playwright test tests/e2e/",
+    "test:storybook": "npx playwright test tests/storybook/",
+    "report": "npx allure serve allure-results"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.50.0",
+    "allure-playwright": "^3.0.0"
+  }
+}

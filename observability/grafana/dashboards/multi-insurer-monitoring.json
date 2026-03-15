@@ -1,0 +1,550 @@
+{
+  "id": null,
+  "uid": "multi-insurer-monitoring",
+  "title": "Endorsement Service - Multi-Insurer Monitoring",
+  "description": "Insurer submission rates, circuit breaker health, and error analysis across all integrated insurers",
+  "tags": ["endorsement-service", "multi-insurer", "monitoring"],
+  "timezone": "browser",
+  "editable": true,
+  "refresh": "10s",
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "schemaVersion": 39,
+  "version": 1,
+  "links": [],
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "templating": {
+    "list": []
+  },
+  "panels": [
+    {
+      "type": "row",
+      "title": "Insurer Submission Metrics",
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 0 },
+      "id": 100,
+      "collapsed": false,
+      "panels": []
+    },
+    {
+      "id": 1,
+      "title": "Submission Rate by Insurer",
+      "description": "Rate of endorsement submissions per second broken down by insurer adapter and method",
+      "type": "timeseries",
+      "datasource": "Prometheus",
+      "gridPos": { "h": 8, "w": 8, "x": 0, "y": 1 },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "req/s",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 15,
+            "gradientMode": "none",
+            "hideFrom": { "legend": false, "tooltip": false, "viz": false },
+            "insertNulls": false,
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": { "type": "linear" },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": { "group": "A", "mode": "none" },
+            "thresholdsStyle": { "mode": "off" }
+          },
+          "unit": "reqps",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom" },
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": "Prometheus",
+          "expr": "rate(endorsement_insurer_mock_duration_seconds_count{application=\"endorsement-service\"}[5m])",
+          "legendFormat": "Mock {{method}}",
+          "interval": "",
+          "editorMode": "code"
+        },
+        {
+          "refId": "B",
+          "datasource": "Prometheus",
+          "expr": "rate(endorsement_insurer_icici_duration_seconds_count{application=\"endorsement-service\"}[5m])",
+          "legendFormat": "ICICI {{method}}",
+          "interval": "",
+          "editorMode": "code"
+        },
+        {
+          "refId": "C",
+          "datasource": "Prometheus",
+          "expr": "rate(endorsement_insurer_nivabupa_duration_seconds_count{application=\"endorsement-service\"}[5m])",
+          "legendFormat": "NivaBupa {{method}}",
+          "interval": "",
+          "editorMode": "code"
+        },
+        {
+          "refId": "D",
+          "datasource": "Prometheus",
+          "expr": "rate(endorsement_insurer_bajaj_duration_seconds_count{application=\"endorsement-service\"}[5m])",
+          "legendFormat": "Bajaj {{method}}",
+          "interval": "",
+          "editorMode": "code"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Submission Latency P95 by Insurer",
+      "description": "95th percentile submission latency for each insurer adapter",
+      "type": "timeseries",
+      "datasource": "Prometheus",
+      "gridPos": { "h": 8, "w": 8, "x": 8, "y": 1 },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "latency",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": { "legend": false, "tooltip": false, "viz": false },
+            "insertNulls": false,
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": { "type": "linear" },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": { "group": "A", "mode": "none" },
+            "thresholdsStyle": { "mode": "line+area" }
+          },
+          "unit": "s",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "yellow", "value": 0.5 },
+              { "color": "red", "value": 1.0 }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom" },
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": "Prometheus",
+          "expr": "histogram_quantile(0.95, sum(rate(endorsement_insurer_icici_duration_seconds_bucket{application=\"endorsement-service\"}[5m])) by (le))",
+          "legendFormat": "p95 ICICI",
+          "interval": "",
+          "editorMode": "code"
+        },
+        {
+          "refId": "B",
+          "datasource": "Prometheus",
+          "expr": "histogram_quantile(0.95, sum(rate(endorsement_insurer_nivabupa_duration_seconds_bucket{application=\"endorsement-service\"}[5m])) by (le))",
+          "legendFormat": "p95 NivaBupa",
+          "interval": "",
+          "editorMode": "code"
+        },
+        {
+          "refId": "C",
+          "datasource": "Prometheus",
+          "expr": "histogram_quantile(0.95, sum(rate(endorsement_insurer_bajaj_duration_seconds_bucket{application=\"endorsement-service\"}[5m])) by (le))",
+          "legendFormat": "p95 Bajaj",
+          "interval": "",
+          "editorMode": "code"
+        },
+        {
+          "refId": "D",
+          "datasource": "Prometheus",
+          "expr": "histogram_quantile(0.95, sum(rate(endorsement_insurer_mock_duration_seconds_bucket{application=\"endorsement-service\"}[5m])) by (le))",
+          "legendFormat": "p95 Mock",
+          "interval": "",
+          "editorMode": "code"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Active Insurer Count",
+      "description": "Number of currently active insurer adapters",
+      "type": "stat",
+      "datasource": "Prometheus",
+      "gridPos": { "h": 8, "w": 8, "x": 16, "y": 1 },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "red", "value": null },
+              { "color": "yellow", "value": 1 },
+              { "color": "green", "value": 2 }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": ["lastNotNull"],
+          "fields": ""
+        },
+        "orientation": "auto",
+        "textMode": "auto",
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": "Prometheus",
+          "expr": "endorsement_insurer_active_count{application=\"endorsement-service\"}",
+          "legendFormat": "Active Insurers",
+          "interval": "",
+          "editorMode": "code"
+        }
+      ]
+    },
+    {
+      "type": "row",
+      "title": "Circuit Breaker Health",
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 9 },
+      "id": 101,
+      "collapsed": false,
+      "panels": []
+    },
+    {
+      "id": 4,
+      "title": "Circuit Breaker State",
+      "description": "Current state of circuit breakers for each insurer (CLOSED=healthy, OPEN=failing, HALF_OPEN=recovering)",
+      "type": "stat",
+      "datasource": "Prometheus",
+      "gridPos": { "h": 8, "w": 8, "x": 0, "y": 10 },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "0": { "text": "CLOSED", "color": "green", "index": 0 },
+                "1": { "text": "OPEN", "color": "red", "index": 1 },
+                "2": { "text": "HALF_OPEN", "color": "yellow", "index": 2 }
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "red", "value": 1 },
+              { "color": "yellow", "value": 2 }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": ["lastNotNull"],
+          "fields": ""
+        },
+        "orientation": "horizontal",
+        "textMode": "auto",
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": "Prometheus",
+          "expr": "resilience4j_circuitbreaker_state{application=\"endorsement-service\", name=~\"iciciLombard|bajajAllianz\"}",
+          "legendFormat": "{{name}}",
+          "interval": "",
+          "editorMode": "code"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Circuit Breaker Failure Rate",
+      "description": "Current failure rate percentage for each circuit breaker",
+      "type": "gauge",
+      "datasource": "Prometheus",
+      "gridPos": { "h": 8, "w": 8, "x": 8, "y": 10 },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "min": 0,
+          "max": 100,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "yellow", "value": 25 },
+              { "color": "orange", "value": 50 },
+              { "color": "red", "value": 75 }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": ["lastNotNull"],
+          "fields": ""
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "orientation": "auto"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": "Prometheus",
+          "expr": "resilience4j_circuitbreaker_failure_rate{application=\"endorsement-service\", name=~\"iciciLombard|bajajAllianz\"}",
+          "legendFormat": "{{name}}",
+          "interval": "",
+          "editorMode": "code"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "title": "Circuit Breaker Calls",
+      "description": "Rate of circuit breaker calls per second by insurer and outcome (successful, failed, not_permitted)",
+      "type": "timeseries",
+      "datasource": "Prometheus",
+      "gridPos": { "h": 8, "w": 8, "x": 16, "y": 10 },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "calls/s",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 15,
+            "gradientMode": "none",
+            "hideFrom": { "legend": false, "tooltip": false, "viz": false },
+            "insertNulls": false,
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": { "type": "linear" },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": { "group": "A", "mode": "none" },
+            "thresholdsStyle": { "mode": "off" }
+          },
+          "unit": "reqps",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom" },
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": "Prometheus",
+          "expr": "rate(resilience4j_circuitbreaker_calls_seconds_count{application=\"endorsement-service\", name=~\"iciciLombard|bajajAllianz\"}[5m])",
+          "legendFormat": "{{name}} - {{kind}}",
+          "interval": "",
+          "editorMode": "code"
+        }
+      ]
+    },
+    {
+      "type": "row",
+      "title": "Error Analysis",
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 18 },
+      "id": 102,
+      "collapsed": false,
+      "panels": []
+    },
+    {
+      "id": 7,
+      "title": "Errors by Type",
+      "description": "Distribution of errors over the last hour categorized by error type",
+      "type": "piechart",
+      "datasource": "Prometheus",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 19 },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "hideFrom": { "legend": false, "tooltip": false, "viz": false }
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": ["lastNotNull"],
+          "fields": ""
+        },
+        "pieType": "pie",
+        "tooltip": { "mode": "multi", "sort": "desc" },
+        "legend": { "displayMode": "table", "placement": "right", "values": ["value", "percent"] }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": "Prometheus",
+          "expr": "increase(endorsement_error_total{application=\"endorsement-service\"}[1h])",
+          "legendFormat": "{{type}}",
+          "interval": "",
+          "editorMode": "code"
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "title": "Insurer Error Rate",
+      "description": "Rate of errors per second for each insurer adapter",
+      "type": "timeseries",
+      "datasource": "Prometheus",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 19 },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "errors/s",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 20,
+            "gradientMode": "scheme",
+            "hideFrom": { "legend": false, "tooltip": false, "viz": false },
+            "insertNulls": false,
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": { "type": "linear" },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": { "group": "A", "mode": "none" },
+            "thresholdsStyle": { "mode": "area" }
+          },
+          "unit": "reqps",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "red", "value": 0.1 }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom" },
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": "Prometheus",
+          "expr": "rate(endorsement_insurer_icici_error_total{application=\"endorsement-service\"}[5m])",
+          "legendFormat": "ICICI Errors",
+          "interval": "",
+          "editorMode": "code"
+        },
+        {
+          "refId": "B",
+          "datasource": "Prometheus",
+          "expr": "rate(endorsement_insurer_nivabupa_error_total{application=\"endorsement-service\"}[5m])",
+          "legendFormat": "NivaBupa Errors",
+          "interval": "",
+          "editorMode": "code"
+        },
+        {
+          "refId": "C",
+          "datasource": "Prometheus",
+          "expr": "rate(endorsement_insurer_bajaj_error_total{application=\"endorsement-service\"}[5m])",
+          "legendFormat": "Bajaj Errors",
+          "interval": "",
+          "editorMode": "code"
+        },
+        {
+          "refId": "D",
+          "datasource": "Prometheus",
+          "expr": "rate(endorsement_insurer_mock_error_total{application=\"endorsement-service\"}[5m])",
+          "legendFormat": "Mock Errors",
+          "interval": "",
+          "editorMode": "code"
+        }
+      ]
+    }
+  ]
+}

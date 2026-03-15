@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: logstash
+  namespace: plum
+spec:
+  selector:
+    app: logstash
+  ports:
+    - name: tcp
+      port: 5000
+      targetPort: 5000
+    - name: beats
+      port: 5044
+      targetPort: 5044

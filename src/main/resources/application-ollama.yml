@@ -1,0 +1,24 @@
+# ============================================================
+# Endorsement Service - Ollama LLM Profile
+# ============================================================
+# Activated via SPRING_PROFILES_ACTIVE=ollama
+# Enables LLM-backed intelligence adapters (Error Resolution,
+# Anomaly Detection enrichment) using a local Ollama instance.
+# ============================================================
+
+endorsement:
+  intelligence:
+    ollama:
+      enabled: true
+
+spring:
+  ai:
+    model:
+      chat: ollama
+    ollama:
+      base-url: ${OLLAMA_URL:http://localhost:11434}
+      chat:
+        model: ${OLLAMA_MODEL:llama3.2}
+        options:
+          temperature: 0.3
+          num-predict: 512

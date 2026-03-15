@@ -1,0 +1,13 @@
+{
+  "name": "plum-endorsement-video-demo",
+  "version": "1.0.0",
+  "description": "Automated video demo generator for Plum Endorsement Service",
+  "scripts": {
+    "generate-audio": "bash generate-narration.sh",
+    "record": "node demo.js",
+    "build": "bash build-demo.sh"
+  },
+  "dependencies": {
+    "playwright": "^1.58.0"
+  }
+}

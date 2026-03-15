@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backend-config
+  namespace: plum
+data:
+  SPRING_DATASOURCE_URL: "jdbc:postgresql://postgres:5432/endorsements"
+  SPRING_DATASOURCE_USERNAME: "plum"
+  SPRING_DATASOURCE_PASSWORD: "plum_dev"
+  SPRING_DATA_REDIS_HOST: "redis"
+  SPRING_DATA_REDIS_PORT: "6379"
+  SPRING_KAFKA_BOOTSTRAP_SERVERS: "kafka:9092"
+  LOGSTASH_HOST: "logstash"
+  SPRING_PROFILES_ACTIVE: "json"
+  ENDORSEMENT_RECONCILIATION_CRON: "0 */15 * * * *"

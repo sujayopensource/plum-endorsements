@@ -1,0 +1,44 @@
+# ============================================================
+# Endorsement Service - Test Profile Configuration
+# ============================================================
+
+endorsement:
+  intelligence:
+    ollama:
+      enabled: false
+
+spring:
+  ai:
+    model:
+      chat: none
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create-drop
+
+  flyway:
+    enabled: false
+
+  kafka:
+    bootstrap-servers: ${spring.embedded.kafka.brokers:localhost:9092}
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+  # Unit tests use Caffeine (no Redis required)
+  cache:
+    type: caffeine
+    caffeine:
+      spec: maximumSize=100,expireAfterWrite=10s
+
+# --- Logging ---
+logging:
+  level:
+    root: WARN
+    com.plum: DEBUG

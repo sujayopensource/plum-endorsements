@@ -1,0 +1,270 @@
+# ============================================================
+# Endorsement Service - Main Configuration
+# ============================================================
+
+spring:
+  application:
+    name: endorsement-service
+
+  threads:
+    virtual:
+      enabled: true
+
+  ai:
+    ollama:
+      base-url: http://localhost:11434
+      chat:
+        model: llama3.2
+
+  lifecycle:
+    timeout-per-shutdown-phase: 30s
+
+  # --- Security filter order is configured in SecurityConfig ---
+
+  # --- DataSource (PostgreSQL + HikariCP) ---
+  datasource:
+    url: jdbc:postgresql://localhost:5432/endorsements
+    username: plum
+    password: plum_dev
+    hikari:
+      maximum-pool-size: 30
+      minimum-idle: 5
+      connection-timeout: 10000
+      idle-timeout: 300000
+      max-lifetime: 1680000
+      leak-detection-threshold: 60000
+
+  # --- JPA / Hibernate ---
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    open-in-view: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        jdbc:
+          batch_size: 25
+          fetch_size: 50
+        order_inserts: true
+        order_updates: true
+
+  # --- Flyway ---
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+  # --- Redis ---
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+  # --- Kafka ---
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: endorsement-service
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      acks: all
+
+  # --- Cache (Redis — distributed, shared across instances) ---
+  cache:
+    type: redis
+    redis:
+      time-to-live: 60s
+      key-prefix: "endorsement:"
+      use-key-prefix: true
+      cache-null-values: false
+
+# --- Server ---
+server:
+  port: 8080
+  shutdown: graceful
+
+# --- Management / Actuator ---
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus,circuitbreakers,retries
+  endpoint:
+    health:
+      show-details: always
+  tracing:
+    sampling:
+      probability: 1.0
+    baggage:
+      remote-fields:
+        - endorsementId
+        - employerId
+      correlation:
+        fields:
+          - endorsementId
+          - employerId
+  metrics:
+    tags:
+      application: endorsement-service
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true
+        endorsement.insurer.submission.duration: true
+      percentiles:
+        http.server.requests: 0.5, 0.95, 0.99
+        endorsement.insurer.submission.duration: 0.5, 0.95, 0.99
+
+# --- Springdoc / OpenAPI ---
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui
+
+# --- Logging ---
+logging:
+  level:
+    root: INFO
+    com.plum: DEBUG
+    org.springframework.kafka: WARN
+
+# --- Custom Properties ---
+endorsement:
+  ea:
+    safety-margin-pct: 0.10
+    block-on-insufficient-balance: false
+    credit-delay-days: 30
+  batch:
+    schedule-cron: "0 */15 * * * *"
+  retry:
+    max-attempts: 3
+    backoff-ms: 5000
+  provisional-coverage:
+    max-days: 30
+    warning-days-before-expiry: 2
+  intelligence:
+    ollama:
+      enabled: true
+      model: llama3.2
+      base-url: http://localhost:11434
+    anomaly-detection:
+      enabled: true
+      schedule-cron: "0 */5 * * * *"
+      volume-spike-threshold: 0.5
+      cycling-window-days: 30
+      min-anomaly-score: 0.7
+    balance-forecast:
+      enabled: true
+      schedule-cron: "0 0 6 * * *"
+      forecast-days-ahead: 30
+      alert-days-ahead: 7
+    batch-optimizer:
+      enabled: true
+    error-resolution:
+      enabled: true
+      auto-apply-threshold: 0.95
+      max-auto-retries: 2
+    process-mining:
+      enabled: true
+      schedule-cron: "0 0 3 * * *"
+  notifications:
+    webhook:
+      enabled: false
+      url: http://localhost:9090/webhooks
+  rate-limit:
+    enabled: false
+    requests-per-second: 50
+    burst-size: 100
+  retention:
+    archive-cron: "0 0 3 * * SUN"
+    days: 365
+    batch-size: 1000
+
+# --- Resilience4j ---
+resilience4j:
+  circuitbreaker:
+    instances:
+      insurerSubmission:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5
+        permittedNumberOfCallsInHalfOpenState: 3
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: 30s
+        failureRateThreshold: 50
+      iciciLombard:
+        registerHealthIndicator: true
+        slidingWindowSize: 20
+        minimumNumberOfCalls: 10
+        permittedNumberOfCallsInHalfOpenState: 5
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: 30s
+        failureRateThreshold: 50
+      bajajAllianz:
+        registerHealthIndicator: true
+        slidingWindowSize: 15
+        minimumNumberOfCalls: 5
+        permittedNumberOfCallsInHalfOpenState: 3
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: 45s
+        failureRateThreshold: 40
+      webhookNotification:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5
+        permittedNumberOfCallsInHalfOpenState: 3
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: 60s
+        failureRateThreshold: 50
+      ollamaErrorResolution:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5
+        permittedNumberOfCallsInHalfOpenState: 3
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: 30s
+        failureRateThreshold: 50
+      ollamaAnomalyDetection:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5
+        permittedNumberOfCallsInHalfOpenState: 3
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: 30s
+        failureRateThreshold: 50
+  retry:
+    instances:
+      insurerSubmission:
+        maxAttempts: 3
+        waitDuration: 2s
+        enableExponentialBackoff: true
+        exponentialBackoffMultiplier: 2
+      iciciLombard:
+        maxAttempts: 3
+        waitDuration: 1s
+        enableExponentialBackoff: true
+        exponentialBackoffMultiplier: 2
+      bajajAllianz:
+        maxAttempts: 5
+        waitDuration: 3s
+        enableExponentialBackoff: true
+        exponentialBackoffMultiplier: 2
+      webhookNotification:
+        maxAttempts: 3
+        waitDuration: 1s
+        enableExponentialBackoff: true
+        exponentialBackoffMultiplier: 2
+      ollamaErrorResolution:
+        maxAttempts: 3
+        waitDuration: 2s
+        enableExponentialBackoff: true
+        exponentialBackoffMultiplier: 2
+      ollamaAnomalyDetection:
+        maxAttempts: 3
+        waitDuration: 2s
+        enableExponentialBackoff: true
+        exponentialBackoffMultiplier: 2

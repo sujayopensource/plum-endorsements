@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-config
+  namespace: plum
+data:
+  POSTGRES_DB: endorsements
+  POSTGRES_USER: plum
