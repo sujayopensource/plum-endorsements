@@ -14,4 +14,5 @@ public interface ErrorResolutionRepository {
     long count();
     List<ErrorResolution> findByEndorsementIdAndOutcomeIsNull(UUID endorsementId);
     long countByOutcome(String outcome);
+    List<ErrorResolution> findAll();
 }

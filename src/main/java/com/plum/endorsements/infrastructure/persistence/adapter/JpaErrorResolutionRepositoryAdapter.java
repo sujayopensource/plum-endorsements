@@ -55,6 +55,11 @@ public class JpaErrorResolutionRepositoryAdapter implements ErrorResolutionRepos
         return springDataRepo.countByOutcome(outcome);
     }
 
+    @Override
+    public List<ErrorResolution> findAll() {
+        return springDataRepo.findAll().stream().map(this::toDomain).toList();
+    }
+
     private ErrorResolution toDomain(ErrorResolutionEntity entity) {
         return ErrorResolution.builder()
                 .id(entity.getId())

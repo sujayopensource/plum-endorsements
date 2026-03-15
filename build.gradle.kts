@@ -91,6 +91,9 @@ dependencies {
     testImplementation("com.redis:testcontainers-redis:2.2.2")
     testRuntimeOnly("com.h2database:h2")
 
+    // Architecture Fitness Functions (ArchUnit)
+    testImplementation("com.tngtech.archunit:archunit-junit5:1.3.0")
+
     testCompileOnly("org.projectlombok:lombok")
     testAnnotationProcessor("org.projectlombok:lombok")
 }

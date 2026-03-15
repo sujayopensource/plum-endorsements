@@ -1,0 +1,135 @@
+{
+  "$schema": "https://raw.githubusercontent.com/finos/architecture-as-code/main/calm/draft/2025-03/meta/calm.json",
+  "title": "Multi-Insurer Integration Pattern",
+  "description": "Enforces Strategy + Factory pattern for insurer integrations. InsurerRouter auto-discovers adapters via Spring DI. New insurers require only a new adapter class and DB config row — zero changes to handlers or router.",
+  "type": "pattern",
+  "metadata": {
+    "source-pattern": "Strategy + Factory Pattern",
+    "book-references": [
+      "Head First Design Patterns Ch. 1 — Strategy Pattern",
+      "Head First Design Patterns Ch. 4 — Factory Pattern",
+      "Cloud Native Patterns Ch. 9 — Service Discovery & Routing",
+      "Cloud Native Patterns Ch. 10 — Interaction Redundancy"
+    ]
+  },
+  "nodes": [
+    {
+      "unique-id": "insurer-router",
+      "node-type": "service",
+      "name": "Insurer Router (Factory)",
+      "description": "Factory that resolves the correct InsurerPort adapter at runtime based on database configuration. Auto-discovers all InsurerPort Spring beans and indexes by adapterType."
+    },
+    {
+      "unique-id": "insurer-port-interface",
+      "node-type": "service",
+      "name": "InsurerPort Interface",
+      "description": "Strategy interface defining submitRealTime(), submitBatch(), getCapabilities(), getAdapterType(). Domain-defined port — lives in domain layer."
+    },
+    {
+      "unique-id": "insurer-adapter",
+      "node-type": "service",
+      "name": "Insurer Adapter (Concrete Strategy)",
+      "description": "Technology-specific implementation of InsurerPort. Each adapter encapsulates protocol translation, error handling, and resilience annotations."
+    },
+    {
+      "unique-id": "external-insurer-api",
+      "node-type": "system",
+      "name": "External Insurer API",
+      "description": "Third-party insurer system with unique API protocol (REST/JSON, SOAP/XML, CSV/SFTP)."
+    }
+  ],
+  "relationships": [
+    {
+      "unique-id": "router-resolves-adapter",
+      "relationship-type": {
+        "connects": {
+          "source": { "node": "insurer-router" },
+          "destination": { "node": "insurer-adapter" }
+        }
+      },
+      "description": "Router resolves correct adapter via InsurerRegistry config lookup + adapterType map"
+    },
+    {
+      "unique-id": "adapter-implements-port",
+      "relationship-type": {
+        "connects": {
+          "source": { "node": "insurer-adapter" },
+          "destination": { "node": "insurer-port-interface" }
+        }
+      },
+      "description": "Adapter implements InsurerPort interface (Strategy pattern)"
+    },
+    {
+      "unique-id": "adapter-calls-external",
+      "relationship-type": {
+        "connects": {
+          "source": { "node": "insurer-adapter" },
+          "destination": { "node": "external-insurer-api" }
+        }
+      },
+      "protocol": "HTTPS",
+      "description": "Adapter calls external insurer API with @CircuitBreaker + @Retry annotations",
+      "controls": [
+        "resilience-circuit-breaker",
+        "resilience-retry"
+      ]
+    }
+  ],
+  "constraints": [
+    {
+      "id": "no-switch-on-insurer-type",
+      "description": "Never use if/else or switch on insurer type in handlers or controllers. Always resolve via InsurerRouter.",
+      "severity": "ERROR"
+    },
+    {
+      "id": "new-insurer-no-handler-changes",
+      "description": "Adding a new insurer requires only: (1) new adapter class implementing InsurerPort, (2) Flyway migration for insurer_configurations row. Zero changes to handlers, domain, or router.",
+      "severity": "ERROR"
+    },
+    {
+      "id": "external-calls-require-resilience",
+      "description": "Every adapter method calling an external API must have @CircuitBreaker + @Retry annotations with named instances.",
+      "severity": "ERROR"
+    },
+    {
+      "id": "fallback-methods-required",
+      "description": "Every @CircuitBreaker-annotated method must have a typed fallback method returning graceful degradation.",
+      "severity": "ERROR"
+    },
+    {
+      "id": "cache-eviction-on-config-change",
+      "description": "InsurerRegistry.updateConfiguration() must use @CacheEvict. All config update paths route through this method.",
+      "severity": "WARNING"
+    }
+  ],
+  "registered-adapters": [
+    {
+      "adapter-type": "MOCK",
+      "class": "MockInsurerAdapter",
+      "protocol": "JSON/REST",
+      "capabilities": ["real-time", "batch"],
+      "circuit-breaker-instance": "insurerSubmission"
+    },
+    {
+      "adapter-type": "ICICI_LOMBARD",
+      "class": "IciciLombardAdapter",
+      "protocol": "REST/JSON",
+      "capabilities": ["real-time"],
+      "circuit-breaker-instance": "iciciLombard"
+    },
+    {
+      "adapter-type": "NIVA_BUPA",
+      "class": "NivaBupaAdapter",
+      "protocol": "CSV/SFTP",
+      "capabilities": ["batch"],
+      "circuit-breaker-instance": "insurerSubmission"
+    },
+    {
+      "adapter-type": "BAJAJ_ALLIANZ",
+      "class": "BajajAllianzAdapter",
+      "protocol": "SOAP/XML",
+      "capabilities": ["real-time", "batch"],
+      "circuit-breaker-instance": "bajajAllianz"
+    }
+  ]
+}

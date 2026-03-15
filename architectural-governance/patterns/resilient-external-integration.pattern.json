@@ -1,0 +1,111 @@
+{
+  "$schema": "https://raw.githubusercontent.com/finos/architecture-as-code/main/calm/draft/2025-03/meta/calm.json",
+  "title": "Resilient External Integration Pattern",
+  "description": "Enforces mandatory resilience controls (circuit breaker + retry) on every external service integration. Every call crossing a trust boundary must be protected against cascading failure.",
+  "type": "pattern",
+  "metadata": {
+    "source-pattern": "Interaction Redundancy + Fronting Services",
+    "book-references": [
+      "Cloud Native Patterns Ch. 10 — Retries & Idempotency",
+      "Cloud Native Patterns Ch. 11 — Circuit Breakers"
+    ]
+  },
+  "nodes": [
+    {
+      "unique-id": "calling-service",
+      "node-type": "service",
+      "name": "Calling Service",
+      "description": "Internal service making outbound calls to external APIs. Must protect every external call with resilience annotations."
+    },
+    {
+      "unique-id": "external-api",
+      "node-type": "system",
+      "name": "External API",
+      "description": "Third-party system outside our trust boundary. May be slow, flaky, or unavailable."
+    }
+  ],
+  "relationships": [
+    {
+      "unique-id": "service-to-external",
+      "relationship-type": {
+        "connects": {
+          "source": { "node": "calling-service" },
+          "destination": { "node": "external-api" }
+        }
+      },
+      "protocol": "HTTPS",
+      "description": "External call protected by @CircuitBreaker + @Retry with named instances and typed fallback methods",
+      "controls": [
+        "resilience-circuit-breaker",
+        "resilience-retry",
+        "resilience-fallback"
+      ]
+    }
+  ],
+  "constraints": [
+    {
+      "id": "circuit-breaker-required",
+      "description": "Every method calling an external API must have @CircuitBreaker with a named instance defined in application.yml.",
+      "severity": "ERROR"
+    },
+    {
+      "id": "retry-required",
+      "description": "Every method calling an external API must have @Retry with exponential backoff configured in application.yml.",
+      "severity": "ERROR"
+    },
+    {
+      "id": "fallback-method-required",
+      "description": "Every @CircuitBreaker must specify a fallbackMethod that returns the same type + accepts Throwable. Fallback must never throw.",
+      "severity": "ERROR"
+    },
+    {
+      "id": "per-service-circuit-breaker",
+      "description": "Each external service gets its own circuit breaker instance tuned to its latency profile. Never share breakers across unrelated services.",
+      "severity": "ERROR"
+    },
+    {
+      "id": "health-indicator-registered",
+      "description": "Circuit breaker instances must set registerHealthIndicator=true so /actuator/health reflects breaker state.",
+      "severity": "WARNING"
+    },
+    {
+      "id": "no-retry-on-non-idempotent",
+      "description": "Non-idempotent operations (financial debits, irreversible mutations) must not be retried unless idempotency is guaranteed at the provider level.",
+      "severity": "ERROR"
+    },
+    {
+      "id": "idempotency-at-domain-layer",
+      "description": "Idempotency enforced at domain layer (idempotency keys, state machine transitions). Retries at infrastructure layer handle transient failures only.",
+      "severity": "WARNING"
+    }
+  ],
+  "circuit-breaker-tuning-guide": {
+    "description": "Parameters to tune per external service based on observed latency percentiles",
+    "parameters": {
+      "slidingWindowSize": "Number of calls to evaluate. Higher = smoother but slower reaction. Range: 10-50.",
+      "failureRateThreshold": "Percentage at which breaker opens. Lower = more sensitive. Range: 30-70.",
+      "waitDurationInOpenState": "How long to wait before half-open probe. Longer = more recovery time for slow services. Range: 15s-120s.",
+      "permittedNumberOfCallsInHalfOpenState": "Probe calls in half-open state. Higher = more confidence before closing. Range: 3-10."
+    },
+    "examples": [
+      {
+        "service": "Fast REST API (ICICI Lombard)",
+        "slidingWindowSize": 20,
+        "failureRateThreshold": 50,
+        "waitDurationInOpenState": "30s"
+      },
+      {
+        "service": "Slow SOAP API (Bajaj Allianz)",
+        "slidingWindowSize": 15,
+        "failureRateThreshold": 40,
+        "waitDurationInOpenState": "45s"
+      },
+      {
+        "service": "LLM Inference (Ollama)",
+        "slidingWindowSize": 10,
+        "failureRateThreshold": 50,
+        "waitDurationInOpenState": "30s"
+      }
+    ]
+  }
+}

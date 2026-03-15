@@ -33,68 +33,90 @@ public class AnomalyDetectionService {
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void analyzeEndorsement(UUID endorsementId) {
-        endorsementRepository.findById(endorsementId).ifPresent(endorsement -> {
-            List<Endorsement> recentHistory = new ArrayList<>(endorsementRepository.findByStatus(EndorsementStatus.CREATED));
-            recentHistory.addAll(endorsementRepository.findByStatus(EndorsementStatus.VALIDATED));
-            recentHistory.addAll(endorsementRepository.findByStatus(EndorsementStatus.PROVISIONALLY_COVERED));
-            recentHistory.addAll(endorsementRepository.findByStatus(EndorsementStatus.QUEUED_FOR_BATCH));
-            recentHistory.addAll(endorsementRepository.findByStatus(EndorsementStatus.BATCH_SUBMITTED));
-            recentHistory.addAll(endorsementRepository.findByStatus(EndorsementStatus.CONFIRMED));
+        // Phase 1: Read data in a short DB transaction
+        Endorsement endorsement = endorsementRepository.findById(endorsementId).orElse(null);
+        if (endorsement == null) return;
 
-            AnomalyDetectionPort.AnomalyResult result = anomalyDetector.analyzeEndorsement(endorsement, recentHistory);
+        List<Endorsement> recentHistory = new ArrayList<>(endorsementRepository.findByStatus(EndorsementStatus.CREATED));
+        recentHistory.addAll(endorsementRepository.findByStatus(EndorsementStatus.VALIDATED));
+        recentHistory.addAll(endorsementRepository.findByStatus(EndorsementStatus.PROVISIONALLY_COVERED));
+        recentHistory.addAll(endorsementRepository.findByStatus(EndorsementStatus.QUEUED_FOR_BATCH));
+        recentHistory.addAll(endorsementRepository.findByStatus(EndorsementStatus.BATCH_SUBMITTED));
+        recentHistory.addAll(endorsementRepository.findByStatus(EndorsementStatus.CONFIRMED));
 
-            meterRegistry.summary("endorsement.anomaly.score", "anomalyType", result.anomalyType())
-                    .record(result.score());
+        // Phase 2: Call anomaly detector (may invoke Ollama LLM — 10s+ call).
+        // This runs inside the transaction but the DB reads above are already done,
+        // so the connection is idle only during this external call.
+        AnomalyDetectionPort.AnomalyResult result = anomalyDetector.analyzeEndorsement(endorsement, recentHistory);
 
-            if (result.isFlagged(minAnomalyScore)) {
-                AnomalyDetection anomaly = AnomalyDetection.builder()
-                        .endorsementId(endorsementId)
-                        .employerId(endorsement.getEmployerId())
-                        .anomalyType(AnomalyType.valueOf(result.anomalyType()))
-                        .score(result.score())
-                        .explanation(result.explanation())
-                        .flaggedAt(Instant.now())
-                        .status(AnomalyStatus.FLAGGED)
-                        .build();
+        meterRegistry.summary("endorsement.anomaly.score", "anomalyType", result.anomalyType())
+                .record(result.score());
 
-                anomaly = anomalyRepository.save(anomaly);
+        // Phase 3: Save result if flagged
+        if (result.isFlagged(minAnomalyScore)) {
+            AnomalyDetection anomaly = AnomalyDetection.builder()
+                    .endorsementId(endorsementId)
+                    .employerId(endorsement.getEmployerId())
+                    .anomalyType(AnomalyType.valueOf(result.anomalyType()))
+                    .score(result.score())
+                    .explanation(result.explanation())
+                    .flaggedAt(Instant.now())
+                    .status(AnomalyStatus.FLAGGED)
+                    .build();
 
-                meterRegistry.counter("endorsement.anomaly.detected",
-                        "anomalyType", result.anomalyType(),
-                        "employerId", endorsement.getEmployerId().toString()).increment();
+            anomaly = anomalyRepository.save(anomaly);
 
-                eventPublisher.publish(new EndorsementEvent.AnomalyDetected(
-                        endorsementId, Instant.now(), endorsement.getEmployerId(),
-                        result.anomalyType(), result.score(), result.explanation()));
+            meterRegistry.counter("endorsement.anomaly.detected",
+                    "anomalyType", result.anomalyType(),
+                    "employerId", endorsement.getEmployerId().toString()).increment();
 
-                notificationPort.notifyAnomalyDetected(endorsement.getEmployerId(),
-                        result.anomalyType(), result.score(), result.explanation());
+            eventPublisher.publish(new EndorsementEvent.AnomalyDetected(
+                    endorsementId, Instant.now(), endorsement.getEmployerId(),
+                    result.anomalyType(), result.score(), result.explanation()));
 
-                log.warn("Anomaly detected for endorsement {}: type={}, score={}, explanation={}",
-                        endorsementId, result.anomalyType(), result.score(), result.explanation());
-            }
-        });
+            notificationPort.notifyAnomalyDetected(endorsement.getEmployerId(),
+                    result.anomalyType(), result.score(), result.explanation());
+
+            log.warn("Anomaly detected for endorsement {}: type={}, score={}, explanation={}",
+                    endorsementId, result.anomalyType(), result.score(), result.explanation());
+        }
     }
 
-    @Transactional
     public void runBatchAnalysis() {
         Instant since = Instant.now().minus(5, ChronoUnit.MINUTES);
+
+        // Load recent endorsement IDs in a short read-only transaction — do NOT hold
+        // a connection open while iterating. This prevents pool exhaustion when
+        // analyzeEndorsement() runs its own transaction per endorsement.
+        List<UUID> recentIds = new ArrayList<>();
         List<Endorsement> recent = new ArrayList<>(endorsementRepository.findByStatus(EndorsementStatus.CREATED));
         recent.addAll(endorsementRepository.findByStatus(EndorsementStatus.VALIDATED));
         recent.addAll(endorsementRepository.findByStatus(EndorsementStatus.PROVISIONALLY_COVERED));
 
-        List<Endorsement> allHistory = new ArrayList<>(endorsementRepository.findByStatus(EndorsementStatus.CONFIRMED));
-        allHistory.addAll(recent);
-
-        int analyzed = 0;
         for (Endorsement endorsement : recent) {
             if (endorsement.getCreatedAt() != null && endorsement.getCreatedAt().isAfter(since)) {
-                analyzeEndorsement(endorsement.getId());
+                recentIds.add(endorsement.getId());
+            }
+        }
+
+        // Analyze each endorsement in its own transaction (through proxy).
+        // No outer @Transactional — each analyzeEndorsement call is independent.
+        int analyzed = 0;
+        for (UUID id : recentIds) {
+            try {
+                analyzeEndorsementById(id);
                 analyzed++;
+            } catch (Exception e) {
+                log.warn("Anomaly analysis failed for endorsement {}: {}", id, e.getMessage());
             }
         }
 
         log.info("Batch anomaly analysis completed: {} endorsements analyzed", analyzed);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void analyzeEndorsementById(UUID endorsementId) {
+        analyzeEndorsement(endorsementId);
     }
 
     @Transactional

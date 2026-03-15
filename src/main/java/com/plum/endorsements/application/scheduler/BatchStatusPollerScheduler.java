@@ -34,7 +34,6 @@ public class BatchStatusPollerScheduler {
 
     @Scheduled(fixedDelayString = "60000")
     @SchedulerLock(name = "batchStatusPoller", lockAtLeastFor = "PT30S", lockAtMostFor = "PT5M")
-    @Transactional
     public void pollBatchStatuses() {
         Timer.Sample sample = Timer.start(meterRegistry);
         String result = "success";

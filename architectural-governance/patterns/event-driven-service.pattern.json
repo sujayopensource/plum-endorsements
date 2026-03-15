@@ -1,0 +1,114 @@
+{
+  "$schema": "https://raw.githubusercontent.com/finos/architecture-as-code/main/calm/draft/2025-03/meta/calm.json",
+  "title": "Event-Driven Service Pattern",
+  "description": "Enforces event-driven architecture with sealed event hierarchy, event-carried state transfer, and partitioned topic ordering. Events are facts in past tense published from handlers through ports.",
+  "type": "pattern",
+  "metadata": {
+    "source-pattern": "Event-Driven Architecture",
+    "book-references": [
+      "Cloud Native Patterns Ch. 4–5 — Event Notification & Event-Carried State Transfer",
+      "Head First Design Patterns Ch. 2 — Observer Pattern"
+    ]
+  },
+  "nodes": [
+    {
+      "unique-id": "event-producer",
+      "node-type": "service",
+      "name": "Event Producer",
+      "description": "Application handler that publishes domain events after successful state changes. Events are published through the EventPublisher port, never directly to Kafka."
+    },
+    {
+      "unique-id": "message-broker",
+      "node-type": "service",
+      "name": "Message Broker",
+      "description": "Kafka broker with partitioned topics. Guarantees per-partition ordering via employerId partition key."
+    },
+    {
+      "unique-id": "event-consumer",
+      "node-type": "service",
+      "name": "Event Consumer",
+      "description": "Downstream consumer that reacts to domain events. Decoupled from producer — no shared compile-time dependency on handler classes."
+    }
+  ],
+  "relationships": [
+    {
+      "unique-id": "producer-to-broker",
+      "relationship-type": {
+        "connects": {
+          "source": { "node": "event-producer" },
+          "destination": { "node": "message-broker" }
+        }
+      },
+      "protocol": "TCP",
+      "description": "KafkaEventPublisher sends events to partitioned topics with employerId as partition key"
+    },
+    {
+      "unique-id": "broker-to-consumer",
+      "relationship-type": {
+        "connects": {
+          "source": { "node": "message-broker" },
+          "destination": { "node": "event-consumer" }
+        }
+      },
+      "protocol": "TCP",
+      "description": "Consumers receive events from Kafka topics with at-least-once delivery semantics"
+    }
+  ],
+  "constraints": [
+    {
+      "id": "events-past-tense",
+      "description": "Event types must be named in past tense (Created, Confirmed, Rejected). Never imperative (CreateEndorsement, ShouldConfirm).",
+      "severity": "ERROR"
+    },
+    {
+      "id": "sealed-event-hierarchy",
+      "description": "All event types must be records in the sealed EndorsementEvent interface. Compile-time exhaustiveness enforced.",
+      "severity": "ERROR"
+    },
+    {
+      "id": "event-carried-state-transfer",
+      "description": "Events must carry sufficient contextual data for consumers. No callback queries to source database.",
+      "severity": "WARNING"
+    },
+    {
+      "id": "publish-from-handlers-only",
+      "description": "Events are published from application/handler/ classes only. Infrastructure adapters must never publish events autonomously.",
+      "severity": "ERROR"
+    },
+    {
+      "id": "partition-by-employer-id",
+      "description": "All events partitioned by employerId for per-employer ordering. Never change partition key strategy without migration planning.",
+      "severity": "ERROR"
+    },
+    {
+      "id": "producer-acks-all",
+      "description": "Kafka producer configured with acks=all. All in-sync replicas must acknowledge. Do not weaken for throughput.",
+      "severity": "ERROR"
+    }
+  ],
+  "topology": {
+    "topics": [
+      {
+        "name": "endorsement-events",
+        "partitions": 32,
+        "purpose": "Domain events (state changes, financial operations)"
+      },
+      {
+        "name": "endorsement-commands",
+        "partitions": 32,
+        "purpose": "Command dispatch"
+      },
+      {
+        "name": "endorsement-notifications",
+        "partitions": 8,
+        "purpose": "Notification fanout"
+      },
+      {
+        "name": "endorsement-reconciliation",
+        "partitions": 16,
+        "purpose": "Reconciliation outcomes"
+      }
+    ],
+    "total-partitions": 88
+  }
+}

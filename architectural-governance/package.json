@@ -1,0 +1,19 @@
+{
+  "name": "plum-endorsement-governance",
+  "version": "1.0.0",
+  "description": "FINOS CALM architectural governance for Plum Endorsement Service",
+  "private": true,
+  "scripts": {
+    "setup": "./scripts/setup.sh",
+    "validate": "./scripts/validate.sh",
+    "validate:patterns": "calm validate -p patterns/ -i architecture/plum-endorsement-system.json",
+    "validate:spectral": "spectral lint architecture/plum-endorsement-system.json --ruleset governance/spectral-rules/.spectral.yml"
+  },
+  "devDependencies": {
+    "@finos/calm-cli": "latest",
+    "@stoplight/spectral-cli": "latest"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

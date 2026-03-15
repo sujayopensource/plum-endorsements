@@ -1,0 +1,714 @@
+{
+  "$schema": "https://raw.githubusercontent.com/finos/architecture-as-code/main/calm/draft/2025-03/meta/calm.json",
+  "title": "Plum Endorsement System Architecture",
+  "description": "Concrete CALM architecture instantiation for the Plum Group Health Insurance Endorsement Service. Implements hexagonal architecture with event-driven multi-insurer integration, GenAI-powered intelligence, and full observability stack.",
+  "type": "architecture",
+  "metadata": {
+    "version": "1.0.0",
+    "last-updated": "2026-03-15",
+    "team": "Plum Insurance Platform",
+    "domain": "Group Health Insurance — Endorsements",
+    "technology-stack": {
+      "runtime": "Java 21 (Virtual Threads)",
+      "framework": "Spring Boot 3.4",
+      "build": "Gradle (Kotlin DSL)",
+      "database": "PostgreSQL 16",
+      "cache": "Redis 7",
+      "messaging": "Apache Kafka 3.7 (KRaft mode)",
+      "ai": "Ollama (llama3.2)",
+      "containerization": "Docker + Kubernetes"
+    },
+    "patterns-satisfied": [
+      "hexagonal-service",
+      "event-driven-service",
+      "multi-insurer-integration",
+      "observability-stack",
+      "resilient-external-integration"
+    ]
+  },
+  "nodes": [
+    {
+      "unique-id": "plum-hr-admin",
+      "node-type": "actor",
+      "name": "HR Admin",
+      "description": "HR administrator who creates and manages employee endorsements (additions, deletions, modifications to group health insurance policies)."
+    },
+    {
+      "unique-id": "plum-finance-team",
+      "node-type": "actor",
+      "name": "Finance Team",
+      "description": "Finance team managing EA account balances, reconciliation outcomes, and balance forecasts."
+    },
+    {
+      "unique-id": "plum-ops-team",
+      "node-type": "actor",
+      "name": "Operations Team",
+      "description": "Operations team monitoring anomaly detection, insurer benchmarks, process mining analytics, and system health."
+    },
+    {
+      "unique-id": "plum-react-dashboard",
+      "node-type": "webclient",
+      "name": "Plum React Dashboard",
+      "description": "Single-page application built with React 19, TypeScript, and Vite. Provides endorsement management, analytics dashboards, and real-time status tracking.",
+      "interfaces": [
+        {
+          "unique-id": "plum-dashboard-ui",
+          "host": "localhost",
+          "port": 5173,
+          "protocol": "HTTPS"
+        }
+      ]
+    },
+    {
+      "unique-id": "plum-endorsement-service",
+      "node-type": "service",
+      "name": "Plum Endorsement Service",
+      "description": "Core Spring Boot 3.4 microservice on Java 21 with virtual threads. Hexagonal architecture with CQRS handlers, 11-state endorsement lifecycle, event-driven integration, and GenAI-powered intelligence layer.",
+      "interfaces": [
+        {
+          "unique-id": "plum-service-api",
+          "host": "0.0.0.0",
+          "port": 8080,
+          "protocol": "HTTPS"
+        },
+        {
+          "unique-id": "plum-service-actuator",
+          "host": "0.0.0.0",
+          "port": 8080,
+          "path": "/actuator",
+          "protocol": "HTTP"
+        }
+      ]
+    },
+    {
+      "unique-id": "plum-api-layer",
+      "node-type": "service",
+      "name": "API Layer",
+      "description": "6 REST controllers exposing 42 endpoints: EndorsementController (10), IntelligenceController (18), InsurerConfigurationController (6), ReconciliationController (4), EAAccountController (2), AuditLogController (2). Thin translation — validates input, delegates to handlers, maps DTO responses."
+    },
+    {
+      "unique-id": "plum-application-layer",
+      "node-type": "service",
+      "name": "Application Layer",
+      "description": "3 CQRS handlers (CreateEndorsementHandler, ProcessEndorsementHandler, EndorsementQueryHandler), 8 application services (AnomalyDetectionService, BalanceForecastService, ErrorResolutionService, ProcessMiningService, ReconciliationEngine, EmployerHealthScoreService, InsurerBenchmarkService, AuditLogService), 9 schedulers (BatchAssembly, BatchStatusPoller, Reconciliation, AnomalyDetection, BalanceForecast, ProvisionalCoverageCleanup, StuckEndorsementRetry, DataRetention, ProcessMining). All stateless with @Transactional."
+    },
+    {
+      "unique-id": "plum-domain-core",
+      "node-type": "service",
+      "name": "Domain Core",
+      "description": "Rich domain models (Endorsement, EAAccount, Batch, ProvisionalCoverage, AnomalyDetection, BalanceForecast, ErrorResolution), port interfaces (EndorsementRepository, EAAccountRepository, InsurerPort, EventPublisher), domain services (EndorsementStateMachine, EABalanceCalculator, InsurerRegistry), sealed event hierarchy (EndorsementEvent with 22+ record types). ZERO infrastructure imports."
+    },
+    {
+      "unique-id": "plum-infrastructure-layer",
+      "node-type": "service",
+      "name": "Infrastructure Layer",
+      "description": "JPA repository adapters with EndorsementMapper (anti-corruption layer), KafkaEventPublisher (4 topics, 88 partitions), 4 insurer adapters (Mock, ICICI Lombard, Niva Bupa, Bajaj Allianz) with InsurerRouter factory, SecurityConfig (stateless sessions), CacheConfig (Redis, 60s TTL), MetricsConfig (20+ custom metrics)."
+    },
+    {
+      "unique-id": "plum-postgres",
+      "node-type": "database",
+      "name": "PostgreSQL 16",
+      "description": "Primary relational database. 20 Flyway migrations managing endorsements, EA accounts, batches, provisional coverages, reconciliation, anomaly detections, balance forecasts, error resolutions, process mining, audit logs, ShedLock, and STP rate snapshots. HikariCP pool (30 max, 5 idle).",
+      "interfaces": [
+        {
+          "unique-id": "plum-postgres-jdbc",
+          "host": "localhost",
+          "port": 5432,
+          "protocol": "JDBC/PostgreSQL"
+        }
+      ]
+    },
+    {
+      "unique-id": "plum-redis",
+      "node-type": "database",
+      "name": "Redis 7",
+      "description": "Distributed cache for insurer configurations and read-heavy data. Key prefix 'endorsement:', 60s TTL, no null value caching.",
+      "interfaces": [
+        {
+          "unique-id": "plum-redis-conn",
+          "host": "localhost",
+          "port": 6379,
+          "protocol": "Redis"
+        }
+      ]
+    },
+    {
+      "unique-id": "plum-kafka",
+      "node-type": "service",
+      "name": "Apache Kafka 3.7 (KRaft)",
+      "description": "Message broker in KRaft mode (no ZooKeeper). 4 topics with 88 total partitions: endorsement-events (32), endorsement-commands (32), endorsement-notifications (8), endorsement-reconciliation (16). Producer acks=all.",
+      "interfaces": [
+        {
+          "unique-id": "plum-kafka-broker",
+          "host": "localhost",
+          "port": 9092,
+          "protocol": "TCP/Kafka"
+        }
+      ]
+    },
+    {
+      "unique-id": "plum-prometheus",
+      "node-type": "service",
+      "name": "Prometheus 2.50",
+      "description": "Time-series metrics collector. Scrapes /actuator/prometheus endpoint. 7-day retention. Stores 20+ custom endorsement metrics plus JVM and HTTP server metrics.",
+      "interfaces": [
+        {
+          "unique-id": "plum-prometheus-api",
+          "host": "localhost",
+          "port": 9090,
+          "protocol": "HTTP"
+        }
+      ]
+    },
+    {
+      "unique-id": "plum-grafana",
+      "node-type": "webclient",
+      "name": "Grafana 10.3",
+      "description": "Metrics visualization and alerting dashboard. Pre-provisioned with endorsement service dashboards via provisioning config.",
+      "interfaces": [
+        {
+          "unique-id": "plum-grafana-ui",
+          "host": "localhost",
+          "port": 3000,
+          "protocol": "HTTPS"
+        }
+      ]
+    },
+    {
+      "unique-id": "plum-jaeger",
+      "node-type": "service",
+      "name": "Jaeger 1.55",
+      "description": "Distributed trace collector and visualizer. Receives traces via OTLP (gRPC on 4317, HTTP on 4318). 100% sampling configured.",
+      "interfaces": [
+        {
+          "unique-id": "plum-jaeger-ui",
+          "host": "localhost",
+          "port": 16686,
+          "protocol": "HTTP"
+        },
+        {
+          "unique-id": "plum-jaeger-otlp-grpc",
+          "host": "localhost",
+          "port": 4317,
+          "protocol": "OTLP/gRPC"
+        },
+        {
+          "unique-id": "plum-jaeger-otlp-http",
+          "host": "localhost",
+          "port": 4318,
+          "protocol": "OTLP/HTTP"
+        }
+      ]
+    },
+    {
+      "unique-id": "plum-elasticsearch",
+      "node-type": "database",
+      "name": "Elasticsearch 8.12",
+      "description": "Full-text search engine for structured log storage and aggregation. Single-node mode for development. 512MB heap.",
+      "interfaces": [
+        {
+          "unique-id": "plum-es-api",
+          "host": "localhost",
+          "port": 9200,
+          "protocol": "HTTP/REST"
+        }
+      ]
+    },
+    {
+      "unique-id": "plum-logstash",
+      "node-type": "service",
+      "name": "Logstash 8.12",
+      "description": "Log pipeline that receives structured JSON logs from the endorsement service via TCP, transforms and indexes into Elasticsearch.",
+      "interfaces": [
+        {
+          "unique-id": "plum-logstash-beats",
+          "host": "localhost",
+          "port": 5044,
+          "protocol": "Beats"
+        },
+        {
+          "unique-id": "plum-logstash-tcp",
+          "host": "localhost",
+          "port": 5000,
+          "protocol": "TCP"
+        }
+      ]
+    },
+    {
+      "unique-id": "plum-kibana",
+      "node-type": "webclient",
+      "name": "Kibana 8.12",
+      "description": "Log visualization dashboard connected to Elasticsearch. Provides log search, aggregation, and alerting.",
+      "interfaces": [
+        {
+          "unique-id": "plum-kibana-ui",
+          "host": "localhost",
+          "port": 5601,
+          "protocol": "HTTP"
+        }
+      ]
+    },
+    {
+      "unique-id": "plum-ollama",
+      "node-type": "system",
+      "name": "Ollama LLM (llama3.2)",
+      "description": "Local LLM inference server running llama3.2 model. Used for anomaly detection enrichment (natural language explanations) and error resolution suggestions. Protected by circuit breakers.",
+      "interfaces": [
+        {
+          "unique-id": "plum-ollama-api",
+          "host": "localhost",
+          "port": 11434,
+          "protocol": "HTTP/REST"
+        }
+      ]
+    },
+    {
+      "unique-id": "icici-lombard-api",
+      "node-type": "system",
+      "name": "ICICI Lombard API",
+      "description": "External insurer API using REST/JSON protocol. Supports real-time submissions only. 150ms typical latency. Circuit breaker: iciciLombard (window=20, threshold=50%, wait=30s)."
+    },
+    {
+      "unique-id": "niva-bupa-sftp",
+      "node-type": "system",
+      "name": "Niva Bupa SFTP",
+      "description": "External insurer integration via CSV/SFTP protocol. Batch-only — no real-time submission capability. submitRealTime() throws UnsupportedOperationException."
+    },
+    {
+      "unique-id": "bajaj-allianz-api",
+      "node-type": "system",
+      "name": "Bajaj Allianz API",
+      "description": "External insurer API using SOAP/XML protocol. Supports both real-time and batch submissions. 250ms typical latency. Circuit breaker: bajajAllianz (window=15, threshold=40%, wait=45s)."
+    }
+  ],
+  "relationships": [
+    {
+      "unique-id": "rel-hr-admin-to-dashboard",
+      "relationship-type": {
+        "interacts": {
+          "actor": "plum-hr-admin",
+          "nodes": ["plum-react-dashboard"]
+        }
+      },
+      "description": "HR Admin creates and manages endorsements via React dashboard"
+    },
+    {
+      "unique-id": "rel-finance-to-dashboard",
+      "relationship-type": {
+        "interacts": {
+          "actor": "plum-finance-team",
+          "nodes": ["plum-react-dashboard"]
+        }
+      },
+      "description": "Finance team views EA balances, reconciliation, and forecasts"
+    },
+    {
+      "unique-id": "rel-ops-to-grafana",
+      "relationship-type": {
+        "interacts": {
+          "actor": "plum-ops-team",
+          "nodes": ["plum-grafana", "plum-kibana", "plum-jaeger"]
+        }
+      },
+      "description": "Ops team monitors system health via Grafana, Kibana, and Jaeger"
+    },
+    {
+      "unique-id": "rel-dashboard-to-service",
+      "relationship-type": {
+        "connects": {
+          "source": { "node": "plum-react-dashboard" },
+          "destination": { "node": "plum-endorsement-service" }
+        }
+      },
+      "protocol": "HTTPS/REST",
+      "description": "Dashboard calls 42 REST API endpoints on port 8080"
+    },
+    {
+      "unique-id": "rel-service-composed-of-api",
+      "relationship-type": {
+        "composed-of": {
+          "container": "plum-endorsement-service",
+          "nodes": ["plum-api-layer", "plum-application-layer", "plum-domain-core", "plum-infrastructure-layer"]
+        }
+      },
+      "description": "Endorsement service is composed of 4 hexagonal architecture layers"
+    },
+    {
+      "unique-id": "rel-api-to-application",
+      "relationship-type": {
+        "connects": {
+          "source": { "node": "plum-api-layer" },
+          "destination": { "node": "plum-application-layer" }
+        }
+      },
+      "description": "Controllers delegate to CQRS handlers. No business logic in API layer."
+    },
+    {
+      "unique-id": "rel-application-to-domain",
+      "relationship-type": {
+        "connects": {
+          "source": { "node": "plum-application-layer" },
+          "destination": { "node": "plum-domain-core" }
+        }
+      },
+      "description": "Handlers use domain models, call domain ports (interfaces), publish events via EventPublisher port"
+    },
+    {
+      "unique-id": "rel-infrastructure-implements-domain",
+      "relationship-type": {
+        "connects": {
+          "source": { "node": "plum-infrastructure-layer" },
+          "destination": { "node": "plum-domain-core" }
+        }
+      },
+      "description": "Infrastructure adapters implement domain-defined port interfaces. Dependency inversion — infrastructure depends on domain."
+    },
+    {
+      "unique-id": "rel-infra-to-postgres",
+      "relationship-type": {
+        "connects": {
+          "source": { "node": "plum-infrastructure-layer" },
+          "destination": { "node": "plum-postgres" }
+        }
+      },
+      "protocol": "JDBC/PostgreSQL",
+      "description": "JPA repository adapters persist domain state via HikariCP connection pool (30 max connections)"
+    },
+    {
+      "unique-id": "rel-infra-to-redis",
+      "relationship-type": {
+        "connects": {
+          "source": { "node": "plum-infrastructure-layer" },
+          "destination": { "node": "plum-redis" }
+        }
+      },
+      "protocol": "Redis",
+      "description": "Spring Cache with Redis backend for insurer configurations (60s TTL)"
+    },
+    {
+      "unique-id": "rel-infra-to-kafka",
+      "relationship-type": {
+        "connects": {
+          "source": { "node": "plum-infrastructure-layer" },
+          "destination": { "node": "plum-kafka" }
+        }
+      },
+      "protocol": "TCP/Kafka",
+      "description": "KafkaEventPublisher sends domain events to 4 topics (88 partitions) with employerId partition key, acks=all"
+    },
+    {
+      "unique-id": "rel-infra-to-icici",
+      "relationship-type": {
+        "connects": {
+          "source": { "node": "plum-infrastructure-layer" },
+          "destination": { "node": "icici-lombard-api" }
+        }
+      },
+      "protocol": "HTTPS/REST/JSON",
+      "description": "IciciLombardAdapter submits real-time endorsements with @CircuitBreaker(name='iciciLombard') + @Retry",
+      "controls": [
+        "resilience-circuit-breaker-icici-lombard",
+        "resilience-retry-icici-lombard"
+      ]
+    },
+    {
+      "unique-id": "rel-infra-to-niva-bupa",
+      "relationship-type": {
+        "connects": {
+          "source": { "node": "plum-infrastructure-layer" },
+          "destination": { "node": "niva-bupa-sftp" }
+        }
+      },
+      "protocol": "CSV/SFTP",
+      "description": "NivaBupaAdapter submits batch endorsements via CSV upload over SFTP. Batch-only — no real-time capability."
+    },
+    {
+      "unique-id": "rel-infra-to-bajaj",
+      "relationship-type": {
+        "connects": {
+          "source": { "node": "plum-infrastructure-layer" },
+          "destination": { "node": "bajaj-allianz-api" }
+        }
+      },
+      "protocol": "HTTPS/SOAP/XML",
+      "description": "BajajAllianzAdapter submits real-time and batch endorsements with @CircuitBreaker(name='bajajAllianz') + @Retry (5 attempts, 3s backoff)",
+      "controls": [
+        "resilience-circuit-breaker-bajaj-allianz",
+        "resilience-retry-bajaj-allianz"
+      ]
+    },
+    {
+      "unique-id": "rel-service-to-ollama",
+      "relationship-type": {
+        "connects": {
+          "source": { "node": "plum-endorsement-service" },
+          "destination": { "node": "plum-ollama" }
+        }
+      },
+      "protocol": "HTTP/REST",
+      "description": "Spring AI Ollama client for anomaly detection enrichment and error resolution suggestions. Protected by 2 independent circuit breakers.",
+      "controls": [
+        "resilience-circuit-breaker-ollama-anomaly-detection",
+        "resilience-circuit-breaker-ollama-error-resolution"
+      ]
+    },
+    {
+      "unique-id": "rel-service-to-jaeger",
+      "relationship-type": {
+        "connects": {
+          "source": { "node": "plum-endorsement-service" },
+          "destination": { "node": "plum-jaeger" }
+        }
+      },
+      "protocol": "OTLP/gRPC",
+      "description": "OpenTelemetry trace exporter sends distributed traces with 100% sampling. Baggage propagation for endorsementId, employerId."
+    },
+    {
+      "unique-id": "rel-service-to-logstash",
+      "relationship-type": {
+        "connects": {
+          "source": { "node": "plum-endorsement-service" },
+          "destination": { "node": "plum-logstash" }
+        }
+      },
+      "protocol": "TCP",
+      "description": "Structured JSON logs via Logstash encoder with MDC fields: traceId, spanId, requestId, endorsementId, employerId"
+    },
+    {
+      "unique-id": "rel-prometheus-scrapes-service",
+      "relationship-type": {
+        "connects": {
+          "source": { "node": "plum-prometheus" },
+          "destination": { "node": "plum-endorsement-service" }
+        }
+      },
+      "protocol": "HTTP",
+      "description": "Prometheus scrapes /actuator/prometheus endpoint for 20+ custom metrics + JVM metrics"
+    },
+    {
+      "unique-id": "rel-grafana-to-prometheus",
+      "relationship-type": {
+        "connects": {
+          "source": { "node": "plum-grafana" },
+          "destination": { "node": "plum-prometheus" }
+        }
+      },
+      "protocol": "HTTP",
+      "description": "Grafana queries Prometheus for time-series visualization and alerting"
+    },
+    {
+      "unique-id": "rel-logstash-to-elasticsearch",
+      "relationship-type": {
+        "connects": {
+          "source": { "node": "plum-logstash" },
+          "destination": { "node": "plum-elasticsearch" }
+        }
+      },
+      "protocol": "HTTP/REST",
+      "description": "Logstash indexes structured log entries into Elasticsearch"
+    },
+    {
+      "unique-id": "rel-kibana-to-elasticsearch",
+      "relationship-type": {
+        "connects": {
+          "source": { "node": "plum-kibana" },
+          "destination": { "node": "plum-elasticsearch" }
+        }
+      },
+      "protocol": "HTTP/REST",
+      "description": "Kibana queries Elasticsearch for log search, visualization, and alerting"
+    }
+  ],
+  "flows": [
+    {
+      "unique-id": "flow-endorsement-creation",
+      "name": "Endorsement Creation Flow",
+      "description": "HR Admin creates a new endorsement — idempotency check, EA account debit, state transition, event publishing",
+      "transitions": [
+        {
+          "relationship-type": {
+            "connects": {
+              "source": { "node": "plum-hr-admin" },
+              "destination": { "node": "plum-react-dashboard" }
+            }
+          },
+          "description": "HR Admin fills endorsement form and submits"
+        },
+        {
+          "relationship-type": {
+            "connects": {
+              "source": { "node": "plum-react-dashboard" },
+              "destination": { "node": "plum-api-layer" }
+            }
+          },
+          "description": "POST /api/v1/endorsements with idempotency key"
+        },
+        {
+          "relationship-type": {
+            "connects": {
+              "source": { "node": "plum-api-layer" },
+              "destination": { "node": "plum-application-layer" }
+            }
+          },
+          "description": "EndorsementController delegates to CreateEndorsementHandler"
+        },
+        {
+          "relationship-type": {
+            "connects": {
+              "source": { "node": "plum-application-layer" },
+              "destination": { "node": "plum-domain-core" }
+            }
+          },
+          "description": "Handler checks idempotency key, debits EA account, transitions to CREATED status"
+        },
+        {
+          "relationship-type": {
+            "connects": {
+              "source": { "node": "plum-infrastructure-layer" },
+              "destination": { "node": "plum-postgres" }
+            }
+          },
+          "description": "JPA adapter persists endorsement and updated EA balance"
+        },
+        {
+          "relationship-type": {
+            "connects": {
+              "source": { "node": "plum-infrastructure-layer" },
+              "destination": { "node": "plum-kafka" }
+            }
+          },
+          "description": "KafkaEventPublisher publishes EndorsementEvent.Created to endorsement-events topic"
+        }
+      ]
+    },
+    {
+      "unique-id": "flow-insurer-submission",
+      "name": "Insurer Submission Flow",
+      "description": "ProcessEndorsementHandler resolves the correct insurer adapter via InsurerRouter and submits with circuit breaker + retry protection",
+      "transitions": [
+        {
+          "relationship-type": {
+            "connects": {
+              "source": { "node": "plum-application-layer" },
+              "destination": { "node": "plum-domain-core" }
+            }
+          },
+          "description": "ProcessEndorsementHandler validates endorsement is in submittable state"
+        },
+        {
+          "relationship-type": {
+            "connects": {
+              "source": { "node": "plum-infrastructure-layer" },
+              "destination": { "node": "plum-domain-core" }
+            }
+          },
+          "description": "InsurerRouter resolves correct InsurerPort adapter via InsurerRegistry config lookup"
+        },
+        {
+          "relationship-type": {
+            "connects": {
+              "source": { "node": "plum-infrastructure-layer" },
+              "destination": { "node": "icici-lombard-api" }
+            }
+          },
+          "description": "Adapter calls external insurer API with @CircuitBreaker + @Retry (or queues for batch if batch-only)"
+        },
+        {
+          "relationship-type": {
+            "connects": {
+              "source": { "node": "plum-infrastructure-layer" },
+              "destination": { "node": "plum-kafka" }
+            }
+          },
+          "description": "Publishes EndorsementEvent.Confirmed or EndorsementEvent.Rejected based on insurer response"
+        }
+      ]
+    },
+    {
+      "unique-id": "flow-batch-assembly",
+      "name": "Batch Assembly Flow",
+      "description": "BatchAssemblyScheduler collects QUEUED_FOR_BATCH endorsements, applies Knapsack DP optimization, submits batch to insurer",
+      "transitions": [
+        {
+          "relationship-type": {
+            "connects": {
+              "source": { "node": "plum-application-layer" },
+              "destination": { "node": "plum-domain-core" }
+            }
+          },
+          "description": "BatchAssemblyScheduler queries endorsements with status QUEUED_FOR_BATCH, groups by insurer"
+        },
+        {
+          "relationship-type": {
+            "connects": {
+              "source": { "node": "plum-application-layer" },
+              "destination": { "node": "plum-domain-core" }
+            }
+          },
+          "description": "BatchOptimizer applies Knapsack DP algorithm to optimize batch composition within EA balance constraints"
+        },
+        {
+          "relationship-type": {
+            "connects": {
+              "source": { "node": "plum-infrastructure-layer" },
+              "destination": { "node": "niva-bupa-sftp" }
+            }
+          },
+          "description": "NivaBupaAdapter uploads batch CSV via SFTP (or other batch-capable adapter)"
+        },
+        {
+          "relationship-type": {
+            "connects": {
+              "source": { "node": "plum-infrastructure-layer" },
+              "destination": { "node": "plum-kafka" }
+            }
+          },
+          "description": "Publishes EndorsementEvent.BatchSubmitted with batch ID and endorsement count"
+        }
+      ]
+    },
+    {
+      "unique-id": "flow-anomaly-detection",
+      "name": "Anomaly Detection Flow",
+      "description": "AnomalyDetectionScheduler runs 5 anomaly rules, scores endorsements, and enriches high-score anomalies with Ollama LLM explanations",
+      "transitions": [
+        {
+          "relationship-type": {
+            "connects": {
+              "source": { "node": "plum-application-layer" },
+              "destination": { "node": "plum-domain-core" }
+            }
+          },
+          "description": "AnomalyDetectionScheduler triggers AnomalyDetectionService to evaluate 5 rules: volume spike, premium outlier, rapid cycling, dormancy break, STP rate trending"
+        },
+        {
+          "relationship-type": {
+            "connects": {
+              "source": { "node": "plum-endorsement-service" },
+              "destination": { "node": "plum-ollama" }
+            }
+          },
+          "description": "Anomalies with score > 0.7 sent to Ollama for natural language explanation enrichment via Spring AI"
+        },
+        {
+          "relationship-type": {
+            "connects": {
+              "source": { "node": "plum-infrastructure-layer" },
+              "destination": { "node": "plum-postgres" }
+            }
+          },
+          "description": "Anomaly detection results persisted with scores, rules triggered, and LLM explanations"
+        },
+        {
+          "relationship-type": {
+            "connects": {
+              "source": { "node": "plum-infrastructure-layer" },
+              "destination": { "node": "plum-kafka" }
+            }
+          },
+          "description": "Publishes EndorsementEvent.AnomalyDetected for downstream alerting and analytics"
+        }
+      ]
+    }
+  ]
+}

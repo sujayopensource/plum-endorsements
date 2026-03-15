@@ -6,4 +6,5 @@ import java.util.*;
 
 public interface SpringDataEndorsementEventRepository extends JpaRepository<EndorsementEventEntity, Long> {
     List<EndorsementEventEntity> findByEndorsementIdOrderByCreatedAtAsc(UUID endorsementId);
+    List<EndorsementEventEntity> findByEndorsementIdIn(Collection<UUID> endorsementIds);
 }

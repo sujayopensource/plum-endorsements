@@ -1,0 +1,146 @@
+{
+  "$schema": "https://raw.githubusercontent.com/finos/architecture-as-code/main/calm/draft/2025-03/meta/control.json",
+  "controls": {
+    "data-acid-transactions": {
+      "description": "All command handlers execute within ACID transactions. @Transactional on command handlers ensures atomicity of domain operations + event publishing.",
+      "requirements": [
+        {
+          "control-requirement-url": "#acid-r1",
+          "control-config-url": "#acid-c1"
+        }
+      ],
+      "implementation": {
+        "annotation": "@Transactional",
+        "applied-to": [
+          "CreateEndorsementHandler",
+          "ProcessEndorsementHandler"
+        ],
+        "isolation": "READ_COMMITTED (PostgreSQL default)",
+        "query-handlers": "@Transactional(readOnly = true)"
+      }
+    },
+    "data-optimistic-locking": {
+      "description": "JPA @Version field on Endorsement and EAAccount entities prevents lost updates in concurrent modification scenarios.",
+      "requirements": [
+        {
+          "control-requirement-url": "#optimistic-lock-r1",
+          "control-config-url": "#optimistic-lock-c1"
+        }
+      ],
+      "implementation": {
+        "mechanism": "JPA @Version annotation",
+        "entities": ["EndorsementEntity", "EAAccountEntity"],
+        "exception-on-conflict": "OptimisticLockException → 409 Conflict"
+      }
+    },
+    "data-flyway-migrations": {
+      "description": "All schema changes managed via Flyway versioned migrations. 20 migrations from V1 (endorsements table) through V20 (error resolution outcomes).",
+      "requirements": [
+        {
+          "control-requirement-url": "#flyway-r1",
+          "control-config-url": "#flyway-c1"
+        }
+      ],
+      "implementation": {
+        "location": "classpath:db/migration",
+        "ddl-auto": "validate",
+        "migration-count": 20,
+        "migrations": [
+          "V1__create_endorsements",
+          "V2__create_ea_accounts",
+          "V3__create_batches",
+          "V4__create_provisional_coverages",
+          "V5__create_endorsement_events",
+          "V6__create_insurer_configurations",
+          "V7__seed_insurer_configurations",
+          "V8__create_reconciliation_tables",
+          "V9__create_anomaly_detections",
+          "V10__create_balance_forecasts",
+          "V11__create_error_resolutions",
+          "V12__create_process_mining_metrics",
+          "V13__seed_intelligence_demo_data",
+          "V14__add_ea_account_version",
+          "V15__create_archive_tables",
+          "V16__create_shedlock",
+          "V17__create_audit_logs",
+          "V18__seed_ea_accounts",
+          "V19__create_stp_rate_snapshots",
+          "V20__add_error_resolution_outcome"
+        ]
+      }
+    },
+    "data-open-in-view-disabled": {
+      "description": "JPA open-in-view disabled to prevent lazy loading in controllers. All data must be eagerly fetched within the transactional boundary.",
+      "requirements": [
+        {
+          "control-requirement-url": "#open-in-view-r1",
+          "control-config-url": "#open-in-view-c1"
+        }
+      ],
+      "implementation": {
+        "config": "spring.jpa.open-in-view=false",
+        "consequence": "LazyInitializationException if accessed outside @Transactional — forces explicit fetch strategy"
+      }
+    },
+    "data-ddl-validation": {
+      "description": "Hibernate DDL auto mode set to 'validate' — Hibernate verifies entity mappings match database schema but never modifies it. All schema changes go through Flyway.",
+      "requirements": [
+        {
+          "control-requirement-url": "#ddl-validate-r1",
+          "control-config-url": "#ddl-validate-c1"
+        }
+      ],
+      "implementation": {
+        "config": "spring.jpa.hibernate.ddl-auto=validate",
+        "consequence": "Application fails to start if entity-schema mismatch detected"
+      }
+    },
+    "data-batch-operations": {
+      "description": "JPA batch insert/update optimization enabled. Batch size 25 with ordered inserts and updates for optimal PostgreSQL performance.",
+      "implementation": {
+        "batch-size": 25,
+        "fetch-size": 50,
+        "order-inserts": true,
+        "order-updates": true,
+        "config-path": "spring.jpa.properties.hibernate"
+      }
+    },
+    "data-connection-pool": {
+      "description": "HikariCP connection pool configured for cloud-native workloads. Leak detection enabled at 60s threshold.",
+      "implementation": {
+        "pool": "HikariCP",
+        "maximum-pool-size": 30,
+        "minimum-idle": 5,
+        "connection-timeout": "10s",
+        "idle-timeout": "5m",
+        "max-lifetime": "28m",
+        "leak-detection-threshold": "60s"
+      }
+    },
+    "data-kafka-producer-acks": {
+      "description": "Kafka producer acks=all ensures all in-sync replicas acknowledge before considering a message published. Prevents data loss.",
+      "implementation": {
+        "config": "spring.kafka.producer.acks=all",
+        "consequence": "Higher latency, stronger durability guarantee"
+      }
+    },
+    "data-state-machine-transitions": {
+      "description": "Endorsement state transitions validated by EndorsementStatus enum. Invalid transitions throw IllegalStateException, preventing data corruption.",
+      "implementation": {
+        "class": "com.plum.endorsements.domain.model.EndorsementStatus",
+        "method": "canTransitionTo(EndorsementStatus)",
+        "states": 11,
+        "terminal-states": ["CONFIRMED", "REJECTED", "CANCELLED"],
+        "validation": "Compile-time exhaustiveness via sealed enum transitions"
+      }
+    },
+    "data-anti-corruption-layer": {
+      "description": "EndorsementMapper translates between JPA entities and domain models. Domain models never import JPA annotations; JPA entities never leak into handlers.",
+      "implementation": {
+        "class": "com.plum.endorsements.infrastructure.persistence.mapper.EndorsementMapper",
+        "methods": ["toDomain(EndorsementEntity)", "toEntity(Endorsement)"],
+        "boundary": "Only mapper knows both JPA and domain types"
+      }
+    }
+  }
+}

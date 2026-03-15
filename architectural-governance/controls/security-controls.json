@@ -1,0 +1,88 @@
+{
+  "$schema": "https://raw.githubusercontent.com/finos/architecture-as-code/main/calm/draft/2025-03/meta/control.json",
+  "controls": {
+    "security-stateless-sessions": {
+      "description": "All HTTP sessions are stateless (no server-side session state). Every request carries all needed context via JWT or API key.",
+      "requirements": [
+        {
+          "control-requirement-url": "#security-stateless-sessions-r1",
+          "control-config-url": "#security-stateless-sessions-c1"
+        }
+      ],
+      "implementation": {
+        "class": "com.plum.endorsements.infrastructure.config.SecurityConfig",
+        "configuration": "SessionCreationPolicy.STATELESS",
+        "spring-profile": "all"
+      }
+    },
+    "security-cors-policy": {
+      "description": "Cross-Origin Resource Sharing restricted to allowed origins. Prevents unauthorized browser-based API access.",
+      "requirements": [
+        {
+          "control-requirement-url": "#security-cors-r1",
+          "control-config-url": "#security-cors-c1"
+        }
+      ],
+      "implementation": {
+        "class": "com.plum.endorsements.infrastructure.config.SecurityConfig",
+        "allowed-origins": ["http://localhost:5173"],
+        "allowed-methods": ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
+      }
+    },
+    "security-csrf-disabled": {
+      "description": "CSRF protection disabled for stateless REST API. Safe because no cookie-based sessions are used — all auth is via bearer tokens.",
+      "requirements": [
+        {
+          "control-requirement-url": "#security-csrf-r1",
+          "control-config-url": "#security-csrf-c1"
+        }
+      ],
+      "implementation": {
+        "class": "com.plum.endorsements.infrastructure.config.SecurityConfig",
+        "justification": "Stateless JWT auth — no cookies, no session, no CSRF risk"
+      }
+    },
+    "security-rate-limiting": {
+      "description": "Rate limiting to prevent API abuse. Configurable requests-per-second and burst size.",
+      "requirements": [
+        {
+          "control-requirement-url": "#security-rate-limit-r1",
+          "control-config-url": "#security-rate-limit-c1"
+        }
+      ],
+      "implementation": {
+        "config-path": "endorsement.rate-limit",
+        "enabled": false,
+        "requests-per-second": 50,
+        "burst-size": 100,
+        "note": "Disabled in local dev; enable in production via env var"
+      }
+    },
+    "security-input-validation": {
+      "description": "All API inputs validated via Jakarta Bean Validation annotations (@Valid, @NotNull, @NotBlank, @Size, @Positive) on DTO records.",
+      "requirements": [
+        {
+          "control-requirement-url": "#security-input-validation-r1",
+          "control-config-url": "#security-input-validation-c1"
+        }
+      ],
+      "implementation": {
+        "pattern": "DTO records with @Valid in controller parameters",
+        "exception-handler": "com.plum.endorsements.api.exception.GlobalExceptionHandler"
+      }
+    },
+    "security-structured-error-responses": {
+      "description": "All exceptions mapped to structured JSON error responses via GlobalExceptionHandler. No stack traces leaked to clients.",
+      "requirements": [
+        {
+          "control-requirement-url": "#security-error-response-r1",
+          "control-config-url": "#security-error-response-c1"
+        }
+      ],
+      "implementation": {
+        "class": "com.plum.endorsements.api.exception.GlobalExceptionHandler",
+        "response-format": "ErrorResponse record with status, message, timestamp, traceId"
+      }
+    }
+  }
+}

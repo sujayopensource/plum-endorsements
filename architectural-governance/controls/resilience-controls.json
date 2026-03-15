@@ -1,0 +1,203 @@
+{
+  "$schema": "https://raw.githubusercontent.com/finos/architecture-as-code/main/calm/draft/2025-03/meta/control.json",
+  "controls": {
+    "resilience-circuit-breaker-insurer-submission": {
+      "description": "Circuit breaker for default insurer submission (MockInsurerAdapter). Opens at 50% failure rate over 10-call sliding window.",
+      "requirements": [
+        {
+          "control-requirement-url": "#cb-insurer-submission-r1",
+          "control-config-url": "#cb-insurer-submission-c1"
+        }
+      ],
+      "implementation": {
+        "framework": "Resilience4j",
+        "instance-name": "insurerSubmission",
+        "sliding-window-size": 10,
+        "minimum-number-of-calls": 5,
+        "failure-rate-threshold": 50,
+        "wait-duration-in-open-state": "30s",
+        "permitted-calls-in-half-open": 3,
+        "auto-transition-to-half-open": true,
+        "health-indicator": true
+      }
+    },
+    "resilience-circuit-breaker-icici-lombard": {
+      "description": "Circuit breaker for ICICI Lombard REST/JSON API. Wider sliding window (20) for higher volume insurer.",
+      "requirements": [
+        {
+          "control-requirement-url": "#cb-icici-r1",
+          "control-config-url": "#cb-icici-c1"
+        }
+      ],
+      "implementation": {
+        "framework": "Resilience4j",
+        "instance-name": "iciciLombard",
+        "sliding-window-size": 20,
+        "minimum-number-of-calls": 10,
+        "failure-rate-threshold": 50,
+        "wait-duration-in-open-state": "30s",
+        "permitted-calls-in-half-open": 5,
+        "auto-transition-to-half-open": true,
+        "health-indicator": true
+      }
+    },
+    "resilience-circuit-breaker-bajaj-allianz": {
+      "description": "Circuit breaker for Bajaj Allianz SOAP/XML API. More sensitive (40% threshold) and longer recovery (45s) due to SOAP fragility.",
+      "requirements": [
+        {
+          "control-requirement-url": "#cb-bajaj-r1",
+          "control-config-url": "#cb-bajaj-c1"
+        }
+      ],
+      "implementation": {
+        "framework": "Resilience4j",
+        "instance-name": "bajajAllianz",
+        "sliding-window-size": 15,
+        "minimum-number-of-calls": 5,
+        "failure-rate-threshold": 40,
+        "wait-duration-in-open-state": "45s",
+        "permitted-calls-in-half-open": 3,
+        "auto-transition-to-half-open": true,
+        "health-indicator": true
+      }
+    },
+    "resilience-circuit-breaker-ollama-anomaly-detection": {
+      "description": "Circuit breaker for Ollama LLM anomaly detection enrichment. Prevents cascade if LLM is slow/down.",
+      "requirements": [
+        {
+          "control-requirement-url": "#cb-ollama-anomaly-r1",
+          "control-config-url": "#cb-ollama-anomaly-c1"
+        }
+      ],
+      "implementation": {
+        "framework": "Resilience4j",
+        "instance-name": "ollamaAnomalyDetection",
+        "sliding-window-size": 10,
+        "minimum-number-of-calls": 5,
+        "failure-rate-threshold": 50,
+        "wait-duration-in-open-state": "30s",
+        "permitted-calls-in-half-open": 3,
+        "auto-transition-to-half-open": true,
+        "health-indicator": true
+      }
+    },
+    "resilience-circuit-breaker-ollama-error-resolution": {
+      "description": "Circuit breaker for Ollama LLM error resolution suggestions. Independent from anomaly detection circuit.",
+      "requirements": [
+        {
+          "control-requirement-url": "#cb-ollama-error-r1",
+          "control-config-url": "#cb-ollama-error-c1"
+        }
+      ],
+      "implementation": {
+        "framework": "Resilience4j",
+        "instance-name": "ollamaErrorResolution",
+        "sliding-window-size": 10,
+        "minimum-number-of-calls": 5,
+        "failure-rate-threshold": 50,
+        "wait-duration-in-open-state": "30s",
+        "permitted-calls-in-half-open": 3,
+        "auto-transition-to-half-open": true,
+        "health-indicator": true
+      }
+    },
+    "resilience-circuit-breaker-webhook-notification": {
+      "description": "Circuit breaker for webhook notification delivery. Longer open-state wait (60s) to allow external services to recover.",
+      "requirements": [
+        {
+          "control-requirement-url": "#cb-webhook-r1",
+          "control-config-url": "#cb-webhook-c1"
+        }
+      ],
+      "implementation": {
+        "framework": "Resilience4j",
+        "instance-name": "webhookNotification",
+        "sliding-window-size": 10,
+        "minimum-number-of-calls": 5,
+        "failure-rate-threshold": 50,
+        "wait-duration-in-open-state": "60s",
+        "permitted-calls-in-half-open": 3,
+        "auto-transition-to-half-open": true,
+        "health-indicator": true
+      }
+    },
+    "resilience-retry-insurer-submission": {
+      "description": "Retry policy for default insurer submissions. 3 attempts with exponential backoff (2s base, 2x multiplier).",
+      "implementation": {
+        "framework": "Resilience4j",
+        "instance-name": "insurerSubmission",
+        "max-attempts": 3,
+        "wait-duration": "2s",
+        "exponential-backoff": true,
+        "multiplier": 2
+      }
+    },
+    "resilience-retry-icici-lombard": {
+      "description": "Retry policy for ICICI Lombard API. 3 attempts with 1s base backoff.",
+      "implementation": {
+        "framework": "Resilience4j",
+        "instance-name": "iciciLombard",
+        "max-attempts": 3,
+        "wait-duration": "1s",
+        "exponential-backoff": true,
+        "multiplier": 2
+      }
+    },
+    "resilience-retry-bajaj-allianz": {
+      "description": "Retry policy for Bajaj Allianz SOAP API. 5 attempts (more retries due to SOAP flakiness) with 3s base backoff.",
+      "implementation": {
+        "framework": "Resilience4j",
+        "instance-name": "bajajAllianz",
+        "max-attempts": 5,
+        "wait-duration": "3s",
+        "exponential-backoff": true,
+        "multiplier": 2
+      }
+    },
+    "resilience-retry-ollama": {
+      "description": "Retry policy for Ollama LLM calls (both anomaly detection and error resolution). 3 attempts with 2s base backoff.",
+      "implementation": {
+        "framework": "Resilience4j",
+        "instance-names": ["ollamaAnomalyDetection", "ollamaErrorResolution"],
+        "max-attempts": 3,
+        "wait-duration": "2s",
+        "exponential-backoff": true,
+        "multiplier": 2
+      }
+    },
+    "resilience-idempotency-keys": {
+      "description": "All endorsement creation requests carry an idempotency key. Duplicate submissions return the existing endorsement without side effects.",
+      "implementation": {
+        "class": "com.plum.endorsements.application.handler.CreateEndorsementHandler",
+        "mechanism": "Database unique constraint on idempotency_key column",
+        "behaviour": "findByIdempotencyKey() check before insert; return existing if found"
+      }
+    },
+    "resilience-domain-retry": {
+      "description": "Domain-level retry for rejected endorsements. Max 3 retries tracked in endorsement entity.",
+      "implementation": {
+        "class": "com.plum.endorsements.domain.model.Endorsement",
+        "methods": ["canRetry()", "incrementRetry()"],
+        "max-retries": 3,
+        "eligible-status": "REJECTED"
+      }
+    },
+    "resilience-health-checks": {
+      "description": "Spring Actuator health endpoint with full detail exposure. Used by K8s readiness/liveness probes and Docker HEALTHCHECK.",
+      "implementation": {
+        "endpoint": "/actuator/health",
+        "show-details": "always",
+        "k8s-readiness-initial-delay": "30s",
+        "k8s-liveness-initial-delay": "60s",
+        "docker-healthcheck-interval": "30s"
+      }
+    },
+    "resilience-graceful-shutdown": {
+      "description": "Graceful shutdown with 30s timeout to drain in-flight requests and Kafka commits before pod termination.",
+      "implementation": {
+        "config": "server.shutdown=graceful",
+        "timeout": "spring.lifecycle.timeout-per-shutdown-phase=30s"
+      }
+    }
+  }
+}

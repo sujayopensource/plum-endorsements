@@ -40,7 +40,6 @@ public class BatchAssemblyScheduler {
 
     @Scheduled(cron = "${endorsement.batch.schedule-cron}")
     @SchedulerLock(name = "batchAssembly", lockAtLeastFor = "PT1M", lockAtMostFor = "PT14M")
-    @Transactional
     public void assembleAndSubmitBatches() {
         Timer.Sample sample = Timer.start(meterRegistry);
         String result = "success";

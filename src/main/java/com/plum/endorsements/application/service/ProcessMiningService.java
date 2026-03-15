@@ -47,15 +47,15 @@ public class ProcessMiningService {
 
     @Transactional
     public void analyzeInsurer(UUID insurerId) {
-        // Fetch all events for endorsements belonging to this insurer
-        List<EndorsementEventEntity> eventEntities = eventRepository.findAll().stream()
-                .filter(e -> {
-                    // Check if the endorsement belongs to this insurer
-                    return endorsementRepository.findById(e.getEndorsementId())
-                            .map(end -> end.getInsurerId().equals(insurerId))
-                            .orElse(false);
-                })
-                .toList();
+        // Fetch endorsement IDs for this insurer in a single query (replaces N+1 pattern)
+        Set<UUID> endorsementIds = endorsementRepository.findByInsurerId(insurerId).stream()
+                .map(e -> e.getId())
+                .collect(Collectors.toSet());
+
+        // Fetch events for those endorsements in a single query
+        List<EndorsementEventEntity> eventEntities = endorsementIds.isEmpty()
+                ? List.of()
+                : eventRepository.findByEndorsementIdIn(endorsementIds);
 
         // Check if we have STATUS_CHANGE events with transition data
         List<EndorsementEventEntity> statusChangeEvents = eventEntities.stream()
@@ -159,7 +159,6 @@ public class ProcessMiningService {
         return metrics;
     }
 
-    @Transactional
     public void generateInsights() {
         insurerConfigRepo.findAll().forEach(config -> {
             try {

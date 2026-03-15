@@ -68,6 +68,6 @@ allure {
     version.set("2.25.0")
     adapter {
         autoconfigure.set(true)
-        aspectjWeaver.set(true)
+        aspectjWeaver.set(false)
     }
 }

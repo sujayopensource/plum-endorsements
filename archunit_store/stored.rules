@@ -1,0 +1,4 @@
+#
+#Sun Mar 15 12:13:06 IST 2026
+Layered\ architecture\ considering\ all\ dependencies,\ consisting\ of\nlayer\ 'API'\ ('..api..')\nlayer\ 'Application'\ ('..application..')\nlayer\ 'Domain'\ ('..domain..')\nlayer\ 'Infrastructure'\ ('..infrastructure..')\nwhere\ layer\ 'API'\ may\ not\ be\ accessed\ by\ any\ layer\nwhere\ layer\ 'Application'\ may\ only\ be\ accessed\ by\ layers\ ['API',\ 'Infrastructure']\nwhere\ layer\ 'Domain'\ may\ only\ be\ accessed\ by\ layers\ ['Application',\ 'Infrastructure']\nwhere\ layer\ 'Infrastructure'\ may\ only\ be\ accessed\ by\ layers\ ['API']=68cd5435-a536-4cf8-b8cb-78766d4ce871
+No\ circular\ dependencies\ between\ api,\ application,\ domain,\ and\ infrastructure,\ because\ Circular\ dependencies\ create\ tight\ coupling\ and\ prevent\ independent\ deployment=c0031a59-20f2-4853-8d29-93b455cd1f5d

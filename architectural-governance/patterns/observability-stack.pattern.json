@@ -1,0 +1,159 @@
+{
+  "$schema": "https://raw.githubusercontent.com/finos/architecture-as-code/main/calm/draft/2025-03/meta/calm.json",
+  "title": "Observability Stack Pattern",
+  "description": "Enforces all three observability pillars: metrics (Prometheus + Grafana), distributed tracing (OpenTelemetry + Jaeger), and structured logging (Logstash + Elasticsearch + Kibana). Every service must emit all three.",
+  "type": "pattern",
+  "metadata": {
+    "source-pattern": "Three Pillars of Observability",
+    "book-references": [
+      "Cloud Native Patterns Ch. 12 — Distributed Tracing & Log Aggregation"
+    ]
+  },
+  "nodes": [
+    {
+      "unique-id": "observed-service",
+      "node-type": "service",
+      "name": "Observed Service",
+      "description": "Application service instrumented with metrics, tracing, and structured logging. Exposes /actuator/prometheus and propagates trace context."
+    },
+    {
+      "unique-id": "metrics-collector",
+      "node-type": "service",
+      "name": "Metrics Collector",
+      "description": "Prometheus scrapes /actuator/prometheus endpoint at configurable intervals for time-series metrics."
+    },
+    {
+      "unique-id": "metrics-dashboard",
+      "node-type": "webclient",
+      "name": "Metrics Dashboard",
+      "description": "Grafana dashboards for visualizing metrics, SLIs, and alerting."
+    },
+    {
+      "unique-id": "trace-collector",
+      "node-type": "service",
+      "name": "Trace Collector",
+      "description": "Jaeger collects distributed traces via OTLP protocol. Visualizes request flow across service boundaries."
+    },
+    {
+      "unique-id": "log-pipeline",
+      "node-type": "service",
+      "name": "Log Pipeline",
+      "description": "Logstash receives structured JSON logs via TCP, transforms and forwards to storage."
+    },
+    {
+      "unique-id": "log-storage",
+      "node-type": "database",
+      "name": "Log Storage",
+      "description": "Elasticsearch indexes structured log entries for full-text search and aggregation."
+    },
+    {
+      "unique-id": "log-dashboard",
+      "node-type": "webclient",
+      "name": "Log Dashboard",
+      "description": "Kibana provides log search, visualization, and alerting on structured log data."
+    }
+  ],
+  "relationships": [
+    {
+      "unique-id": "service-to-metrics",
+      "relationship-type": {
+        "connects": {
+          "source": { "node": "metrics-collector" },
+          "destination": { "node": "observed-service" }
+        }
+      },
+      "protocol": "HTTP",
+      "description": "Prometheus scrapes /actuator/prometheus endpoint"
+    },
+    {
+      "unique-id": "metrics-to-dashboard",
+      "relationship-type": {
+        "connects": {
+          "source": { "node": "metrics-dashboard" },
+          "destination": { "node": "metrics-collector" }
+        }
+      },
+      "protocol": "HTTP",
+      "description": "Grafana queries Prometheus for time-series data"
+    },
+    {
+      "unique-id": "service-to-traces",
+      "relationship-type": {
+        "connects": {
+          "source": { "node": "observed-service" },
+          "destination": { "node": "trace-collector" }
+        }
+      },
+      "protocol": "OTLP/gRPC",
+      "description": "Service exports traces via OpenTelemetry OTLP exporter"
+    },
+    {
+      "unique-id": "service-to-logs",
+      "relationship-type": {
+        "connects": {
+          "source": { "node": "observed-service" },
+          "destination": { "node": "log-pipeline" }
+        }
+      },
+      "protocol": "TCP",
+      "description": "Structured JSON logs sent to Logstash via TCP appender"
+    },
+    {
+      "unique-id": "logs-to-storage",
+      "relationship-type": {
+        "connects": {
+          "source": { "node": "log-pipeline" },
+          "destination": { "node": "log-storage" }
+        }
+      },
+      "protocol": "HTTP",
+      "description": "Logstash indexes logs into Elasticsearch"
+    },
+    {
+      "unique-id": "storage-to-dashboard",
+      "relationship-type": {
+        "connects": {
+          "source": { "node": "log-dashboard" },
+          "destination": { "node": "log-storage" }
+        }
+      },
+      "protocol": "HTTP",
+      "description": "Kibana queries Elasticsearch for log visualization"
+    }
+  ],
+  "constraints": [
+    {
+      "id": "three-pillars-required",
+      "description": "Every observed service must emit metrics, traces, AND structured logs. Missing any pillar is a governance violation.",
+      "severity": "ERROR"
+    },
+    {
+      "id": "mdc-context-required",
+      "description": "Every handler must set MDC context (endorsementId, employerId) at entry and clear in finally block.",
+      "severity": "ERROR"
+    },
+    {
+      "id": "custom-metrics-for-operations",
+      "description": "Every domain operation must record metrics: Timer for durations, Counter for events/errors, Gauge for current state.",
+      "severity": "WARNING"
+    },
+    {
+      "id": "correlation-ids-in-logs",
+      "description": "Log messages must include correlation context: traceId, spanId, requestId, endorsementId, employerId via MDC.",
+      "severity": "ERROR"
+    },
+    {
+      "id": "metric-naming-convention",
+      "description": "Metric names follow endorsement.{domain}.{action} pattern with tags for dimensions. Tags over separate metric names.",
+      "severity": "WARNING"
+    }
+  ],
+  "custom-metrics": [
+    { "name": "endorsement.created", "type": "Counter", "tags": ["type"] },
+    { "name": "endorsement.state.transition", "type": "Counter", "tags": ["from", "to"] },
+    { "name": "endorsement.insurer.submission.duration", "type": "Timer", "tags": ["mode", "result"] },
+    { "name": "endorsement.batch.size", "type": "DistributionSummary", "tags": [] },
+    { "name": "endorsement.active.count", "type": "Gauge", "tags": ["status"] },
+    { "name": "endorsement.error", "type": "Counter", "tags": ["type"] }
+  ]
+}

@@ -92,7 +92,7 @@ public class ErrorResolutionService {
         if (endorsementId != null) {
             return resolutionRepository.findByEndorsementId(endorsementId);
         }
-        return List.of();
+        return resolutionRepository.findAll();
     }
 
     public ErrorResolutionStatsResponse getStats() {

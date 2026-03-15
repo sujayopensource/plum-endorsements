@@ -1,0 +1,131 @@
+# Spectral Ruleset for Plum Endorsement System CALM Architecture
+# Validates architecture instantiation against governance rules
+# Run: spectral lint architecture/plum-endorsement-system.json --ruleset governance/spectral-rules/.spectral.yml
+
+rules:
+  # ============================================================
+  # ERROR: Must fix before merge
+  # ============================================================
+
+  flow-minimum-transitions:
+    description: "Every flow must have at least 2 transitions to represent a meaningful interaction"
+    message: "Flow at {{path}} has fewer than 2 transitions."
+    severity: error
+    given: "$.flows[*]"
+    then:
+      field: transitions
+      function: length
+      functionOptions:
+        min: 2
+
+  node-unique-id-required:
+    description: "Every node must have a unique-id"
+    message: "Node at {{path}} is missing a unique-id"
+    severity: error
+    given: "$.nodes[*]"
+    then:
+      field: unique-id
+      function: truthy
+
+  relationship-unique-id-required:
+    description: "Every relationship must have a unique-id"
+    message: "Relationship at {{path}} is missing a unique-id"
+    severity: error
+    given: "$.relationships[*]"
+    then:
+      field: unique-id
+      function: truthy
+
+  node-name-required:
+    description: "Every node must have a name"
+    message: "Node at {{path}} is missing a name"
+    severity: error
+    given: "$.nodes[*]"
+    then:
+      field: name
+      function: truthy
+
+  node-type-required:
+    description: "Every node must have a node-type"
+    message: "Node at {{path}} is missing a node-type"
+    severity: error
+    given: "$.nodes[*]"
+    then:
+      field: node-type
+      function: truthy
+
+  relationship-type-required:
+    description: "Every relationship must have a relationship-type"
+    message: "Relationship at {{path}} is missing a relationship-type"
+    severity: error
+    given: "$.relationships[*]"
+    then:
+      field: relationship-type
+      function: truthy
+
+  # ============================================================
+  # WARNING: Should fix, not blocking
+  # ============================================================
+
+  node-descriptions-required:
+    description: "All nodes should have descriptions explaining their purpose"
+    message: "Node at {{path}} is missing a description."
+    severity: warn
+    given: "$.nodes[*]"
+    then:
+      field: description
+      function: truthy
+
+  relationship-descriptions-required:
+    description: "All relationships should have descriptions explaining the interaction"
+    message: "Relationship at {{path}} is missing a description"
+    severity: warn
+    given: "$.relationships[*]"
+    then:
+      field: description
+      function: truthy
+
+  flow-descriptions-required:
+    description: "All flows should have descriptions explaining the end-to-end scenario"
+    message: "Flow at {{path}} is missing a description"
+    severity: warn
+    given: "$.flows[*]"
+    then:
+      field: description
+      function: truthy
+
+  flow-name-required:
+    description: "All flows should have a name"
+    message: "Flow at {{path}} is missing a name"
+    severity: warn
+    given: "$.flows[*]"
+    then:
+      field: name
+      function: truthy
+
+  metadata-version-required:
+    description: "Architecture instantiation should include version metadata"
+    message: "Architecture is missing metadata.version"
+    severity: warn
+    given: "$.metadata"
+    then:
+      field: version
+      function: truthy
+
+  architecture-title-required:
+    description: "Architecture must have a title"
+    message: "Architecture is missing a title"
+    severity: warn
+    given: "$"
+    then:
+      field: title
+      function: truthy
+
+  architecture-description-required:
+    description: "Architecture must have a description"
+    message: "Architecture is missing a description"
+    severity: warn
+    given: "$"
+    then:
+      field: description
+      function: truthy

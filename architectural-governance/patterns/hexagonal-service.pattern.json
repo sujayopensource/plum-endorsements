@@ -1,0 +1,145 @@
+{
+  "$schema": "https://raw.githubusercontent.com/finos/architecture-as-code/main/calm/draft/2025-03/meta/calm.json",
+  "title": "Hexagonal Service Pattern",
+  "description": "Enforces hexagonal (ports-and-adapters) architecture where dependencies flow inward. Domain core has zero infrastructure imports. Infrastructure adapters implement domain-defined ports.",
+  "type": "pattern",
+  "metadata": {
+    "source-pattern": "Hexagonal Architecture (Alistair Cockburn)",
+    "book-references": [
+      "Cloud Native Patterns Ch. 6 — Stateless Processes",
+      "Head First Design Patterns Ch. 7 — Adapter Pattern",
+      "Head First Design Patterns Ch. 1 — Strategy Pattern"
+    ]
+  },
+  "nodes": [
+    {
+      "unique-id": "webclient",
+      "node-type": "webclient",
+      "name": "Web Client",
+      "description": "Frontend application (SPA, dashboard) that consumes the API layer"
+    },
+    {
+      "unique-id": "api-layer",
+      "node-type": "service",
+      "name": "API Layer",
+      "description": "REST controllers and DTOs. Thin translation layer — no business logic. Validates input, delegates to handlers, maps responses."
+    },
+    {
+      "unique-id": "application-layer",
+      "node-type": "service",
+      "name": "Application Layer",
+      "description": "CQRS handlers, schedulers, application services. Stateless, @Transactional. Orchestrates domain operations and publishes events."
+    },
+    {
+      "unique-id": "domain-core",
+      "node-type": "service",
+      "name": "Domain Core",
+      "description": "Models, ports (interfaces), domain services, events. ZERO infrastructure imports. Defines the ubiquitous language and business rules."
+    },
+    {
+      "unique-id": "infrastructure-layer",
+      "node-type": "service",
+      "name": "Infrastructure Layer",
+      "description": "JPA adapters, Kafka publisher, insurer adapters, config beans. Implements domain ports using specific technologies."
+    },
+    {
+      "unique-id": "database",
+      "node-type": "database",
+      "name": "Primary Database",
+      "description": "Persistent storage for domain state. Accessed only through repository adapters."
+    },
+    {
+      "unique-id": "cache",
+      "node-type": "database",
+      "name": "Cache",
+      "description": "Distributed cache for read-heavy configuration data. @Cacheable with TTL."
+    }
+  ],
+  "relationships": [
+    {
+      "unique-id": "webclient-to-api",
+      "relationship-type": {
+        "connects": {
+          "source": { "node": "webclient" },
+          "destination": { "node": "api-layer" }
+        }
+      },
+      "protocol": "HTTPS",
+      "description": "Web client calls REST API endpoints"
+    },
+    {
+      "unique-id": "api-to-application",
+      "relationship-type": {
+        "connects": {
+          "source": { "node": "api-layer" },
+          "destination": { "node": "application-layer" }
+        }
+      },
+      "description": "Controllers delegate to CQRS handlers"
+    },
+    {
+      "unique-id": "application-to-domain",
+      "relationship-type": {
+        "connects": {
+          "source": { "node": "application-layer" },
+          "destination": { "node": "domain-core" }
+        }
+      },
+      "description": "Handlers use domain models and call domain ports (interfaces)"
+    },
+    {
+      "unique-id": "infrastructure-implements-domain",
+      "relationship-type": {
+        "connects": {
+          "source": { "node": "infrastructure-layer" },
+          "destination": { "node": "domain-core" }
+        }
+      },
+      "description": "Infrastructure adapters implement domain-defined port interfaces. Dependency inversion — infrastructure depends on domain, never the reverse."
+    },
+    {
+      "unique-id": "infrastructure-to-database",
+      "relationship-type": {
+        "connects": {
+          "source": { "node": "infrastructure-layer" },
+          "destination": { "node": "database" }
+        }
+      },
+      "protocol": "JDBC",
+      "description": "JPA repository adapters persist and query domain state"
+    },
+    {
+      "unique-id": "infrastructure-to-cache",
+      "relationship-type": {
+        "connects": {
+          "source": { "node": "infrastructure-layer" },
+          "destination": { "node": "cache" }
+        }
+      },
+      "protocol": "Redis",
+      "description": "Cache adapter stores frequently-read configuration data"
+    }
+  ],
+  "constraints": [
+    {
+      "id": "no-domain-infra-imports",
+      "description": "Domain core must have ZERO imports from infrastructure packages (no jakarta.persistence, no org.springframework.kafka, no org.springframework.data)",
+      "severity": "ERROR"
+    },
+    {
+      "id": "dependencies-flow-inward",
+      "description": "API depends on Application. Application depends on Domain. Infrastructure depends on Domain. Domain depends on nothing external.",
+      "severity": "ERROR"
+    },
+    {
+      "id": "handlers-are-stateless",
+      "description": "All @Service handlers must have only private final fields (no mutable instance state)",
+      "severity": "ERROR"
+    },
+    {
+      "id": "database-access-via-adapters",
+      "description": "Database is accessed only through JPA repository adapters implementing domain ports. No direct JDBC in handlers.",
+      "severity": "ERROR"
+    }
+  ]
+}

@@ -17,4 +17,5 @@ public interface SpringDataEndorsementRepository extends JpaRepository<Endorseme
     long countByEmployerIdAndStatus(UUID employerId, String status);
     long countByStatus(String status);
     List<EndorsementEntity> findByEmployerIdAndCreatedAtAfter(UUID employerId, Instant after);
+    List<EndorsementEntity> findByInsurerId(UUID insurerId);
 }

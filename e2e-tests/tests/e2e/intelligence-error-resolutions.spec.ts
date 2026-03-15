@@ -140,9 +140,13 @@ test.describe('Intelligence - Error Resolutions Page @allure.label.epic:Intellig
     if (!(await emptyState.isVisible())) {
       // If there are non-auto-applied resolutions, Approve button should be visible
       const approveButtons = main.getByRole('button', { name: /Approve/ });
-      const noButtons = main.locator('table tbody tr td:last-child').first();
-      // Either approve buttons exist, or all are auto-applied (no button)
-      await expect(approveButtons.first().or(noButtons)).toBeVisible({ timeout: 5_000 });
+      const approveCount = await approveButtons.count();
+      if (approveCount > 0) {
+        await expect(approveButtons.first()).toBeVisible({ timeout: 5_000 });
+      } else {
+        // All resolutions are auto-applied (no button in action cell)
+        await expect(main.locator('table tbody tr td:last-child').first()).toBeVisible({ timeout: 5_000 });
+      }
     }
   });
 });
